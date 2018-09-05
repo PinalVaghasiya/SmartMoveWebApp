@@ -16,7 +16,7 @@ namespace SmartMoveWebApp.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            //Demo for guthub test
+
             return View();
         }
 
