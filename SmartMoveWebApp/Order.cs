@@ -11,8 +11,7 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,53 +25,25 @@ namespace SmartMoveWebApp
         }
     
         public int OrderId { get; set; }
-
-        [Required]
         public int CustomerId { get; set; }
-
-        [Required]
         public int TruckTypeId { get; set; }
-
-        [Required]
         public double PickupLat { get; set; }
-
-        [Required]
         public double PickupLong { get; set; }
-
-        [StringLength(50)]
         public string PickupUnitNumber { get; set; }
-
         public int PickupFloor { get; set; }
         public bool PickupHasElevator { get; set; }
-
-        [StringLength(50)]
         public string PickupDistanceFromParking { get; set; }
-
         public string PickupAdditionalInfo { get; set; }
-
-        [Required]
         public double DropLat { get; set; }
-
-        [Required]
         public double DropLong { get; set; }
-
-        [StringLength(50)]
         public string DropUnitNumber { get; set; }
-
         public int DropFloor { get; set; }
         public bool DropHasElevator { get; set; }
-
-        [StringLength(50)]
         public string DropDistanceFromParking { get; set; }
         public string DropAdditionalInfo { get; set; }
         public Nullable<int> EstimatedNumOfTrips { get; set; }
-
-        [StringLength(50)]
         public string EstimatedWeight { get; set; }
-
-        [StringLength(50)]
         public string EstimatedArea { get; set; }
-
         public System.DateTime CreatedTime { get; set; }
         public string OrderStatus { get; set; }
     

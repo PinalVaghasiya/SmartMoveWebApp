@@ -11,29 +11,15 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class OrderPayment
     {
         public int PaymentId { get; set; }
-
-        [Required]
         public int OrderId { get; set; }
-
-        [Required]
         public int CustomerCCId { get; set; }
-
-        [Required]
         public double PaymentAmout { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string PaymentType { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string PaymentStatus { get; set; }
-
         public System.DateTime Timestamp { get; set; }
     
         public virtual CustomerCreditCard CustomerCreditCard { get; set; }

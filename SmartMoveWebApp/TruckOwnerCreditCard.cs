@@ -11,36 +11,17 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TruckOwnerCreditCard
     {
         public int CCId { get; set; }
-
-        [Required]
         public int TruckOwnerId { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string CCNumber { get; set; }
-
-        [Required]
-        [StringLength(100)]
         public string CCName { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string CCType { get; set; }
-
-        [Required]
         public int CCCRVNumber { get; set; }
-
-        [Required]
         public int CCExpiryMonth { get; set; }
-
-        [Required]
         public int CCExpiryYear { get; set; }
-
         public string CCZipCode { get; set; }
         public System.DateTime CreatedTime { get; set; }
     

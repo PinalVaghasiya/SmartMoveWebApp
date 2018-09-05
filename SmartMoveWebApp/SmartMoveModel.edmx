@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SmartMoveModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SmartMoveModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CustomerCreditCards">
           <Key>
             <PropertyRef Name="CCId" />
@@ -17,7 +17,7 @@
           <Property Name="CCCRVNumber" Type="int" Nullable="false" />
           <Property Name="CCExpiryMonth" Type="int" Nullable="false" />
           <Property Name="CCExpiryYear" Type="int" Nullable="false" />
-          <Property Name="CCZipCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CCZipCode" Type="varchar" MaxLength="50" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="CustomerRatings">
@@ -34,14 +34,14 @@
           <Key>
             <PropertyRef Name="CustomerId" />
           </Key>
-          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Address1" Type="varchar(max)" />
           <Property Name="Address2" Type="varchar(max)" />
-          <Property Name="ZipCode" Type="varchar" MaxLength="50" />
+          <Property Name="ZipCode" Type="varchar" MaxLength="20" />
           <Property Name="City" Type="varchar" MaxLength="50" />
           <Property Name="State" Type="varchar" MaxLength="50" />
           <Property Name="ProfilePictureURL" Type="varchar(max)" />
@@ -54,7 +54,7 @@
           </Key>
           <Property Name="LoginId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Type" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="ActivationStatus" Type="bit" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
@@ -97,7 +97,7 @@
           <Key>
             <PropertyRef Name="OrderId" />
           </Key>
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerId" Type="int" Nullable="false" />
           <Property Name="TruckTypeId" Type="int" Nullable="false" />
           <Property Name="PickupLat" Type="float" Nullable="false" />
@@ -159,12 +159,12 @@
           <Key>
             <PropertyRef Name="TruckOwnerId" />
           </Key>
-          <Property Name="TruckOwnerId" Type="int" Nullable="false" />
-          <Property Name="TruckId" Type="int" Nullable="false" />
+          <Property Name="TruckOwnerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CurrentStatusActive" Type="bit" Nullable="false" />
           <Property Name="Address1" Type="varchar(max)" Nullable="false" />
           <Property Name="Address2" Type="varchar(max)" />
           <Property Name="ZipCode" Type="varchar" MaxLength="50" Nullable="false" />
@@ -181,7 +181,8 @@
           <Key>
             <PropertyRef Name="TruckId" />
           </Key>
-          <Property Name="TruckId" Type="int" Nullable="false" />
+          <Property Name="TruckId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TruckOwnerId" Type="int" Nullable="false" />
           <Property Name="TruckTypeId" Type="int" Nullable="false" />
           <Property Name="TruckMake" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TruckModel" Type="varchar" MaxLength="50" Nullable="false" />
@@ -352,15 +353,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TruckOwners_Trucks">
-          <End Role="Trucks" Type="Self.Trucks" Multiplicity="1" />
-          <End Role="TruckOwners" Type="Self.TruckOwners" Multiplicity="*" />
+        <Association Name="FK_Trucks_TruckOwners">
+          <End Role="TruckOwners" Type="Self.TruckOwners" Multiplicity="1" />
+          <End Role="Trucks" Type="Self.Trucks" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Trucks">
-              <PropertyRef Name="TruckId" />
+            <Principal Role="TruckOwners">
+              <PropertyRef Name="TruckOwnerId" />
             </Principal>
-            <Dependent Role="TruckOwners">
-              <PropertyRef Name="TruckId" />
+            <Dependent Role="Trucks">
+              <PropertyRef Name="TruckOwnerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -443,36 +444,111 @@
             <End Role="TruckOwners" EntitySet="TruckOwners" />
             <End Role="TruckOwnerRatings" EntitySet="TruckOwnerRatings" />
           </AssociationSet>
-          <AssociationSet Name="FK_TruckOwners_Trucks" Association="Self.FK_TruckOwners_Trucks">
-            <End Role="Trucks" EntitySet="Trucks" />
+          <AssociationSet Name="FK_Trucks_TruckOwners" Association="Self.FK_Trucks_TruckOwners">
             <End Role="TruckOwners" EntitySet="TruckOwners" />
+            <End Role="Trucks" EntitySet="Trucks" />
           </AssociationSet>
           <AssociationSet Name="FK_Trucks_TruckTypes" Association="Self.FK_Trucks_TruckTypes">
             <End Role="TruckTypes" EntitySet="TruckTypes" />
             <End Role="Trucks" EntitySet="Trucks" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SmartMoveModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SmartMoveEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CustomerCreditCards" EntityType="SmartMoveModel.CustomerCreditCard" />
+          <EntitySet Name="CustomerRatings" EntityType="SmartMoveModel.CustomerRating" />
+          <EntitySet Name="Customers" EntityType="SmartMoveModel.Customer" />
+          <EntitySet Name="Logins" EntityType="SmartMoveModel.Login" />
+          <EntitySet Name="OrderBids" EntityType="SmartMoveModel.OrderBid" />
+          <EntitySet Name="OrderImages" EntityType="SmartMoveModel.OrderImage" />
+          <EntitySet Name="OrderPayments" EntityType="SmartMoveModel.OrderPayment" />
+          <EntitySet Name="Orders" EntityType="SmartMoveModel.Order" />
+          <EntitySet Name="sysdiagrams" EntityType="SmartMoveModel.sysdiagram" />
+          <EntitySet Name="TruckOwnerCreditCards" EntityType="SmartMoveModel.TruckOwnerCreditCard" />
+          <EntitySet Name="TruckOwnerRatings" EntityType="SmartMoveModel.TruckOwnerRating" />
+          <EntitySet Name="TruckOwners" EntityType="SmartMoveModel.TruckOwner" />
+          <EntitySet Name="Trucks" EntityType="SmartMoveModel.Truck" />
+          <EntitySet Name="TruckTypes" EntityType="SmartMoveModel.TruckType" />
+          <AssociationSet Name="FK_CustomerCreditCards_Customers" Association="SmartMoveModel.FK_CustomerCreditCards_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerCreditCard" EntitySet="CustomerCreditCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPayments_CustomerCreditCards" Association="SmartMoveModel.FK_OrderPayments_CustomerCreditCards">
+            <End Role="CustomerCreditCard" EntitySet="CustomerCreditCards" />
+            <End Role="OrderPayment" EntitySet="OrderPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerRatings_Customers" Association="SmartMoveModel.FK_CustomerRatings_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerRating" EntitySet="CustomerRatings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerRatings_Orders" Association="SmartMoveModel.FK_CustomerRatings_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="CustomerRating" EntitySet="CustomerRatings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Customers" Association="SmartMoveModel.FK_Orders_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderBids_Orders" Association="SmartMoveModel.FK_OrderBids_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderBid" EntitySet="OrderBids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderBids_TruckOwners" Association="SmartMoveModel.FK_OrderBids_TruckOwners">
+            <End Role="TruckOwner" EntitySet="TruckOwners" />
+            <End Role="OrderBid" EntitySet="OrderBids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderImages_Orders" Association="SmartMoveModel.FK_OrderImages_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderImage" EntitySet="OrderImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPayments_Orders" Association="SmartMoveModel.FK_OrderPayments_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderPayment" EntitySet="OrderPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_TruckTypes" Association="SmartMoveModel.FK_Orders_TruckTypes">
+            <End Role="TruckType" EntitySet="TruckTypes" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckOwnerRatings_Orders" Association="SmartMoveModel.FK_TruckOwnerRatings_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="TruckOwnerRating" EntitySet="TruckOwnerRatings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckOwnerCreditCards_TruckOwners" Association="SmartMoveModel.FK_TruckOwnerCreditCards_TruckOwners">
+            <End Role="TruckOwner" EntitySet="TruckOwners" />
+            <End Role="TruckOwnerCreditCard" EntitySet="TruckOwnerCreditCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckOwnerRatings_TruckOwners" Association="SmartMoveModel.FK_TruckOwnerRatings_TruckOwners">
+            <End Role="TruckOwner" EntitySet="TruckOwners" />
+            <End Role="TruckOwnerRating" EntitySet="TruckOwnerRatings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trucks_TruckOwners" Association="SmartMoveModel.FK_Trucks_TruckOwners">
+            <End Role="TruckOwner" EntitySet="TruckOwners" />
+            <End Role="Truck" EntitySet="Trucks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trucks_TruckTypes" Association="SmartMoveModel.FK_Trucks_TruckTypes">
+            <End Role="TruckType" EntitySet="TruckTypes" />
+            <End Role="Truck" EntitySet="Trucks" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="CustomerCreditCard">
           <Key>
             <PropertyRef Name="CCId" />
           </Key>
           <Property Name="CCId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="CCNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CCName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CCType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CCNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CCName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CCType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CCCRVNumber" Type="Int32" Nullable="false" />
           <Property Name="CCExpiryMonth" Type="Int32" Nullable="false" />
           <Property Name="CCExpiryYear" Type="Int32" Nullable="false" />
-          <Property Name="CCZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CCZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerCreditCards_Customers" FromRole="CustomerCreditCards" ToRole="Customers" />
-          <NavigationProperty Name="OrderPayments" Relationship="Self.FK_OrderPayments_CustomerCreditCards" FromRole="CustomerCreditCards" ToRole="OrderPayments" />
+          <NavigationProperty Name="Customer" Relationship="SmartMoveModel.FK_CustomerCreditCards_Customers" FromRole="CustomerCreditCard" ToRole="Customer" />
+          <NavigationProperty Name="OrderPayments" Relationship="SmartMoveModel.FK_OrderPayments_CustomerCreditCards" FromRole="CustomerCreditCard" ToRole="OrderPayment" />
         </EntityType>
         <EntityType Name="CustomerRating">
           <Key>
@@ -483,38 +559,38 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" />
           <Property Name="Rating" Type="Int32" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerRatings_Customers" FromRole="CustomerRatings" ToRole="Customers" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_CustomerRatings_Orders" FromRole="CustomerRatings" ToRole="Orders" />
+          <NavigationProperty Name="Customer" Relationship="SmartMoveModel.FK_CustomerRatings_Customers" FromRole="CustomerRating" ToRole="Customer" />
+          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_CustomerRatings_Orders" FromRole="CustomerRating" ToRole="Order" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerId" />
           </Key>
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ProfilePictureURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CustomerCreditCards" Relationship="Self.FK_CustomerCreditCards_Customers" FromRole="Customers" ToRole="CustomerCreditCards" />
-          <NavigationProperty Name="CustomerRatings" Relationship="Self.FK_CustomerRatings_Customers" FromRole="Customers" ToRole="CustomerRatings" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
+          <NavigationProperty Name="CustomerCreditCards" Relationship="SmartMoveModel.FK_CustomerCreditCards_Customers" FromRole="Customer" ToRole="CustomerCreditCard" />
+          <NavigationProperty Name="CustomerRatings" Relationship="SmartMoveModel.FK_CustomerRatings_Customers" FromRole="Customer" ToRole="CustomerRating" />
+          <NavigationProperty Name="Orders" Relationship="SmartMoveModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Login">
           <Key>
             <PropertyRef Name="LoginId" />
           </Key>
           <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="ActivationStatus" Type="Boolean" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
@@ -530,9 +606,9 @@
           <Property Name="NumberOfHours" Type="Double" Nullable="false" />
           <Property Name="NumberOfTrips" Type="Int32" Nullable="false" />
           <Property Name="BidAmount" Type="Double" Nullable="false" />
-          <Property Name="BidStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderBids_Orders" FromRole="OrderBids" ToRole="Orders" />
-          <NavigationProperty Name="TruckOwner" Relationship="Self.FK_OrderBids_TruckOwners" FromRole="OrderBids" ToRole="TruckOwners" />
+          <Property Name="BidStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_OrderBids_Orders" FromRole="OrderBid" ToRole="Order" />
+          <NavigationProperty Name="TruckOwner" Relationship="SmartMoveModel.FK_OrderBids_TruckOwners" FromRole="OrderBid" ToRole="TruckOwner" />
         </EntityType>
         <EntityType Name="OrderImage">
           <Key>
@@ -540,8 +616,8 @@
           </Key>
           <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="ImageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderImages_Orders" FromRole="OrderImages" ToRole="Orders" />
+          <Property Name="ImageURL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_OrderImages_Orders" FromRole="OrderImage" ToRole="Order" />
         </EntityType>
         <EntityType Name="OrderPayment">
           <Key>
@@ -551,17 +627,17 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" />
           <Property Name="CustomerCCId" Type="Int32" Nullable="false" />
           <Property Name="PaymentAmout" Type="Double" Nullable="false" />
-          <Property Name="PaymentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PaymentStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PaymentType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="CustomerCreditCard" Relationship="Self.FK_OrderPayments_CustomerCreditCards" FromRole="OrderPayments" ToRole="CustomerCreditCards" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderPayments_Orders" FromRole="OrderPayments" ToRole="Orders" />
+          <NavigationProperty Name="CustomerCreditCard" Relationship="SmartMoveModel.FK_OrderPayments_CustomerCreditCards" FromRole="OrderPayment" ToRole="CustomerCreditCard" />
+          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_OrderPayments_Orders" FromRole="OrderPayment" ToRole="Order" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="OrderId" />
           </Key>
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="TruckTypeId" Type="Int32" Nullable="false" />
           <Property Name="PickupLat" Type="Double" Nullable="false" />
@@ -569,33 +645,33 @@
           <Property Name="PickupUnitNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PickupFloor" Type="Int32" Nullable="false" />
           <Property Name="PickupHasElevator" Type="Boolean" Nullable="false" />
-          <Property Name="PickupDistanceFromParking" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PickupDistanceFromParking" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PickupAdditionalInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DropLat" Type="Double" Nullable="false" />
           <Property Name="DropLong" Type="Double" Nullable="false" />
           <Property Name="DropUnitNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DropFloor" Type="Int32" Nullable="false" />
           <Property Name="DropHasElevator" Type="Boolean" Nullable="false" />
-          <Property Name="DropDistanceFromParking" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DropDistanceFromParking" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DropAdditionalInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="EstimatedNumOfTrips" Type="Int32" />
           <Property Name="EstimatedWeight" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EstimatedArea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="CustomerRatings" Relationship="Self.FK_CustomerRatings_Orders" FromRole="Orders" ToRole="CustomerRatings" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Orders_Customers" FromRole="Orders" ToRole="Customers" />
-          <NavigationProperty Name="OrderBids" Relationship="Self.FK_OrderBids_Orders" FromRole="Orders" ToRole="OrderBids" />
-          <NavigationProperty Name="OrderImages" Relationship="Self.FK_OrderImages_Orders" FromRole="Orders" ToRole="OrderImages" />
-          <NavigationProperty Name="OrderPayments" Relationship="Self.FK_OrderPayments_Orders" FromRole="Orders" ToRole="OrderPayments" />
-          <NavigationProperty Name="TruckType" Relationship="Self.FK_Orders_TruckTypes" FromRole="Orders" ToRole="TruckTypes" />
-          <NavigationProperty Name="TruckOwnerRatings" Relationship="Self.FK_TruckOwnerRatings_Orders" FromRole="Orders" ToRole="TruckOwnerRatings" />
+          <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CustomerRatings" Relationship="SmartMoveModel.FK_CustomerRatings_Orders" FromRole="Order" ToRole="CustomerRating" />
+          <NavigationProperty Name="Customer" Relationship="SmartMoveModel.FK_Orders_Customers" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="OrderBids" Relationship="SmartMoveModel.FK_OrderBids_Orders" FromRole="Order" ToRole="OrderBid" />
+          <NavigationProperty Name="OrderImages" Relationship="SmartMoveModel.FK_OrderImages_Orders" FromRole="Order" ToRole="OrderImage" />
+          <NavigationProperty Name="OrderPayments" Relationship="SmartMoveModel.FK_OrderPayments_Orders" FromRole="Order" ToRole="OrderPayment" />
+          <NavigationProperty Name="TruckType" Relationship="SmartMoveModel.FK_Orders_TruckTypes" FromRole="Order" ToRole="TruckType" />
+          <NavigationProperty Name="TruckOwnerRatings" Relationship="SmartMoveModel.FK_TruckOwnerRatings_Orders" FromRole="Order" ToRole="TruckOwnerRating" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -607,15 +683,15 @@
           </Key>
           <Property Name="CCId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TruckOwnerId" Type="Int32" Nullable="false" />
-          <Property Name="CCNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CCName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CCType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CCNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CCName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CCType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CCCRVNumber" Type="Int32" Nullable="false" />
           <Property Name="CCExpiryMonth" Type="Int32" Nullable="false" />
           <Property Name="CCExpiryYear" Type="Int32" Nullable="false" />
-          <Property Name="CCZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CCZipCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="TruckOwner" Relationship="Self.FK_TruckOwnerCreditCards_TruckOwners" FromRole="TruckOwnerCreditCards" ToRole="TruckOwners" />
+          <NavigationProperty Name="TruckOwner" Relationship="SmartMoveModel.FK_TruckOwnerCreditCards_TruckOwners" FromRole="TruckOwnerCreditCard" ToRole="TruckOwner" />
         </EntityType>
         <EntityType Name="TruckOwnerRating">
           <Key>
@@ -626,314 +702,239 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" />
           <Property Name="Rating" Type="Int32" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_TruckOwnerRatings_Orders" FromRole="TruckOwnerRatings" ToRole="Orders" />
-          <NavigationProperty Name="TruckOwner" Relationship="Self.FK_TruckOwnerRatings_TruckOwners" FromRole="TruckOwnerRatings" ToRole="TruckOwners" />
+          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_TruckOwnerRatings_Orders" FromRole="TruckOwnerRating" ToRole="Order" />
+          <NavigationProperty Name="TruckOwner" Relationship="SmartMoveModel.FK_TruckOwnerRatings_TruckOwners" FromRole="TruckOwnerRating" ToRole="TruckOwner" />
         </EntityType>
         <EntityType Name="TruckOwner">
           <Key>
             <PropertyRef Name="TruckOwnerId" />
           </Key>
-          <Property Name="TruckOwnerId" Type="Int32" Nullable="false" />
-          <Property Name="TruckId" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TruckOwnerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentStatusActive" Type="Boolean" Nullable="false" />
+          <Property Name="Address1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ZipCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ProfilePictureURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DriverLicensePicURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="VehicleRegPicURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DriverInsurancePicURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OrderBids" Relationship="Self.FK_OrderBids_TruckOwners" FromRole="TruckOwners" ToRole="OrderBids" />
-          <NavigationProperty Name="TruckOwnerCreditCards" Relationship="Self.FK_TruckOwnerCreditCards_TruckOwners" FromRole="TruckOwners" ToRole="TruckOwnerCreditCards" />
-          <NavigationProperty Name="TruckOwnerRatings" Relationship="Self.FK_TruckOwnerRatings_TruckOwners" FromRole="TruckOwners" ToRole="TruckOwnerRatings" />
-          <NavigationProperty Name="Truck" Relationship="Self.FK_TruckOwners_Trucks" FromRole="TruckOwners" ToRole="Trucks" />
+          <NavigationProperty Name="OrderBids" Relationship="SmartMoveModel.FK_OrderBids_TruckOwners" FromRole="TruckOwner" ToRole="OrderBid" />
+          <NavigationProperty Name="TruckOwnerCreditCards" Relationship="SmartMoveModel.FK_TruckOwnerCreditCards_TruckOwners" FromRole="TruckOwner" ToRole="TruckOwnerCreditCard" />
+          <NavigationProperty Name="TruckOwnerRatings" Relationship="SmartMoveModel.FK_TruckOwnerRatings_TruckOwners" FromRole="TruckOwner" ToRole="TruckOwnerRating" />
+          <NavigationProperty Name="Trucks" Relationship="SmartMoveModel.FK_Trucks_TruckOwners" FromRole="TruckOwner" ToRole="Truck" />
         </EntityType>
         <EntityType Name="Truck">
           <Key>
             <PropertyRef Name="TruckId" />
           </Key>
-          <Property Name="TruckId" Type="Int32" Nullable="false" />
+          <Property Name="TruckId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TruckOwnerId" Type="Int32" Nullable="false" />
           <Property Name="TruckTypeId" Type="Int32" Nullable="false" />
-          <Property Name="TruckMake" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TruckModel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TruckYear" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LicensePlate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TruckColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TruckOwners" Relationship="Self.FK_TruckOwners_Trucks" FromRole="Trucks" ToRole="TruckOwners" />
-          <NavigationProperty Name="TruckType" Relationship="Self.FK_Trucks_TruckTypes" FromRole="Trucks" ToRole="TruckTypes" />
+          <Property Name="TruckMake" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TruckModel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TruckYear" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LicensePlate" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TruckColor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TruckOwner" Relationship="SmartMoveModel.FK_Trucks_TruckOwners" FromRole="Truck" ToRole="TruckOwner" />
+          <NavigationProperty Name="TruckType" Relationship="SmartMoveModel.FK_Trucks_TruckTypes" FromRole="Truck" ToRole="TruckType" />
         </EntityType>
         <EntityType Name="TruckType">
           <Key>
             <PropertyRef Name="TruckTypeId" />
           </Key>
           <Property Name="TruckTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_TruckTypes" FromRole="TruckTypes" ToRole="Orders" />
-          <NavigationProperty Name="Trucks" Relationship="Self.FK_Trucks_TruckTypes" FromRole="TruckTypes" ToRole="Trucks" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders" Relationship="SmartMoveModel.FK_Orders_TruckTypes" FromRole="TruckType" ToRole="Order" />
+          <NavigationProperty Name="Trucks" Relationship="SmartMoveModel.FK_Trucks_TruckTypes" FromRole="TruckType" ToRole="Truck" />
         </EntityType>
         <Association Name="FK_CustomerCreditCards_Customers">
-          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
-          <End Role="CustomerCreditCards" Type="Self.CustomerCreditCard" Multiplicity="*" />
+          <End Type="SmartMoveModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="SmartMoveModel.CustomerCreditCard" Role="CustomerCreditCard" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Customers">
+            <Principal Role="Customer">
               <PropertyRef Name="CustomerId" />
             </Principal>
-            <Dependent Role="CustomerCreditCards">
+            <Dependent Role="CustomerCreditCard">
               <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderPayments_CustomerCreditCards">
-          <End Role="CustomerCreditCards" Type="Self.CustomerCreditCard" Multiplicity="1" />
-          <End Role="OrderPayments" Type="Self.OrderPayment" Multiplicity="*" />
+          <End Type="SmartMoveModel.CustomerCreditCard" Role="CustomerCreditCard" Multiplicity="1" />
+          <End Type="SmartMoveModel.OrderPayment" Role="OrderPayment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CustomerCreditCards">
+            <Principal Role="CustomerCreditCard">
               <PropertyRef Name="CCId" />
             </Principal>
-            <Dependent Role="OrderPayments">
+            <Dependent Role="OrderPayment">
               <PropertyRef Name="CustomerCCId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerRatings_Customers">
-          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
-          <End Role="CustomerRatings" Type="Self.CustomerRating" Multiplicity="*" />
+          <End Type="SmartMoveModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="SmartMoveModel.CustomerRating" Role="CustomerRating" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Customers">
+            <Principal Role="Customer">
               <PropertyRef Name="CustomerId" />
             </Principal>
-            <Dependent Role="CustomerRatings">
+            <Dependent Role="CustomerRating">
               <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerRatings_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
-          <End Role="CustomerRatings" Type="Self.CustomerRating" Multiplicity="*" />
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="SmartMoveModel.CustomerRating" Role="CustomerRating" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="Order">
               <PropertyRef Name="OrderId" />
             </Principal>
-            <Dependent Role="CustomerRatings">
+            <Dependent Role="CustomerRating">
               <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Customers">
-          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <End Type="SmartMoveModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Customers">
+            <Principal Role="Customer">
               <PropertyRef Name="CustomerId" />
             </Principal>
-            <Dependent Role="Orders">
+            <Dependent Role="Order">
               <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderBids_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderBids" Type="Self.OrderBid" Multiplicity="*" />
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="SmartMoveModel.OrderBid" Role="OrderBid" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="Order">
               <PropertyRef Name="OrderId" />
             </Principal>
-            <Dependent Role="OrderBids">
+            <Dependent Role="OrderBid">
               <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderBids_TruckOwners">
-          <End Role="TruckOwners" Type="Self.TruckOwner" Multiplicity="1" />
-          <End Role="OrderBids" Type="Self.OrderBid" Multiplicity="*" />
+          <End Type="SmartMoveModel.TruckOwner" Role="TruckOwner" Multiplicity="1" />
+          <End Type="SmartMoveModel.OrderBid" Role="OrderBid" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TruckOwners">
+            <Principal Role="TruckOwner">
               <PropertyRef Name="TruckOwnerId" />
             </Principal>
-            <Dependent Role="OrderBids">
+            <Dependent Role="OrderBid">
               <PropertyRef Name="TruckOwnerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderImages_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderImages" Type="Self.OrderImage" Multiplicity="*" />
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="SmartMoveModel.OrderImage" Role="OrderImage" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="Order">
               <PropertyRef Name="OrderId" />
             </Principal>
-            <Dependent Role="OrderImages">
+            <Dependent Role="OrderImage">
               <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderPayments_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderPayments" Type="Self.OrderPayment" Multiplicity="*" />
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="SmartMoveModel.OrderPayment" Role="OrderPayment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="Order">
               <PropertyRef Name="OrderId" />
             </Principal>
-            <Dependent Role="OrderPayments">
+            <Dependent Role="OrderPayment">
               <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_TruckTypes">
-          <End Role="TruckTypes" Type="Self.TruckType" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <End Type="SmartMoveModel.TruckType" Role="TruckType" Multiplicity="1" />
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TruckTypes">
+            <Principal Role="TruckType">
               <PropertyRef Name="TruckTypeId" />
             </Principal>
-            <Dependent Role="Orders">
+            <Dependent Role="Order">
               <PropertyRef Name="TruckTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TruckOwnerRatings_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
-          <End Role="TruckOwnerRatings" Type="Self.TruckOwnerRating" Multiplicity="*" />
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="SmartMoveModel.TruckOwnerRating" Role="TruckOwnerRating" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="Order">
               <PropertyRef Name="OrderId" />
             </Principal>
-            <Dependent Role="TruckOwnerRatings">
+            <Dependent Role="TruckOwnerRating">
               <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TruckOwnerCreditCards_TruckOwners">
-          <End Role="TruckOwners" Type="Self.TruckOwner" Multiplicity="1" />
-          <End Role="TruckOwnerCreditCards" Type="Self.TruckOwnerCreditCard" Multiplicity="*" />
+          <End Type="SmartMoveModel.TruckOwner" Role="TruckOwner" Multiplicity="1" />
+          <End Type="SmartMoveModel.TruckOwnerCreditCard" Role="TruckOwnerCreditCard" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TruckOwners">
+            <Principal Role="TruckOwner">
               <PropertyRef Name="TruckOwnerId" />
             </Principal>
-            <Dependent Role="TruckOwnerCreditCards">
+            <Dependent Role="TruckOwnerCreditCard">
               <PropertyRef Name="TruckOwnerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TruckOwnerRatings_TruckOwners">
-          <End Role="TruckOwners" Type="Self.TruckOwner" Multiplicity="1" />
-          <End Role="TruckOwnerRatings" Type="Self.TruckOwnerRating" Multiplicity="*" />
+          <End Type="SmartMoveModel.TruckOwner" Role="TruckOwner" Multiplicity="1" />
+          <End Type="SmartMoveModel.TruckOwnerRating" Role="TruckOwnerRating" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TruckOwners">
+            <Principal Role="TruckOwner">
               <PropertyRef Name="TruckOwnerId" />
             </Principal>
-            <Dependent Role="TruckOwnerRatings">
+            <Dependent Role="TruckOwnerRating">
               <PropertyRef Name="TruckOwnerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TruckOwners_Trucks">
-          <End Role="Trucks" Type="Self.Truck" Multiplicity="1" />
-          <End Role="TruckOwners" Type="Self.TruckOwner" Multiplicity="*" />
+        <Association Name="FK_Trucks_TruckOwners">
+          <End Type="SmartMoveModel.TruckOwner" Role="TruckOwner" Multiplicity="1" />
+          <End Type="SmartMoveModel.Truck" Role="Truck" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Trucks">
-              <PropertyRef Name="TruckId" />
+            <Principal Role="TruckOwner">
+              <PropertyRef Name="TruckOwnerId" />
             </Principal>
-            <Dependent Role="TruckOwners">
-              <PropertyRef Name="TruckId" />
+            <Dependent Role="Truck">
+              <PropertyRef Name="TruckOwnerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Trucks_TruckTypes">
-          <End Role="TruckTypes" Type="Self.TruckType" Multiplicity="1" />
-          <End Role="Trucks" Type="Self.Truck" Multiplicity="*" />
+          <End Type="SmartMoveModel.TruckType" Role="TruckType" Multiplicity="1" />
+          <End Type="SmartMoveModel.Truck" Role="Truck" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TruckTypes">
+            <Principal Role="TruckType">
               <PropertyRef Name="TruckTypeId" />
             </Principal>
-            <Dependent Role="Trucks">
+            <Dependent Role="Truck">
               <PropertyRef Name="TruckTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SmartMoveEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CustomerCreditCards" EntityType="Self.CustomerCreditCard" />
-          <EntitySet Name="CustomerRatings" EntityType="Self.CustomerRating" />
-          <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="Logins" EntityType="Self.Login" />
-          <EntitySet Name="OrderBids" EntityType="Self.OrderBid" />
-          <EntitySet Name="OrderImages" EntityType="Self.OrderImage" />
-          <EntitySet Name="OrderPayments" EntityType="Self.OrderPayment" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="TruckOwnerCreditCards" EntityType="Self.TruckOwnerCreditCard" />
-          <EntitySet Name="TruckOwnerRatings" EntityType="Self.TruckOwnerRating" />
-          <EntitySet Name="TruckOwners" EntityType="Self.TruckOwner" />
-          <EntitySet Name="Trucks" EntityType="Self.Truck" />
-          <EntitySet Name="TruckTypes" EntityType="Self.TruckType" />
-          <AssociationSet Name="FK_CustomerCreditCards_Customers" Association="Self.FK_CustomerCreditCards_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="CustomerCreditCards" EntitySet="CustomerCreditCards" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderPayments_CustomerCreditCards" Association="Self.FK_OrderPayments_CustomerCreditCards">
-            <End Role="CustomerCreditCards" EntitySet="CustomerCreditCards" />
-            <End Role="OrderPayments" EntitySet="OrderPayments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomerRatings_Customers" Association="Self.FK_CustomerRatings_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="CustomerRatings" EntitySet="CustomerRatings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomerRatings_Orders" Association="Self.FK_CustomerRatings_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="CustomerRatings" EntitySet="CustomerRatings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Customers" Association="Self.FK_Orders_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderBids_Orders" Association="Self.FK_OrderBids_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderBids" EntitySet="OrderBids" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderBids_TruckOwners" Association="Self.FK_OrderBids_TruckOwners">
-            <End Role="TruckOwners" EntitySet="TruckOwners" />
-            <End Role="OrderBids" EntitySet="OrderBids" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderImages_Orders" Association="Self.FK_OrderImages_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderImages" EntitySet="OrderImages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderPayments_Orders" Association="Self.FK_OrderPayments_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderPayments" EntitySet="OrderPayments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_TruckTypes" Association="Self.FK_Orders_TruckTypes">
-            <End Role="TruckTypes" EntitySet="TruckTypes" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TruckOwnerRatings_Orders" Association="Self.FK_TruckOwnerRatings_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="TruckOwnerRatings" EntitySet="TruckOwnerRatings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TruckOwnerCreditCards_TruckOwners" Association="Self.FK_TruckOwnerCreditCards_TruckOwners">
-            <End Role="TruckOwners" EntitySet="TruckOwners" />
-            <End Role="TruckOwnerCreditCards" EntitySet="TruckOwnerCreditCards" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TruckOwnerRatings_TruckOwners" Association="Self.FK_TruckOwnerRatings_TruckOwners">
-            <End Role="TruckOwners" EntitySet="TruckOwners" />
-            <End Role="TruckOwnerRatings" EntitySet="TruckOwnerRatings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TruckOwners_Trucks" Association="Self.FK_TruckOwners_Trucks">
-            <End Role="Trucks" EntitySet="Trucks" />
-            <End Role="TruckOwners" EntitySet="TruckOwners" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trucks_TruckTypes" Association="Self.FK_Trucks_TruckTypes">
-            <End Role="TruckTypes" EntitySet="TruckTypes" />
-            <End Role="Trucks" EntitySet="Trucks" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -943,205 +944,206 @@
           <EntitySetMapping Name="CustomerCreditCards">
             <EntityTypeMapping TypeName="SmartMoveModel.CustomerCreditCard">
               <MappingFragment StoreEntitySet="CustomerCreditCards">
-                <ScalarProperty Name="CCId" ColumnName="CCId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="CCNumber" ColumnName="CCNumber" />
-                <ScalarProperty Name="CCName" ColumnName="CCName" />
-                <ScalarProperty Name="CCType" ColumnName="CCType" />
-                <ScalarProperty Name="CCCRVNumber" ColumnName="CCCRVNumber" />
-                <ScalarProperty Name="CCExpiryMonth" ColumnName="CCExpiryMonth" />
-                <ScalarProperty Name="CCExpiryYear" ColumnName="CCExpiryYear" />
-                <ScalarProperty Name="CCZipCode" ColumnName="CCZipCode" />
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="CCZipCode" ColumnName="CCZipCode" />
+                <ScalarProperty Name="CCExpiryYear" ColumnName="CCExpiryYear" />
+                <ScalarProperty Name="CCExpiryMonth" ColumnName="CCExpiryMonth" />
+                <ScalarProperty Name="CCCRVNumber" ColumnName="CCCRVNumber" />
+                <ScalarProperty Name="CCType" ColumnName="CCType" />
+                <ScalarProperty Name="CCName" ColumnName="CCName" />
+                <ScalarProperty Name="CCNumber" ColumnName="CCNumber" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CCId" ColumnName="CCId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomerRatings">
             <EntityTypeMapping TypeName="SmartMoveModel.CustomerRating">
               <MappingFragment StoreEntitySet="CustomerRatings">
-                <ScalarProperty Name="CustRatingId" ColumnName="CustRatingId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustRatingId" ColumnName="CustRatingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="SmartMoveModel.Customer">
               <MappingFragment StoreEntitySet="Customers">
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="ProfilePictureURL" ColumnName="ProfilePictureURL" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
                 <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="ProfilePictureURL" ColumnName="ProfilePictureURL" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Logins">
             <EntityTypeMapping TypeName="SmartMoveModel.Login">
               <MappingFragment StoreEntitySet="Logins">
-                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="ActivationStatus" ColumnName="ActivationStatus" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
                 <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="ActivationStatus" ColumnName="ActivationStatus" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderBids">
             <EntityTypeMapping TypeName="SmartMoveModel.OrderBid">
               <MappingFragment StoreEntitySet="OrderBids">
-                <ScalarProperty Name="BidId" ColumnName="BidId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
-                <ScalarProperty Name="DeliveryStartTime" ColumnName="DeliveryStartTime" />
-                <ScalarProperty Name="NumberOfHours" ColumnName="NumberOfHours" />
-                <ScalarProperty Name="NumberOfTrips" ColumnName="NumberOfTrips" />
-                <ScalarProperty Name="BidAmount" ColumnName="BidAmount" />
                 <ScalarProperty Name="BidStatus" ColumnName="BidStatus" />
+                <ScalarProperty Name="BidAmount" ColumnName="BidAmount" />
+                <ScalarProperty Name="NumberOfTrips" ColumnName="NumberOfTrips" />
+                <ScalarProperty Name="NumberOfHours" ColumnName="NumberOfHours" />
+                <ScalarProperty Name="DeliveryStartTime" ColumnName="DeliveryStartTime" />
+                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderImages">
             <EntityTypeMapping TypeName="SmartMoveModel.OrderImage">
               <MappingFragment StoreEntitySet="OrderImages">
-                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderPayments">
             <EntityTypeMapping TypeName="SmartMoveModel.OrderPayment">
               <MappingFragment StoreEntitySet="OrderPayments">
-                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="CustomerCCId" ColumnName="CustomerCCId" />
-                <ScalarProperty Name="PaymentAmout" ColumnName="PaymentAmout" />
-                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="PaymentAmout" ColumnName="PaymentAmout" />
+                <ScalarProperty Name="CustomerCCId" ColumnName="CustomerCCId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="SmartMoveModel.Order">
               <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
-                <ScalarProperty Name="PickupLat" ColumnName="PickupLat" />
-                <ScalarProperty Name="PickupLong" ColumnName="PickupLong" />
-                <ScalarProperty Name="PickupUnitNumber" ColumnName="PickupUnitNumber" />
-                <ScalarProperty Name="PickupFloor" ColumnName="PickupFloor" />
-                <ScalarProperty Name="PickupHasElevator" ColumnName="PickupHasElevator" />
-                <ScalarProperty Name="PickupDistanceFromParking" ColumnName="PickupDistanceFromParking" />
-                <ScalarProperty Name="PickupAdditionalInfo" ColumnName="PickupAdditionalInfo" />
-                <ScalarProperty Name="DropLat" ColumnName="DropLat" />
-                <ScalarProperty Name="DropLong" ColumnName="DropLong" />
-                <ScalarProperty Name="DropUnitNumber" ColumnName="DropUnitNumber" />
-                <ScalarProperty Name="DropFloor" ColumnName="DropFloor" />
-                <ScalarProperty Name="DropHasElevator" ColumnName="DropHasElevator" />
-                <ScalarProperty Name="DropDistanceFromParking" ColumnName="DropDistanceFromParking" />
-                <ScalarProperty Name="DropAdditionalInfo" ColumnName="DropAdditionalInfo" />
-                <ScalarProperty Name="EstimatedNumOfTrips" ColumnName="EstimatedNumOfTrips" />
-                <ScalarProperty Name="EstimatedWeight" ColumnName="EstimatedWeight" />
-                <ScalarProperty Name="EstimatedArea" ColumnName="EstimatedArea" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
                 <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="EstimatedArea" ColumnName="EstimatedArea" />
+                <ScalarProperty Name="EstimatedWeight" ColumnName="EstimatedWeight" />
+                <ScalarProperty Name="EstimatedNumOfTrips" ColumnName="EstimatedNumOfTrips" />
+                <ScalarProperty Name="DropAdditionalInfo" ColumnName="DropAdditionalInfo" />
+                <ScalarProperty Name="DropDistanceFromParking" ColumnName="DropDistanceFromParking" />
+                <ScalarProperty Name="DropHasElevator" ColumnName="DropHasElevator" />
+                <ScalarProperty Name="DropFloor" ColumnName="DropFloor" />
+                <ScalarProperty Name="DropUnitNumber" ColumnName="DropUnitNumber" />
+                <ScalarProperty Name="DropLong" ColumnName="DropLong" />
+                <ScalarProperty Name="DropLat" ColumnName="DropLat" />
+                <ScalarProperty Name="PickupAdditionalInfo" ColumnName="PickupAdditionalInfo" />
+                <ScalarProperty Name="PickupDistanceFromParking" ColumnName="PickupDistanceFromParking" />
+                <ScalarProperty Name="PickupHasElevator" ColumnName="PickupHasElevator" />
+                <ScalarProperty Name="PickupFloor" ColumnName="PickupFloor" />
+                <ScalarProperty Name="PickupUnitNumber" ColumnName="PickupUnitNumber" />
+                <ScalarProperty Name="PickupLong" ColumnName="PickupLong" />
+                <ScalarProperty Name="PickupLat" ColumnName="PickupLat" />
+                <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="SmartMoveModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TruckOwnerCreditCards">
             <EntityTypeMapping TypeName="SmartMoveModel.TruckOwnerCreditCard">
               <MappingFragment StoreEntitySet="TruckOwnerCreditCards">
-                <ScalarProperty Name="CCId" ColumnName="CCId" />
-                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
-                <ScalarProperty Name="CCNumber" ColumnName="CCNumber" />
-                <ScalarProperty Name="CCName" ColumnName="CCName" />
-                <ScalarProperty Name="CCType" ColumnName="CCType" />
-                <ScalarProperty Name="CCCRVNumber" ColumnName="CCCRVNumber" />
-                <ScalarProperty Name="CCExpiryMonth" ColumnName="CCExpiryMonth" />
-                <ScalarProperty Name="CCExpiryYear" ColumnName="CCExpiryYear" />
-                <ScalarProperty Name="CCZipCode" ColumnName="CCZipCode" />
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="CCZipCode" ColumnName="CCZipCode" />
+                <ScalarProperty Name="CCExpiryYear" ColumnName="CCExpiryYear" />
+                <ScalarProperty Name="CCExpiryMonth" ColumnName="CCExpiryMonth" />
+                <ScalarProperty Name="CCCRVNumber" ColumnName="CCCRVNumber" />
+                <ScalarProperty Name="CCType" ColumnName="CCType" />
+                <ScalarProperty Name="CCName" ColumnName="CCName" />
+                <ScalarProperty Name="CCNumber" ColumnName="CCNumber" />
+                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
+                <ScalarProperty Name="CCId" ColumnName="CCId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TruckOwnerRatings">
             <EntityTypeMapping TypeName="SmartMoveModel.TruckOwnerRating">
               <MappingFragment StoreEntitySet="TruckOwnerRatings">
-                <ScalarProperty Name="RatingId" ColumnName="RatingId" />
-                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
+                <ScalarProperty Name="RatingId" ColumnName="RatingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TruckOwners">
             <EntityTypeMapping TypeName="SmartMoveModel.TruckOwner">
               <MappingFragment StoreEntitySet="TruckOwners">
-                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
-                <ScalarProperty Name="TruckId" ColumnName="TruckId" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="ProfilePictureURL" ColumnName="ProfilePictureURL" />
-                <ScalarProperty Name="DriverLicensePicURL" ColumnName="DriverLicensePicURL" />
-                <ScalarProperty Name="VehicleRegPicURL" ColumnName="VehicleRegPicURL" />
-                <ScalarProperty Name="DriverInsurancePicURL" ColumnName="DriverInsurancePicURL" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
                 <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="DriverInsurancePicURL" ColumnName="DriverInsurancePicURL" />
+                <ScalarProperty Name="VehicleRegPicURL" ColumnName="VehicleRegPicURL" />
+                <ScalarProperty Name="DriverLicensePicURL" ColumnName="DriverLicensePicURL" />
+                <ScalarProperty Name="ProfilePictureURL" ColumnName="ProfilePictureURL" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="CurrentStatusActive" ColumnName="CurrentStatusActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Trucks">
             <EntityTypeMapping TypeName="SmartMoveModel.Truck">
               <MappingFragment StoreEntitySet="Trucks">
-                <ScalarProperty Name="TruckId" ColumnName="TruckId" />
-                <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
-                <ScalarProperty Name="TruckMake" ColumnName="TruckMake" />
-                <ScalarProperty Name="TruckModel" ColumnName="TruckModel" />
-                <ScalarProperty Name="TruckYear" ColumnName="TruckYear" />
-                <ScalarProperty Name="LicensePlate" ColumnName="LicensePlate" />
                 <ScalarProperty Name="TruckColor" ColumnName="TruckColor" />
+                <ScalarProperty Name="LicensePlate" ColumnName="LicensePlate" />
+                <ScalarProperty Name="TruckYear" ColumnName="TruckYear" />
+                <ScalarProperty Name="TruckModel" ColumnName="TruckModel" />
+                <ScalarProperty Name="TruckMake" ColumnName="TruckMake" />
+                <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
+                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
+                <ScalarProperty Name="TruckId" ColumnName="TruckId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TruckTypes">
             <EntityTypeMapping TypeName="SmartMoveModel.TruckType">
               <MappingFragment StoreEntitySet="TruckTypes">
-                <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

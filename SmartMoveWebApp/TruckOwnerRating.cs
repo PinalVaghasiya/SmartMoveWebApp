@@ -11,21 +11,13 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TruckOwnerRating
     {
         public int RatingId { get; set; }
-
-        [Required]
         public int TruckOwnerId { get; set; }
-
-        [Required]
         public int OrderId { get; set; }
-
-        [Required]
         public int Rating { get; set; }
-
         public System.DateTime CreatedTime { get; set; }
     
         public virtual Order Order { get; set; }

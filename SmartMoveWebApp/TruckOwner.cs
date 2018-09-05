@@ -11,8 +11,7 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TruckOwner
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,40 +20,20 @@ namespace SmartMoveWebApp
             this.OrderBids = new HashSet<OrderBid>();
             this.TruckOwnerCreditCards = new HashSet<TruckOwnerCreditCard>();
             this.TruckOwnerRatings = new HashSet<TruckOwnerRating>();
+            this.Trucks = new HashSet<Truck>();
         }
     
         public int TruckOwnerId { get; set; }
-
-        public int TruckId { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string FirstName { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string LastName { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string Phone { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string Email { get; set; }
-
+        public bool CurrentStatusActive { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
-
-        [StringLength(50)]
         public string ZipCode { get; set; }
-
-        [StringLength(50)]
         public string City { get; set; }
-
-        [StringLength(50)]
         public string State { get; set; }
-
         public string ProfilePictureURL { get; set; }
         public string DriverLicensePicURL { get; set; }
         public string VehicleRegPicURL { get; set; }
@@ -68,6 +47,7 @@ namespace SmartMoveWebApp
         public virtual ICollection<TruckOwnerCreditCard> TruckOwnerCreditCards { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TruckOwnerRating> TruckOwnerRatings { get; set; }
-        public virtual Truck Truck { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Truck> Trucks { get; set; }
     }
 }
