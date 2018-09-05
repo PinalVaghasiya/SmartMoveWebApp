@@ -11,13 +11,18 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OrderImage
     {
         public int ImageId { get; set; }
+
+        [Required]
         public int OrderId { get; set; }
+
+        [Required]
         public string ImageURL { get; set; }
-    
+
         public virtual Order Order { get; set; }
     }
 }

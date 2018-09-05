@@ -11,7 +11,8 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,19 +22,42 @@ namespace SmartMoveWebApp
             this.CustomerRatings = new HashSet<CustomerRating>();
             this.Orders = new HashSet<Order>();
         }
-    
+
+
         public int CustomerId { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string LastName { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Phone { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Email { get; set; }
+
         public string Address1 { get; set; }
         public string Address2 { get; set; }
+
+        [StringLength(20)]
         public string ZipCode { get; set; }
+
+        [StringLength(50)]
         public string City { get; set; }
+
+        [StringLength(50)]
         public string State { get; set; }
+
         public string ProfilePictureURL { get; set; }
+
         public System.DateTime CreatedTime { get; set; }
+
         public Nullable<System.DateTime> ModifiedTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -11,7 +11,8 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Truck
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,11 +22,28 @@ namespace SmartMoveWebApp
         }
     
         public int TruckId { get; set; }
+
+        [Required]
         public int TruckTypeId { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string TruckMake { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string TruckModel { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string TruckYear { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string LicensePlate { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string TruckColor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

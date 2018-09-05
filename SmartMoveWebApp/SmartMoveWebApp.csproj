@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -171,6 +172,18 @@
     <Compile Include="Login.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Metadatas\CustomerCreditCardMetadata.cs" />
+    <Compile Include="Models\Metadatas\CustomerMetadata.cs" />
+    <Compile Include="Models\Metadatas\CustomerRatingMetadata.cs" />
+    <Compile Include="Models\Metadatas\OrderBidMetadata.cs" />
+    <Compile Include="Models\Metadatas\OrderImageMetadata.cs" />
+    <Compile Include="Models\Metadatas\OrderMetadata.cs" />
+    <Compile Include="Models\Metadatas\OrderPaymentMetadata.cs" />
+    <Compile Include="Models\Metadatas\TruckMetadata.cs" />
+    <Compile Include="Models\Metadatas\TruckOwnerCreditCardMetadata.cs" />
+    <Compile Include="Models\Metadatas\TruckOwnerMetadata.cs" />
+    <Compile Include="Models\Metadatas\TruckOwnerRatingMetadata.cs" />
+    <Compile Include="Models\PartialClasses.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
@@ -291,7 +304,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Driver\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

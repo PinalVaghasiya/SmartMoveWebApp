@@ -11,7 +11,8 @@ namespace SmartMoveWebApp
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CustomerCreditCard
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,14 +22,35 @@ namespace SmartMoveWebApp
         }
     
         public int CCId { get; set; }
+
+        [Required]
         public int CustomerId { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string CCNumber { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string CCName { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string CCType { get; set; }
+
+        [Required]
         public int CCCRVNumber { get; set; }
+
+        [Required]
         public int CCExpiryMonth { get; set; }
+
+        [Required]
         public int CCExpiryYear { get; set; }
+
+
         public string CCZipCode { get; set; }
+
+
         public System.DateTime CreatedTime { get; set; }
     
         public virtual Customer Customer { get; set; }
