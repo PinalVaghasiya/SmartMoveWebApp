@@ -56,6 +56,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -64,6 +67,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -156,6 +165,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\AdminsController.cs" />
+    <Compile Include="Controllers\Api\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
@@ -237,6 +249,62 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\images\404.png" />
+    <Content Include="Content\images\article\arti-thumb-1.jpg" />
+    <Content Include="Content\images\article\arti-thumb-2.jpg" />
+    <Content Include="Content\images\article\arti-thumb-3.jpg" />
+    <Content Include="Content\images\article\arti-thumb-4.jpg" />
+    <Content Include="Content\images\banner.jpg" />
+    <Content Include="Content\images\caret-cion.png" />
+    <Content Include="Content\images\car\car-1.jpg" />
+    <Content Include="Content\images\car\car-2.jpg" />
+    <Content Include="Content\images\car\car-3.jpg" />
+    <Content Include="Content\images\car\car-4.jpg" />
+    <Content Include="Content\images\car\car-5.jpg" />
+    <Content Include="Content\images\car\car-6.jpg" />
+    <Content Include="Content\images\client\client-pic-1.jpg" />
+    <Content Include="Content\images\client\client-pic-2.jpg" />
+    <Content Include="Content\images\client\client-pic-3.jpg" />
+    <Content Include="Content\images\driver\driver-1.jpg" />
+    <Content Include="Content\images\driver\driver-2.jpg" />
+    <Content Include="Content\images\driver\driver-3.jpg" />
+    <Content Include="Content\images\driver\driver-4.jpg" />
+    <Content Include="Content\images\driver\driver-5.jpg" />
+    <Content Include="Content\images\driver\driver-6.jpg" />
+    <Content Include="Content\images\funfact-bg.jpg" />
+    <Content Include="Content\images\home-2-about.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\mobile-app.png" />
+    <Content Include="Content\images\page-title.jpg" />
+    <Content Include="Content\images\partner\partner-logo-1.png" />
+    <Content Include="Content\images\partner\partner-logo-2.png" />
+    <Content Include="Content\images\partner\partner-logo-3.png" />
+    <Content Include="Content\images\partner\partner-logo-4.png" />
+    <Content Include="Content\images\partner\partner-logo-5.png" />
+    <Content Include="Content\images\preloader.gif" />
+    <Content Include="Content\images\pricing-bg.jpg" />
+    <Content Include="Content\images\scroll-top.png" />
+    <Content Include="Content\images\services\service-icon-1.png" />
+    <Content Include="Content\images\services\service-icon-2.png" />
+    <Content Include="Content\images\services\service-icon-3.png" />
+    <Content Include="Content\images\services\service-icon-4.png" />
+    <Content Include="Content\images\services\service-icon-5.png" />
+    <Content Include="Content\images\services\service-icon-6.png" />
+    <Content Include="Content\images\slider-img\slider-img-1.jpg" />
+    <Content Include="Content\images\slider-img\slider-img-2.jpg" />
+    <Content Include="Content\images\slider-img\slider-img-3.jpg" />
+    <Content Include="Content\images\slider-img\slider-img-4.jpg" />
+    <Content Include="Content\images\team\team-mem-1.png" />
+    <Content Include="Content\images\team\team-mem-2.png" />
+    <Content Include="Content\images\team\team-mem-3.png" />
+    <Content Include="Content\images\team\team-mem-4.png" />
+    <Content Include="Content\images\team\team-mem-thumb-1.png" />
+    <Content Include="Content\images\team\team-mem-thumb-2.png" />
+    <Content Include="Content\images\team\team-mem-thumb-3.png" />
+    <Content Include="Content\images\team\team-mem-thumb-4.png" />
+    <Content Include="Content\images\we-do\service1-img.png" />
+    <Content Include="Content\images\we-do\service2-img.png" />
+    <Content Include="Content\images\we-do\service3-img.png" />
     <Content Include="Content\plugins\animate.css" />
     <Content Include="Content\plugins\gijgo.css" />
     <Content Include="Content\plugins\magnific-popup.css" />
@@ -245,6 +313,7 @@
     <Content Include="Content\plugins\vegas.min.css" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\responsive.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -265,11 +334,20 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-migrate.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\plugins\counterup.min.js" />
+    <Content Include="Scripts\plugins\magnific-popup.min.js" />
+    <Content Include="Scripts\plugins\owl.carousel.min.js" />
+    <Content Include="Scripts\plugins\slicknav.min.js" />
+    <Content Include="Scripts\plugins\vegas.min.js" />
+    <Content Include="Scripts\plugins\waypoints.min.js" />
+    <Content Include="Scripts\popper.min.js" />
     <Content Include="SmartMoveModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SmartMoveModel.Context.cs</LastGenOutput>
