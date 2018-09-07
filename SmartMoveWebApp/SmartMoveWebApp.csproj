@@ -168,7 +168,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AdminsController.cs" />
     <Compile Include="Controllers\Api\CustomersController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TruckOwnersController.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
@@ -274,6 +276,7 @@
     <Content Include="Content\images\funfact-bg.jpg" />
     <Content Include="Content\images\home-2-about.png" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\Logo_SmartMove.PNG" />
     <Content Include="Content\images\mobile-app.png" />
     <Content Include="Content\images\page-title.jpg" />
     <Content Include="Content\images\partner\partner-logo-1.png" />
@@ -284,12 +287,16 @@
     <Content Include="Content\images\preloader.gif" />
     <Content Include="Content\images\pricing-bg.jpg" />
     <Content Include="Content\images\scroll-top.png" />
+    <Content Include="Content\images\services\Select_deal.png" />
+    <Content Include="Content\images\services\Select_destination.png" />
     <Content Include="Content\images\services\service-icon-1.png" />
     <Content Include="Content\images\services\service-icon-2.png" />
     <Content Include="Content\images\services\service-icon-3.png" />
     <Content Include="Content\images\services\service-icon-4.png" />
     <Content Include="Content\images\services\service-icon-5.png" />
     <Content Include="Content\images\services\service-icon-6.png" />
+    <Content Include="Content\images\services\Side_Menu.png" />
+    <Content Include="Content\images\services\User_Profile.png" />
     <Content Include="Content\images\slider-img\slider-img-1.jpg" />
     <Content Include="Content\images\slider-img\slider-img-2.jpg" />
     <Content Include="Content\images\slider-img\slider-img-3.jpg" />
@@ -379,12 +386,14 @@
     <Content Include="SmartMoveModel.edmx.diagram">
       <DependentUpon>SmartMoveModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Home\Help.cshtml" />
+    <Content Include="Views\Home\BecomeDriver.cshtml" />
+    <Content Include="Views\TruckOwners\Login.cshtml" />
+    <Content Include="Views\Customers\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Driver\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

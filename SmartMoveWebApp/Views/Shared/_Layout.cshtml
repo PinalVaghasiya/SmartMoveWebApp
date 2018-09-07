@@ -8,8 +8,102 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body class="loader-active">
-        @RenderBody()
-        
+
+    <!--== Preloader sArea Start ==-->
+    <div class="preloader">
+        <div class="preloader-spinner">
+            <div class="loader-content">
+                <img src="~/Content/images/preloader.gif" alt="JSOFT">
+            </div>
+        </div>
+    </div>
+    <!--== Preloader Area End ==-->
+    <!--== Header Area Start ==-->
+    <header id="header-area" class="fixed-top">
+
+        <!--== Header Bottom Start ==-->
+        <div id="header-bottom">
+            <div class="container">
+                <div class="row">
+                    <!--== Logo Start ==-->
+                    <div class="col-lg-2">
+                        <a href="@Url.Action("Index", "Home")" class="logo">
+                            <img src="~/Content/images/Logo_SmartMove.PNG" alt="JSOFT">
+                        </a>
+                    </div>
+                    <!--== Logo End ==-->
+                    <!--== Main Menu Start ==-->
+                    <div class="col-lg-10 d-none d-xl-block">
+                        <nav class="mainmenu alignright">
+                            <ul>
+                                <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+                                <li>@Html.ActionLink("About", "About", "Home")</li>
+                                <li>@Html.ActionLink("Help", "Help", "Home")</li>
+                                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                                <li>@Html.ActionLink("Become a Driver", "BecomeDriver", "Home")</li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--== Main Menu End ==-->
+                </div>
+            </div>
+        </div>
+        <!--== Header Bottom End ==-->
+    </header>
+    <!--== Header Area End ==-->
+
+    @RenderBody()
+
+
+    <!--== Footer Area Start ==-->
+    <section id="footer-area">
+        <!-- Footer Widget Start -->
+        <div class="footer-widget-area">
+            <div class="container">
+                <div class="row">
+                    <!-- Single Footer Widget Start -->
+                    <div class="col-lg-10">
+                        <div class="single-footer-widget">
+                            <div class="widget-body">
+                                <a href="@Url.Action("Index", "Home")"><img src="~/Content/images/Logo_SmartMove.PNG" alt="JSOFT"></a>
+                                <p>The SmartMove is intended to be used in the field of transportation as an aid tool for service seekers (customers) and service providers (truck drivers) for moving things from one place to another in a cost-effective way.</p>
+                                
+                                <ul class="get-touch">
+                                    <li><i class="fa fa-map-marker"></i> 3678 Aero Ct, San Diego</li>
+                                    <li><i class="fa fa-mobile"></i> +1 880 000 0008</li>
+                                    <li><i class="fa fa-envelope"></i> admin.admin@gmail.com</li>
+                                </ul>
+                                <a href="https://goo.gl/maps/JxntEBWBvF62" class="map-show" target="_blank">Show Location</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Footer Widget End -->
+                </div>
+            </div>
+        </div>
+        <!-- Footer Widget End -->
+        <!-- Footer Bottom Start -->
+        <div class="footer-bottom-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <p>
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> Bits&Bytes All rights reserved
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Bottom End -->
+    </section>
+    <!--== Footer Area End ==-->
+    <!--== Scroll Top Area Start ==-->
+    <div class="scroll-top">
+        <img src="~/Content/images/scroll-top.png" alt="JSOFT">
+    </div>
+    <!--== Scroll Top Area End ==-->
+
     @Scripts.Render("~/bundles/libs")
     @RenderSection("scripts", required: false)
 </body>

@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--== Login Page Content Start ==-->
+<section id="login-page-wrap" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-8 m-auto">
+                <div class="login-page-content">
+                    <div class="login-form">
+                        <h3>Welcome Back!</h3>
+                        <form action="index.html">
+                            <div class="username">
+                                <input type="text" placeholder="Email or Username">
+                            </div>
+                            <div class="password">
+                                <input type="password" placeholder="Password">
+                            </div>
+                            <div class="log-btn">
+                                <button type="submit"><i class="fa fa-sign-in"></i> Log In</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="create-ac">
+                        <p>Don't have an account? <a href="@Url.Action("BecomeDriver", "Home")">Sign Up</a></p>
+                    </div>
+                    <div class="login-menu">
+                        <a href="@Url.Action("About", "Home")">About</a>
+                        <span>|</span>
+                        <a href="@Url.Action("Contact", "Home")">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--== Login Page Content End ==-->

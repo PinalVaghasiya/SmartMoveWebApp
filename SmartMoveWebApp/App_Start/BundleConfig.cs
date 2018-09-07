@@ -13,6 +13,7 @@ namespace SmartMoveWebApp
                         "~/Scripts/jquery-migrate.min.js",
                         "~/Scripts/popper.min.js",
                         "~/Scripts/bootstrap.js",
+                        "~/Scripts/bootstrap.min.js",
                         "~/Scripts/plugins/vegas.min.js",
                         "~/Scripts/plugins/owl.carousel..min.js",
                         "~/Scripts/plugins/waypoints.min.js",
@@ -30,7 +31,7 @@ namespace SmartMoveWebApp
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/plugins/slicknav.min.css",
                       "~/Content/plugins/magnific-popup.css",
                       "~/Content/plugins/owl.carousel.min.css",
@@ -38,6 +39,7 @@ namespace SmartMoveWebApp
                       "~/Content/font-awesome.css",
                       "~/Content/reset.css",
                       "~/Content/style.css",
+                      "~/Content/Site.css",
                       "~/Content/responsive.css"));
         }
     }

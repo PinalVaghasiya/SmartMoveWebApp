@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    @* Template header files *@
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--=== Favicon ===-->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <!--=== Bootstrap CSS ===-->
+    <link href="@Url.Content("~/")Content/css/bootstrap.min.css" rel="stylesheet">
+    <!--=== Slicknav CSS ===-->
+    <link href="@Url.Content("~/")Content/css/plugins/slicknav.min.css" rel="stylesheet">
+    <!--=== Magnific Popup CSS ===-->
+    <link href="@Url.Content("~/")Content/css/plugins/magnific-popup.css" rel="stylesheet">
+    <!--=== Owl Carousel CSS ===-->
+    <link href="@Url.Content("~/")Content/css/plugins/owl.carousel.min.css" rel="stylesheet">
+    <!--=== Gijgo CSS ===-->
+    <link href="@Url.Content("~/")Content/css/plugins/gijgo.css" rel="stylesheet">
+    <!--=== FontAwesome CSS ===-->
+    <link href="@Url.Content("~/")Content/css/font-awesome.css" rel="stylesheet">
+    <!--=== Theme Reset CSS ===-->
+    <link href="@Url.Content("~/")Content/css/reset.css" rel="stylesheet">
+    <!--=== Main Style CSS ===-->
+    <link href="@Url.Content("~/")style.css" rel="stylesheet">
+    <!--=== Responsive CSS ===-->
+    <link href="@Url.Content("~/")Content/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

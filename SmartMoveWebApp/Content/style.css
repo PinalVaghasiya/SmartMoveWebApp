@@ -94,7 +94,7 @@
 }
 
 .section-padding {
-	padding: 100px 0;
+	padding: 50px 0;
 }
 
 .section-title {
@@ -164,36 +164,36 @@
 
 #header-area,
 #header-area a {
-	color: #fff;
+    color: #fff;
 }
 
 #header-top {
-	background-color: #1e2228;
-	padding: 8px 0;
+    background-color: #1e2228;
+    padding: 8px 0;
 }
 
-#header-top i {
-	color: #ffd000;
-	font-size: 15px;
-	margin-right: 2px;
-}
+    #header-top i {
+        color: #ffd000;
+        font-size: 15px;
+        margin-right: 2px;
+    }
 
 #header-area .header-social-icons a i.fa {
-	color: #fff;
-	font-size: 15px;
-	margin-left: 10px;
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
+    color: #fff;
+    font-size: 15px;
+    margin-left: 10px;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 #header-area .header-social-icons a:hover i.fa,
 #header-area .mainmenu ul li.active a,
 #header-area .mainmenu ul li:hover a {
-	color: #ffd000;
+    color: #ffd000;
 }
 
 header.fixTotop #header-top {
-	display: none !important;
+    display: none !important;
 }
 
 /*== Header Top CSS End ==*/
@@ -201,7 +201,7 @@ header.fixTotop #header-top {
 /*== Header Bottom CSS Start ==*/
 
 #header-bottom {
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: black;
 	padding: 15px 0;
 	-webkit-transition: all 0.4s ease 0s;
 	transition: all 0.4s ease 0s;
@@ -215,6 +215,9 @@ header.fixTotop #header-bottom {
 
 .logo {
 	display: inline-block;
+}
+.logo img {
+    height: 60px;
 }
 
 .mainmenu ul li {
@@ -364,95 +367,10 @@ a.slicknav_btn {
 /*== Slider Area CSS Start ==*/
 
 .single-slide-item {
-	background-image: url(images/banner.jpg);
+	background-image: url(~/Content/images/banner.jpg);
 	background-position: center center;
 	background-size: cover;
 	padding: 80px 0;
-}
-
-.book-a-car {
-	background-color: rgba(255, 255, 255, 0.8);
-	margin-top: 118px;
-	padding: 30px 50px;
-}
-
-.book-a-car select.custom-select {
-	background-image: url("images/caret-cion.png");
-	background-position: right 13px center;
-	background-size: 12px auto;
-}
-
-.book-item {
-	margin-bottom: 30px;
-}
-
-.return-car {
-	margin-top: 30px;
-}
-
-.book-a-car h4 {
-	font-size: 18px;
-	font-weight: 400;
-	margin-bottom: 15px;
-	text-transform: uppercase;
-}
-
-.book-a-car input,
-.book-a-car select {
-	border-color: #ffd000;
-	border-radius: 0;
-	font-size: 14px;
-	height: 45px;
-	width: 100%;
-}
-
-.book-a-car input:focus,
-.book-a-car select:focus {
-	border-color: #ffd000;
-}
-
-.book-a-car input {
-	border-right: 0 none;
-}
-
-.book-a-car .pick-up-date span.input-group-append {
-	background-color: #fff;
-	border: 1px solid #ffd000;
-}
-
-.book-a-car .pick-up-date span.input-group-append {
-	border-left: 0 none;
-}
-
-.book-a-car .pick-up-date span.input-group-append i.fa {
-	color: #ffd000;
-	font-size: 18px;
-	line-height: 33px;
-}
-
-.book-now-btn {
-	background-color: #ffd000;
-	color: #222;
-	display: inline-block;
-	font-size: 15px;
-	font-weight: 600;
-	padding: 12px 30px;
-	border: none;
-	cursor: pointer;
-	text-transform: uppercase;
-}
-
-.book-now-btn:focus {
-	color: #222;
-}
-
-.gj-calendar-bootstrap table tr td.today div {
-	color: #ffd000
-}
-
-.gj-calendar-bootstrap table tr td.selected div {
-	background-color: #ffd000;
-	border-color: #ffd000;
 }
 
 .slider-right-text {
@@ -501,16 +419,16 @@ a.slicknav_btn {
 }
 
 
-.about-video {
-	position: relative;
-	padding-bottom: 56.25%;
+.about-image {
+    position: relative;
+    padding-bottom: 10.25%;
 }
 
-.about-video iframe {
+.about-image a {
 	border: medium none;
 	border-radius: 3px;
 	height: 100%;
-	left: 0;
+	left: 50px;
 	position: absolute;
 	top: 0;
 	width: 100%;
@@ -518,38 +436,19 @@ a.slicknav_btn {
 
 /*== About Area CSS End ==*/
 
-/*== Partner Area CSS Start ==*/
-
-#partner-area {
-	background-color: #eaeaea;
-	padding: 20px 0;
-}
-
-.single-partner {
-	height: 105px;
-	text-align: center;
-}
-
-.partner-content-wrap.owl-carousel img {
-	margin: auto;
-	width: auto;
-}
-
-/*== Partner Area CSS End ==*/
-
-/*== Service Area CSS Start ==*/
+/*== SmartMove App Area CSS Start ==*/
 
 .service-item {
 	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
 	color: #222;
-	margin-bottom: 30px;
-	padding: 65px 25px;
+	margin-bottom: 20px;
+	padding: 15px 15px;
 }
 
 .service-item h3 {
-	color: #000;
-	font-size: 25px;
+	color: #FFF;
+	font-size: 18px;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin: 20px 0 15px;
@@ -567,7 +466,7 @@ a.slicknav_btn {
 	padding: 50px 20px;
 }
 
-/*== Service Area CSS End ==*/
+/*== SmartMove App Area CSS End ==*/
 
 /*== Home 3 Service Area CSS Start ==*/
 
@@ -672,347 +571,7 @@ a.slicknav_btn {
 
 /*== Home 3 Service Area CSS End ==*/
 
-/*== Fun Fact Area CSS Start ==*/
-
-#funfact-area {
-	background-image: url(images/funfact-bg.jpg);
-	background-size: cover;
-	background-position: center center;
-	color: #fff;
-}
-
-.single-funfact {
-	background-color: rgba(0, 0, 0, 0.6);
-	padding: 25px 40px;
-	text-align: center;
-}
-
-.funfact-icon {
-	color: #ffd000;
-	font-size: 50px;
-}
-
-.funfact-icon,
-.funfact-content {
-	display: table-cell;
-	vertical-align: middle;
-}
-
-.funfact-content {
-	font-size: 40px;
-	font-weight: 700;
-	padding-left: 25px;
-}
-
-.funfact-content h4 {
-	color: #eaeaea;
-	font-size: 14px;
-	font-weight: 600;
-	text-transform: uppercase;
-}
-
-/*== Fun Fact Area CSS End ==*/
-
-/*== Choose Car Area CSS Start ==*/
-
-#choose-car.section-padding {
-	padding-bottom: 70px;
-}
-
-.choose-content-wrap .nav-tabs {
-	border-bottom: 3px solid #ffd000;
-}
-
-.choose-content-wrap .nav-tabs li a {
-	background-color: #f3f3f3 !important;
-	border: medium none;
-	border-radius: 0 !important;
-	color: #1e2228 !important;
-	font-size: 13px;
-	font-weight: 700;
-	letter-spacing: 1.3px;
-	margin-right: 3px;
-	padding: 12px 20px;
-	text-transform: uppercase;
-}
-
-.choose-content-wrap .nav-tabs li a.active {
-	background-color: #ffd000 !important;
-	background-color: #ffd000 !important;
-	color: #fff!important;
-}
-
-
-/* Popular Cars Css Start */
-
-.popucar-menu {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	-ms-flex-wrap: nowrap;
-	flex-wrap: nowrap;
-	-webkit-box-pack: justify;
-	-ms-flex-pack: justify;
-	justify-content: space-between;
-	margin: 50px 0;
-	overflow: hidden;
-}
-
-.popucar-menu a {
-	border: 1px solid #e2e2e2;
-	color: #333;
-	display: inline-block;
-	-ms-flex-preferred-size: 100%;
-	flex-basis: 100%;
-	font-size: 13px;
-	font-weight: 600;
-	padding: 12px 0;
-	position: relative;
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
-	text-transform: uppercase;
-}
-
-.popucar-menu a + a {
-	border-left: 0px;
-}
-
-.popucar-menu a:hover,
-.popucar-menu a.active {
-	background-color: #ffd000;
-	border-color: #ffd000;
-	color: #fff;
-}
-
-.popucar-menu a.active::after {
-	border-bottom: 10px solid #fff;
-	border-left: 8px solid transparent;
-	border-right: 8px solid transparent;
-	bottom: -2px;
-	content: "";
-	left: 50%;
-	margin-bottom: 1px;
-	position: absolute;
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
-}
-
-.single-popular-car {
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-	margin-bottom: 30px;
-}
-
-.p-car-thumbnails a.car-hover {
-	display: block;
-	position: relative;
-}
-
-.p-car-thumbnails a.car-hover::after {
-	background-color: #000;
-	content: "";
-	height: 100%;
-	left: 0;
-	opacity: 0;
-	position: absolute;
-	top: 0;
-	-webkit-transform: scaleX(0);
-	transform: scaleX(0);
-	-webkit-transition: all 0.3s ease 0s;
-	transition: all 0.3s ease 0s;
-	width: 100%;
-}
-
-.p-car-thumbnails a.car-hover:hover:after {
-	-webkit-transform: scale(1);
-	transform: scale(1);
-	opacity: .5;
-}
-
-.p-car-thumbnails a.car-hover::before {
-	background-color: rgba(0, 0, 0, 0.5);
-	border-radius: 50%;
-	bottom: 0;
-	color: #fff;
-	content: "\f00e";
-	font-family: FontAwesome;
-	font-size: 18px;
-	height: 50px;
-	left: 0;
-	line-height: 50px;
-	margin: auto;
-	opacity: 0;
-	position: absolute;
-	right: 0;
-	text-align: center;
-	top: 0;
-	-webkit-transform: scale(2);
-	transform: scale(2);
-	-webkit-transition: all 0.3s ease 0s;
-	transition: all 0.3s ease 0s;
-	width: 50px;
-	z-index: 2;
-}
-
-.p-car-thumbnails a.car-hover:hover:before {
-	opacity: 1;
-	-webkit-transform: scale(1);
-	transform: scale(1);
-}
-
-.p-car-content {
-	padding: 25px 20px;
-}
-
-.single-popular-car h3 {
-	font-size: 17px;
-	font-weight: 600;
-	text-transform: uppercase;
-}
-
-.single-popular-car h3 a {
-	color: #333;
-}
-
-.single-popular-car h3 span.price {
-	color: #ffd000;
-	float: right;
-	font-size: 14px;
-	font-weight: 700;
-}
-
-.single-popular-car h5 {
-	color: #828282;
-	font-size: 11px;
-	text-transform: uppercase;
-	margin: 13px 0 15px;
-}
-
-.p-car-feature a {
-	border: 1px solid #e2e2e2;
-	color: #828282;
-	font-size: 11px;
-	font-weight: 600;
-	padding: 3px 8px;
-	text-transform: uppercase;
-	-webkit-transition: 0.3s;
-	transition: 0.3s;
-}
-
-.p-car-feature a:hover {
-	background-color: #ffd000;
-	color: #fff;
-	border-color: #ffd000;
-}
-
-
-/* Popular Cars Css End */
-
-/* Newest Cars Css Start */
-
-.newcar-menu {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	-ms-flex-wrap: nowrap;
-	flex-wrap: nowrap;
-	-webkit-box-pack: justify;
-	-ms-flex-pack: justify;
-	justify-content: space-between;
-	margin: 50px 0;
-	overflow: hidden;
-}
-
-.newcar-menu a {
-	border: 1px solid #e2e2e2;
-	color: #333;
-	display: inline-block;
-	-ms-flex-preferred-size: 100%;
-	flex-basis: 100%;
-	font-size: 13px;
-	font-weight: 600;
-	padding: 12px 0;
-	position: relative;
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
-	text-transform: uppercase;
-}
-
-.newcar-menu a + a {
-	border-left: 0px;
-}
-
-.newcar-menu a:hover,
-.newcar-menu a.active {
-	background-color: #ffd000;
-	border-color: #ffd000;
-	color: #fff;
-}
-
-.newcar-menu a.active::after {
-	border-bottom: 10px solid #fff;
-	border-left: 8px solid transparent;
-	border-right: 8px solid transparent;
-	bottom: -2px;
-	content: "";
-	left: 50%;
-	margin-bottom: 1px;
-	position: absolute;
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
-}
-
-.single-new-car {
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-	margin-bottom: 30px;
-}
-
-.single-new-car h3 {
-	font-size: 17px;
-	font-weight: 600;
-	text-transform: uppercase;
-}
-
-.single-new-car h3 a {
-	color: #333;
-}
-
-.single-new-car h3 span.price {
-	color: #ffd000;
-	float: right;
-	font-size: 14px;
-	font-weight: 700;
-}
-
-.single-new-car h5 {
-	color: #828282;
-	text-transform: uppercase;
-	font-size: 11px;
-	margin: 13px 0 15px;
-}
-
-.map-area iframe {
-	border: medium none;
-	-webkit-filter: grayscale(100%);
-	filter: grayscale(100%);
-	height: 500px;
-	width: 100%;
-}
-
-/* Newest Cars Css End */
-
-/*== Choose Car Area CSS End ==*/
-
-/*== Pricing Area CSS Start ==*/
+/*== App Features Area CSS Start ==*/
 
 #pricing-area {
 	background-image: url(images/pricing-bg.jpg);
@@ -1022,12 +581,12 @@ a.slicknav_btn {
 
 .single-pricing-table {
 	background-color: rgba(255, 255, 255, 0.15);
-	color: #fff;
+	color: #000;
 	padding: 50px 0 0;
 }
 
 .single-pricing-table h3 {
-	color: #fff;
+	color: #000;
 	font-size: 23px;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -1046,18 +605,18 @@ a.slicknav_btn {
 }
 
 .package-list {
-	font-weight: 600;
-	line-height: 3em;
-	margin-top: 20px;
+    font-size: 18px;
+    text-align: left;
+    font-weight: 600;
+    line-height: 3em;
+    margin-top: 20px;
 }
 
 .package-list li {
-	border-bottom: 1px solid #999;
 	padding: 5px 20px;
 }
 
 .package-list li:first-child {
-	border-top: 1px solid #999;
 }
 
 /*== Pricing Area CSS End ==*/
@@ -1321,16 +880,19 @@ a.slicknav_btn {
 .footer-widget-area {
 	color: #fff;
 }
+.singlefooter-widget {
+    text-align: center;
+}
 
 .singlefooter-widget h2 {
-	border-bottom: 1px dashed #ffd000;
-	display: inline-block;
-	font-size: 25px;
-	font-weight: 600;
-	margin-bottom: 30px;
-	padding-bottom: 15px;
-	position: relative;
-	text-transform: uppercase;
+    border-bottom: 1px dashed #ffd000;
+    display: inline-block;
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    position: relative;
+    text-transform: uppercase;
 }
 
 .single-footer-widget h2 {
@@ -1484,18 +1046,19 @@ a.slicknav_btn {
 	padding: 15px 0;
 }
 
+.widget-body a img {
+    width: 200px;
+}
 /*== Footer Area CSS End ==*/
-
 /*== Preloader Area CSS Start ==*/
-
 body.loader-active {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	z-index: 999;
-	overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    overflow: hidden;
 }
 
 .preloader {
@@ -2220,8 +1783,8 @@ body,
 #page-title-area {
 	background-image: url("images/page-title.jpg");
 	background-position: center center;
-	background-size: cover;
-	padding-top: 220px;
+	background-size: cover  ;
+	padding-top: 70px;
 }
 
 #page-title-area .section-title {
@@ -2909,11 +2472,11 @@ body,
 ================================*/
 
 .login-page-content {
-	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-	padding-bottom: 35px;
-	text-align: center;
-	border-radius: 3px;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    padding-bottom: 35px;
+    text-align: center;
+    border-radius: 3px;
 }
 
 .login-form {
@@ -3237,4 +2800,8 @@ body,
 	bottom: 20px;
 	opacity: 1;
 	visibility: visible;
+}
+
+.col-md-4 select {
+    width: 100%;
 }
