@@ -4,11 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!--== Login Page Content Start ==-->
+<!--== Become Driver Content Start ==-->
 <section id="login-page-wrap" class="section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-lg-5 col-md-8 m-auto">
+            <div class="col-lg-8 m-auto">
                 <div class="login-page-content">
                     <div class="login-form">
                         <h3>Become A Driver</h3>
@@ -128,15 +128,22 @@
                                     @Html.TextBoxFor(m => m.DriverInsurancePolicy, new { @class = "form-control", placeholder = "Driver Insurance Policy Number" })
                                 </div>
                             </div>
-                            <div class="log-btn">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-default">Sign up</button>
+                            <div class="username text-center">
+                                <div class="row">
+                                    <div class="log-btn col-lg-4">
+                                        <button type="submit"><i class="fa fa-check-square"></i> Sign Up</button>
+                                    </div>
                                 </div>
                             </div>
+                            @*<div class="log-btn">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-default">Sign up</button>
+                                    </div>
+                                </div>*@
                         }
                     </div>
                     <div class="create-ac">
-                        <p>Have an account? <a href="@Url.Action("Login", "TruckOwners")">Sign In</a></p>
+                        <p>Have an account? <a href="@Url.Action("Login", "Home")">Sign In</a></p>
                     </div>
                     <div class="login-menu">
                         <a href="@Url.Action("About", "Home")">About</a>
@@ -148,7 +155,7 @@
         </div>
     </div>
 </section>
-<!--== Login Page Content End ==-->
+<!--== Become Driver Content End ==-->
 
 @section Scripts
 {
@@ -159,4 +166,4 @@
             });
         });
     </script>
-}
+}				

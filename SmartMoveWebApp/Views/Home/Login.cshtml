@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Login - Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--== Sign In Area Start ==-->
+<section id="about-area" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Section Title Start -->
+            <div class="col-lg-12">
+                <div class="section-title  text-center">
+                    <h2 style="margin-top: 20px;">Sign In</h2>
+                    <span class="title-line"><i class="fa fa-car"></i></span>
+                </div>
+            </div>
+            <!-- Section Title End -->
+        </div>
+
+        <div class="row">
+            <!-- Sign In Content Start -->
+            <div class="col-lg-6">
+                <div class="display-table">
+                    <div class="display-table-cell">
+                        <div class="about-content">
+                            <h3>Truck Owner</h3>
+                            <p>Find everything you need to track your success on the road.</p>
+                            <div class="about-btn">
+                                <a href="@Url.Action("Login", "TruckOwners")">Truck Owner Sign In</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="display-table">
+                    <div class="display-table-cell">
+                        <div class="about-content">
+                            <h3>Customer</h3>
+                            <p>Manage your profile, review trip history, and more.</p>
+                            <div class="about-btn">
+                                <a href="@Url.Action("Login", "Customers")">Customer Sign In</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sign In Content End -->
+
+        </div>
+    </div>
+</section>
+<!--== Sign In Area End ==-->

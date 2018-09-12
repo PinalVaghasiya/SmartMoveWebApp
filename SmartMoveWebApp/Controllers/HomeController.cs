@@ -49,5 +49,10 @@ namespace SmartMoveWebApp.Controllers
             driverRegisterModel.TruckYear = null;
             return View(driverRegisterModel);
         }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
     }
 }

@@ -222,5 +222,20 @@ namespace SmartMoveWebApp.Controllers
             }
             return View(viewModel);
         }
+
+		public ActionResult MyTrips()
+        {
+            return View();
+        }
+
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
+
+        public ActionResult Payment()
+        {
+            return View();
+        }
     }
 }
