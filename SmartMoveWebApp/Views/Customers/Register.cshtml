@@ -1,0 +1,84 @@
+﻿@model SmartMoveWebApp.Models.ViewModels.RegisterCustomerViewModel
+@{
+    ViewBag.Title = "Register Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--== Login Page Content Start ==-->
+<section id="login-page-wrap" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 m-auto">
+                <div class="login-page-content">
+                    <div class="login-form">
+                        <h3>Become A Driver</h3>
+                        @using (Html.BeginForm("Register", "Customers"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "danger" })
+                            <div class="name">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="username">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email id" })
+                                </div>
+                            </div>
+                            <div class="username">
+                                <div class="form-group">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                </div>
+                            </div>
+                            <div class="username">
+                                <div class="form-group">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                                </div>
+                            </div>
+                            <div class="username">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "Phone Number" })
+                                </div>
+                            </div>
+                            <div class="log-btn">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">Sign up</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="create-ac">
+                        <p>Have an account? <a href="@Url.Action("Login", "Customers")">Sign In</a></p>
+                    </div>
+                    <div class="login-menu">
+                        <a href="@Url.Action("About", "Home")">About</a>
+                        <span>|</span>
+                        <a href="@Url.Action("Contact", "Home")">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--== Login Page Content End ==-->
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#Phone').keyup(function () {
+                $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/, '$1-$2-$3'))
+            });
+        });
+    </script>
+}

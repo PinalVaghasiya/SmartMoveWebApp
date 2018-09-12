@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SmartMoveWebApp.Models.Metadatas
+namespace SmartMoveWebApp.Dtos
 {
-    public class OrderBidMetadata
+    public class OrderBidDto
     {
         [Required]
         public int OrderId { get; set; }

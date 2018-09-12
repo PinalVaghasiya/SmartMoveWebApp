@@ -5,36 +5,35 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d542348efda84353a2e3f7b7093c9e18" Name="Diagram1" ZoomLevel="55">
-        <AssociationConnector Association="SmartMoveModel.FK_Trucks_TruckOwners" />
-        <EntityTypeShape EntityType="SmartMoveModel.CustomerCreditCard" Width="1.5" PointX="3" PointY="8.625" />
-        <EntityTypeShape EntityType="SmartMoveModel.CustomerRating" Width="1.5" PointX="10.25" PointY="9.125" />
-        <EntityTypeShape EntityType="SmartMoveModel.Customer" Width="1.5" PointX="0.75" PointY="8.25" />
-        <EntityTypeShape EntityType="SmartMoveModel.Login" Width="1.5" PointX="0.75" PointY="1.5" />
-        <EntityTypeShape EntityType="SmartMoveModel.OrderBid" Width="1.5" PointX="10.25" PointY="4.875" />
-        <EntityTypeShape EntityType="SmartMoveModel.OrderImage" Width="1.5" PointX="10.25" PointY="16.25" />
-        <EntityTypeShape EntityType="SmartMoveModel.OrderPayment" Width="1.5" PointX="5.25" PointY="9" />
-        <EntityTypeShape EntityType="SmartMoveModel.Order" Width="1.5" PointX="8" PointY="7" />
-        <EntityTypeShape EntityType="SmartMoveModel.sysdiagram" Width="1.5" PointX="2.75" PointY="1.5" />
-        <EntityTypeShape EntityType="SmartMoveModel.TruckOwnerCreditCard" Width="1.5" PointX="10.25" PointY="0.75" />
-        <EntityTypeShape EntityType="SmartMoveModel.TruckOwnerRating" Width="1.5" PointX="13.25" PointY="9.125" />
-        <EntityTypeShape EntityType="SmartMoveModel.TruckOwner" Width="1.5" PointX="8" PointY="0.75" />
-        <EntityTypeShape EntityType="SmartMoveModel.Truck" Width="1.5" PointX="13.25" PointY="2.5" />
-        <EntityTypeShape EntityType="SmartMoveModel.TruckType" Width="1.5" PointX="5.75" PointY="5.375" />
+        <EntityTypeShape EntityType="SmartMoveModel.CustomerCreditCard" Width="1.5" PointX="3" PointY="18.25" />
+        <EntityTypeShape EntityType="SmartMoveModel.CustomerRating" Width="1.5" PointX="3" PointY="8.375" />
+        <EntityTypeShape EntityType="SmartMoveModel.Customer" Width="1.5" PointX="0.75" PointY="7.5" />
+        <EntityTypeShape EntityType="SmartMoveModel.OrderBid" Width="1.5" PointX="11.25" PointY="8" />
+        <EntityTypeShape EntityType="SmartMoveModel.OrderImage" Width="1.5" PointX="8.25" PointY="16.375" />
+        <EntityTypeShape EntityType="SmartMoveModel.OrderPayment" Width="1.5" PointX="8.25" PointY="12.5" />
+        <EntityTypeShape EntityType="SmartMoveModel.Order" Width="1.5" PointX="6" PointY="6.25" />
+        <EntityTypeShape EntityType="SmartMoveModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SmartMoveModel.TruckOwnerCreditCard" Width="1.5" PointX="11.25" PointY="3" />
+        <EntityTypeShape EntityType="SmartMoveModel.TruckOwnerRating" Width="1.5" PointX="8.25" PointY="8.375" />
+        <EntityTypeShape EntityType="SmartMoveModel.Truck" Width="1.5" PointX="14.25" PointY="3" />
+        <EntityTypeShape EntityType="SmartMoveModel.TruckType" Width="1.5" PointX="3.75" PointY="5.625" />
         <AssociationConnector Association="SmartMoveModel.FK_CustomerCreditCards_Customers" />
         <AssociationConnector Association="SmartMoveModel.FK_OrderPayments_CustomerCreditCards" />
         <AssociationConnector Association="SmartMoveModel.FK_CustomerRatings_Customers" />
         <AssociationConnector Association="SmartMoveModel.FK_CustomerRatings_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_Orders_Customers" />
         <AssociationConnector Association="SmartMoveModel.FK_OrderBids_Orders" />
-        <AssociationConnector Association="SmartMoveModel.FK_OrderBids_TruckOwners" />
         <AssociationConnector Association="SmartMoveModel.FK_OrderImages_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_OrderPayments_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_Orders_TruckTypes" />
         <AssociationConnector Association="SmartMoveModel.FK_TruckOwnerRatings_Orders" />
+        <AssociationConnector Association="SmartMoveModel.FK_Trucks_TruckTypes" />
+        <EntityTypeShape EntityType="SmartMoveModel.TruckOwner" Width="1.5" PointX="6" PointY="0.75" />
+        <AssociationConnector Association="SmartMoveModel.FK_OrderBids_TruckOwners" />
         <AssociationConnector Association="SmartMoveModel.FK_TruckOwnerCreditCards_TruckOwners" />
         <AssociationConnector Association="SmartMoveModel.FK_TruckOwnerRatings_TruckOwners" />
         <AssociationConnector Association="SmartMoveModel.FK_Trucks_TruckOwners" />
-        <AssociationConnector Association="SmartMoveModel.FK_Trucks_TruckTypes" />
+        <EntityTypeShape EntityType="SmartMoveModel.Login" Width="1.5" PointX="0.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

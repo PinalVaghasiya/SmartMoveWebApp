@@ -4,10 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SmartMoveWebApp.Models.Metadatas
+namespace SmartMoveWebApp.Dtos
 {
-    public class CustomerMetadata
+    public class CustomerDto
     {
+        public int CustomerId { get; set; }
+
         [Required]
         [StringLength(50)]
         [Display(Name = "First Name")]

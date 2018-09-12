@@ -35,9 +35,9 @@ namespace SmartMoveWebApp
         public string City { get; set; }
         public string State { get; set; }
         public string ProfilePictureURL { get; set; }
-        public string DriverLicensePicURL { get; set; }
-        public string VehicleRegPicURL { get; set; }
-        public string DriverInsurancePicURL { get; set; }
+        public string DriverLicenseNumber { get; set; }
+        public string VehicleRegNumber { get; set; }
+        public string DriverInsurancePolicy { get; set; }
         public System.DateTime CreatedTime { get; set; }
         public Nullable<System.DateTime> ModifiedTime { get; set; }
     

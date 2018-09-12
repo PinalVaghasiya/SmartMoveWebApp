@@ -1,0 +1,13 @@
+﻿@model SmartMoveWebApp.Models.ViewModels.VerifyEmailViewModel
+
+@{
+    ViewBag.Title = "Verify Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p>@Model.PageContent</p>
+    <p>@Html.ActionLink("Click here to Log in", "Login", "TruckOwners", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-lg" })
+    </p>
+</div>

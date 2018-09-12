@@ -2805,3 +2805,7 @@ body,
 .col-md-4 select {
     width: 100%;
 }
+
+.validation-summary-errors {
+    color: red;
+}

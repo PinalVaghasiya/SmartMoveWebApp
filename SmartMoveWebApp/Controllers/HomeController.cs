@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartMoveWebApp.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,13 @@ namespace SmartMoveWebApp.Controllers
 {
     public class HomeController : Controller
     {
+        public SmartMoveEntities _context { get; set; }
+
+        public HomeController()
+        {
+            _context = new SmartMoveEntities();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -32,9 +40,14 @@ namespace SmartMoveWebApp.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult BecomeDriver()
         {
-            return View();
+            var truckTypes = _context.TruckTypes.ToList();
+            var driverRegisterModel = new RegisterDriverViewModel();
+            driverRegisterModel.TruckTypesList = truckTypes;
+            driverRegisterModel.TruckYear = null;
+            return View(driverRegisterModel);
         }
     }
 }

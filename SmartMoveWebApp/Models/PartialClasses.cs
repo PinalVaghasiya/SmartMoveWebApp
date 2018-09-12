@@ -1,20 +1,20 @@
-﻿using SmartMoveWebApp.Models.Metadatas;
+﻿using SmartMoveWebApp.Dtos;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartMoveWebApp.Models
 {
-    [MetadataType(typeof(CustomerMetadata))]
+    [MetadataType(typeof(CustomerDto))]
     public partial class Customer
     {
     }
 
-    [MetadataType(typeof(CustomerCreditCardMetadata))]
+    [MetadataType(typeof(CustomerCreditCardDto))]
     public partial class CustomerCreditCard
     {
     }
 
-    [MetadataType(typeof(CustomerRatingMetadata))]
+    [MetadataType(typeof(CustomerRatingDto))]
     public partial class CustomerRating
     {
     }
@@ -24,7 +24,7 @@ namespace SmartMoveWebApp.Models
     {
     }
 
-    [MetadataType(typeof(OrderBidMetadata))]
+    [MetadataType(typeof(OrderBidDto))]
     public partial class OrderBid
     {
     }

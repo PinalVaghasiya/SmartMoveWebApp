@@ -1,0 +1,13 @@
+﻿@model SmartMoveWebApp.TruckOwner
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p>@Model.FirstName</p>
+    <p>
+        @Html.ActionLink("Click here to Log out", "Logout", "TruckOwners", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-lg" })
+</p>
+</div>

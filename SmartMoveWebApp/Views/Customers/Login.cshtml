@@ -1,4 +1,4 @@
-﻿
+﻿@model SmartMoveWebApp.Models.ViewModels.LoginViewModel
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,20 +12,31 @@
                 <div class="login-page-content">
                     <div class="login-form">
                         <h3>Welcome Back!</h3>
-                        <form action="index.html">
+                        @using (Html.BeginForm("Login", "Customers"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "danger" })
+
                             <div class="username">
-                                <input type="text" placeholder="Email or Username">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email id" })
+                                </div>
                             </div>
-                            <div class="password">
-                                <input type="password" placeholder="Password">
+                            <div class="username">
+                                <div class="form-group">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                </div>
                             </div>
                             <div class="log-btn">
-                                <button type="submit"><i class="fa fa-sign-in"></i> Log In</button>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">Sign in</button>
+                                </div>
                             </div>
-                        </form>
+                        }
+
                     </div>
                     <div class="create-ac">
-                        <p>Don't have an account? <a href="@Url.Action("BecomeDriver", "Home")">Sign Up</a></p>
+                        <p>Don't have an account? <a href="@Url.Action("Register", "Customers")">Sign Up</a></p>
                     </div>
                     <div class="login-menu">
                         <a href="@Url.Action("About", "Home")">About</a>

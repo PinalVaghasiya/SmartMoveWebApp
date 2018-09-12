@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SmartMoveWebApp.Models.Metadatas
+namespace SmartMoveWebApp.Dtos
 {
-    public class CustomerRatingMetadata
+    public class CustomerRatingDto
     {
         [Required]
         public int CustomerId { get; set; }

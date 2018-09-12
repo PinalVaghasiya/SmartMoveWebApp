@@ -22,8 +22,10 @@ namespace SmartMoveWebApp
         public string TruckYear { get; set; }
         public string LicensePlate { get; set; }
         public string TruckColor { get; set; }
+        public System.DateTime CreatedTime { get; set; }
+        public Nullable<System.DateTime> ModifiedTime { get; set; }
     
-        public virtual TruckOwner TruckOwner { get; set; }
         public virtual TruckType TruckType { get; set; }
+        public virtual TruckOwner TruckOwner { get; set; }
     }
 }

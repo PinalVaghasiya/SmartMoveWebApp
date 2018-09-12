@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SmartMoveWebApp.Models.Metadatas
+namespace SmartMoveWebApp.Dtos
 {
     public class OrderPaymentMetadata
     {

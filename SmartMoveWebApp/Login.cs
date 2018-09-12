@@ -17,8 +17,9 @@ namespace SmartMoveWebApp
         public int LoginId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Type { get; set; }
-        public bool ActivationStatus { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public string UserType { get; set; }
+        public bool EmailActivated { get; set; }
         public System.DateTime CreatedTime { get; set; }
         public Nullable<System.DateTime> ModifiedTime { get; set; }
     }

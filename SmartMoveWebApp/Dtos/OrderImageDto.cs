@@ -4,17 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SmartMoveWebApp.Models.Metadatas
+namespace SmartMoveWebApp.Dtos
 {
-    public class TruckOwnerRatingMetadata
+    public class OrderImageMetadata
     {
-        [Required]
-        public int TruckOwnerId { get; set; }
-
         [Required]
         public int OrderId { get; set; }
 
         [Required]
-        public int Rating { get; set; }
+        public string ImageURL { get; set; }
     }
 }
