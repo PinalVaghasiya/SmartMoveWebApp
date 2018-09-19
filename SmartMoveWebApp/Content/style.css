@@ -114,7 +114,7 @@
     }
 
     .section-title .title-line {
-        color: #ffd000;
+        color: #11939A;
         position: relative;
     }
 
@@ -173,7 +173,7 @@
 }
 
     #header-top i {
-        color: #ffd000;
+        color: #11939A;
         font-size: 15px;
         margin-right: 2px;
     }
@@ -189,7 +189,7 @@
 #header-area .header-social-icons a:hover i.fa,
 #header-area .mainmenu ul li.active a,
 #header-area .mainmenu ul li:hover a {
-    color: #ffd000;
+    color: #11939A;
 }
 
 header.fixTotop #header-top {
@@ -280,7 +280,7 @@ header.fixTotop #header-bottom {
 
             .mainmenu ul li ul li.active a,
             .mainmenu ul li ul li a:hover {
-                background-color: #ffd000;
+                background-color: #11939A;
             }
 
 #header-bottom .container {
@@ -368,7 +368,7 @@ a.slicknav_btn {
 /*== Slider Area CSS Start ==*/
 
 .single-slide-item {
-    background-image: url(~/Content/images/driver/driver-6.jpg);
+    background-image: url(images/banners/banner-truck-tailgate.jpg);
     background-position: center center;
     background-size: cover;
     padding: 80px 0;
@@ -380,7 +380,7 @@ a.slicknav_btn {
 }
 
     .slider-right-text h1 {
-        color: #ffd000;
+        color: #11939A;
         font-size: 45px;
         margin-bottom: 10px;
     }
@@ -402,7 +402,7 @@ a.slicknav_btn {
         }
 
 .about-btn a {
-    background-color: #ffd000;
+    background-color: #11939A;
     border-radius: 50px;
     color: #fff;
     display: inline-block;
@@ -457,13 +457,13 @@ a.slicknav_btn {
 
     .service-item i.fa {
         font-size: 55px;
-        color: #ffd000;
+        color: #11939A;
     }
 
 .service-container-wrap .service-item {
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #ffd000;
+    border: 1px solid #11939A;
     padding: 50px 20px;
 }
 
@@ -488,7 +488,7 @@ a.slicknav_btn {
 }
 
     .service-icon:after {
-        border-left: 1px solid #ffd000;
+        border-left: 1px solid #11939A;
         content: "";
         height: 0%;
         left: 0;
@@ -499,7 +499,7 @@ a.slicknav_btn {
     }
 
     .service-icon:before {
-        border-bottom: 1px solid #ffd000;
+        border-bottom: 1px solid #11939A;
         content: "";
         height: 0%;
         right: 0;
@@ -522,7 +522,7 @@ a.slicknav_btn {
     }
 
         .service-icon span::after {
-            border-top: 1px solid #ffd000;
+            border-top: 1px solid #11939A;
             content: "";
             left: 0;
             position: absolute;
@@ -533,7 +533,7 @@ a.slicknav_btn {
         }
 
         .service-icon span::before {
-            border-right: 1px solid #ffd000;
+            border-right: 1px solid #11939A;
             content: "";
             height: 0%;
             position: absolute;
@@ -575,7 +575,7 @@ a.slicknav_btn {
 /*== App Features Area CSS Start ==*/
 
 #pricing-area {
-    background-image: url(~/Content/images/Logo_SmartMove.PNG);
+    background-image: url(images/Logo_SmartMove.PNG);
     background-size: cover;
     background-position: center center;
 }
@@ -633,7 +633,7 @@ a.slicknav_btn {
 
     .single-testimonial::after {
         background-color: #1e2228;
-        border-left: 4px solid #ffd000;
+        border-left: 4px solid #11939A;
         content: "";
         height: 100%;
         left: -48px;
@@ -646,7 +646,7 @@ a.slicknav_btn {
     }
 
 .client-logo {
-    border: 4px solid #ffd000;
+    border: 4px solid #11939A;
     height: 105px;
     left: -70px;
     position: absolute;
@@ -657,7 +657,7 @@ a.slicknav_btn {
 }
 
 .single-testimonial h3 {
-    color: #ffd000;
+    color: #11939A;
     font-size: 15px;
     margin-top: 10px;
     text-transform: uppercase;
@@ -669,7 +669,7 @@ a.slicknav_btn {
 }
 
     .testimonial-content .owl-dots div.owl-dot {
-        border: 1px solid #ffd000;
+        border: 1px solid #11939A;
         border-radius: 10px;
         display: inline-block;
         height: 5px;
@@ -680,7 +680,7 @@ a.slicknav_btn {
     }
 
         .testimonial-content .owl-dots div.owl-dot.active {
-            background-color: #ffd000;
+            background-color: #11939A;
         }
 
 
@@ -689,7 +689,7 @@ a.slicknav_btn {
 /*== Mobile Apps CSS Start ==*/
 
 .app-btns a {
-    border: 2px solid #ffd000;
+    border: 2px solid #11939A;
     border-radius: 50px;
     color: #fff;
     display: inline-block;
@@ -705,7 +705,7 @@ a.slicknav_btn {
     }
 
     .app-btns a:hover {
-        background-color: #ffd000;
+        background-color: #11939A;
     }
 
 /*== Mobile Apps CSS End ==*/
@@ -713,7 +713,7 @@ a.slicknav_btn {
 /*== Footer Area CSS Start ==*/
 
 #footer-area a {
-    color: #ffd000;
+    color: #11939A;
 }
 
 .footer-widget-area {
@@ -731,7 +731,7 @@ a.slicknav_btn {
 }
 
     .singlefooter-widget h2 {
-        border-bottom: 1px dashed #ffd000;
+        border-bottom: 1px dashed #11939A;
         display: inline-block;
         font-size: 25px;
         font-weight: 600;
@@ -767,7 +767,7 @@ a.slicknav_btn {
 
     .newsletter-area input {
         background-color: transparent;
-        border: 1px solid #ffd000;
+        border: 1px solid #11939A;
         border-radius: 2px;
         color: #fff;
         height: 55px;
@@ -777,7 +777,7 @@ a.slicknav_btn {
     }
 
     .newsletter-area .newsletter-btn {
-        background-color: #ffd000;
+        background-color: #11939A;
         border: 0 none;
         color: #fff;
         cursor: pointer;
@@ -823,7 +823,7 @@ a.slicknav_btn {
     }
 
     .recent-post li:hover i {
-        background-color: #ffd000;
+        background-color: #11939A;
     }
 
 .recent-post li {
@@ -859,12 +859,12 @@ a.slicknav_btn {
     }
 
     .recent-post li:hover i {
-        background-color: #ffd000;
+        background-color: #11939A;
     }
 
 
 .get-touch {
-    color: #ffd000;
+    color: #11939A;
     font-size: 15px;
     font-weight: 600;
     line-height: 2.5;
@@ -875,7 +875,7 @@ a.slicknav_btn {
     }
 
 .map-show {
-    background-color: #ffd000;
+    background-color: #11939A;
     color: #000 !important;
     display: inline-block;
     font-size: 13px;
@@ -965,7 +965,7 @@ body,
 }
 
     .slideshowcontent h1 {
-        color: #ffd000;
+        color: #11939A;
         margin-bottom: 20px;
     }
 
@@ -1028,7 +1028,7 @@ body,
     background-color: transparent;
     border: none;
     border-radius: 0;
-    color: #fff;
+    color: white;
     font-size: 14px;
     font-weight: 600;
     padding: 10px;
@@ -1040,7 +1040,7 @@ body,
     .book-ur-car select:focus,
     .book-ur-car input:focus,
     .book-ur-car button:focus {
-        border-color: #fff;
+        border-color: #11939A;
         background-color: transparent;
     }
 
@@ -1049,18 +1049,19 @@ body,
     cursor: pointer;
     -webkit-transition: 0.4s;
     transition: 0.4s;
+    color: white;
 }
 
 .bookcar-btn:hover {
-    background-color: #ffd000;
-    border-color: #ffd000;
+    background-color: #11939A;
+    border-color: #11939A;
 }
 
 
 .book-ur-car .input-group-append i.fa {
     font-size: 15px !important;
     line-height: 30px;
-    color: #ffd000;
+    color: #11939A;
 }
 
 .book-ur-car select option {
@@ -1071,7 +1072,7 @@ body,
 }
 
 .book-ur-car select.custom-select {
-    background-image: url("images/caret-cion.png");
+    background-image: url(images/caret-cion.png);
     background-position: right 12px center;
     background-size: 12px auto;
 }
@@ -1099,7 +1100,7 @@ body,
     }
 
     .about-feature-item i.fa {
-        color: #ffd000;
+        color: #11939A;
         font-size: 25px;
         -webkit-transition: all 0.4s ease 0s;
         transition: all 0.4s ease 0s;
@@ -1107,7 +1108,7 @@ body,
 
     .about-feature-item:hover,
     .about-feature-item.active {
-        background-color: #ffd000;
+        background-color: #11939A;
         color: #fff;
     }
 
@@ -1135,7 +1136,7 @@ body,
     }
 
     .home2-car-filter a.active {
-        color: #ffd000;
+        color: #11939A;
     }
 
     .home2-car-filter a::after {
@@ -1151,7 +1152,7 @@ body,
     }
 
     .home2-car-filter a.active::after {
-        background-color: #ffd000;
+        background-color: #11939A;
     }
 
 /*== Car Choose Area CSS ==*/
@@ -1189,7 +1190,7 @@ body,
 
         #help-desk-page-wrap .team-tab-menu li a.active,
         #team-area .team-tab-menu li a.active {
-            background-color: #ffd000;
+            background-color: #11939A;
         }
 
             #help-desk-page-wrap .team-tab-menu li a.active .team-mem-icon img,
@@ -1203,7 +1204,7 @@ body,
 }
 
     .team-mem-icon img {
-        border: 2px solid #ffd000;
+        border: 2px solid #11939A;
         border-radius: 50%;
         height: 100%;
         width: 100%;
@@ -1220,6 +1221,7 @@ body,
     font-weight: 600;
     padding-left: 15px;
     text-transform: capitalize;
+    color: black;
 }
 
 .team-member-pro-pic {
@@ -1244,19 +1246,19 @@ body,
 
 .team-member-info {
     background-color: #eeeeee;
-    padding: 0 10px;
+    padding: 20px;
 }
 
 .side-menu {
     background-color: #eeeeee;
     padding: 50px 30px;
-    color: #ffd000;
+    color: #11939A;
     font-size: 18px;
     text-transform: uppercase;
 }
 
 .team-member-info h4 {
-    color: #ffd000;
+    color: #11939A;
     font-size: 22px;
     margin-bottom: 10px;
     text-transform: uppercase;
@@ -1280,7 +1282,7 @@ body,
 }
 
 .team-social-icon a {
-    background-color: #ffd000;
+    background-color: #11939A;
     color: #fff;
     display: inline-block;
     font-size: 18px;
@@ -1304,15 +1306,15 @@ body,
 /*== Slider Area CSS ==*/
 
 .slider-bg-1 {
-    background-image: url("~/Content/images/driver/driver-6.jpg");
+    background-image: url(images/driver/driver-6.jpg);
 }
 
 .slider-bg-2 {
-    background-image: url("~/Content/images/driver/driver-6.jpg");
+    background-image: url(images/driver/driver-6.jpg);
 }
 
 .slider-bg-3 {
-    background-image: url("~/Content/images/driver/driver-6.jpg");
+    background-image: url(images/driver/driver-6.jpg);
 }
 
 .home-slider-item {
@@ -1342,17 +1344,17 @@ body,
 
     .booka-car-content input,
     .booka-car-content select {
-        border: 1px solid #ffd000;
+        border: 1px solid #11939A;
         width: 100%;
     }
 
         .booka-car-content input:focus,
         .booka-car-content select:focus {
-            border-color: #ffd000;
+            border-color: #11939A;
         }
 
     .booka-car-content .input-group-append {
-        border: 1px solid #ffd000;
+        border: 1px solid #11939A;
         border-radius: 2px;
     }
 
@@ -1365,15 +1367,17 @@ body,
     }
 
     .booka-car-content .bookcar-btn button {
-        background-color: #fff;
-        border: 1px solid #ffd000;
+        background-color: #11939A;
+        border: 1px solid #11939A;
         border-radius: 2px;
         padding: 8px 0;
         width: 100%;
+        color: white;
     }
 
         .booka-car-content .bookcar-btn button:hover {
-            background-color: #ffd000;
+            background-color: #11939A;
+            color: white;
         }
 
     .booka-car-content .bookcar-btn {
@@ -1428,7 +1432,7 @@ body,
 }
 
     .we-do-content h3 {
-        color: #ffd000;
+        color: #11939A;
         font-size: 22px;
     }
 
@@ -1437,7 +1441,7 @@ body,
     }
 
     .we-do-content a {
-        background-color: #ffd000;
+        background-color: #11939A;
         border-radius: 2px;
         color: #000;
         display: inline-block;
@@ -1446,10 +1450,11 @@ body,
         padding: 8px 15px;
     }
 
-/*== What Do Area CSS ==*/
+/*== Andoid app Area CSS ==*/
 
 #service-area.section-padding {
     padding-bottom: 50px;
+    background-image: url(images/banners/Android-app-Banner.jpg)
 }
 
 
@@ -1461,10 +1466,10 @@ body,
 /*== Page Title CSS ==*/
 
 #page-title-area {
-    background-image: url("images/page-title.jpg");
+    background-image: url(images/banners/contactus-banner.jpg);
     background-position: center center;
     background-size: cover;
-    padding-top: 70px;
+    padding-top: 100px;
 }
 
     #page-title-area .section-title {
@@ -1522,7 +1527,7 @@ body,
 
     .car-list-info h5 {
         border-bottom: 1px solid #ddd;
-        color: #ffd000;
+        color: #11939A;
         font-size: 15px;
         margin-bottom: 12px;
         margin-top: 5px;
@@ -1553,7 +1558,7 @@ body,
     }
 
         .car-info-list li::before {
-            color: #ffd000;
+            color: #11939A;
             content: "\f14a";
             font-family: FontAwesome;
             margin-right: 5px;
@@ -1564,7 +1569,7 @@ body,
         }
 
 .rating {
-    color: #ffd000;
+    color: #11939A;
     font-size: 13px;
     position: absolute;
     right: 15px;
@@ -1576,7 +1581,7 @@ body,
     }
 
     .rating i.unmark:hover {
-        color: #ffd000;
+        color: #11939A;
     }
 
     .rating i.unmark {
@@ -1595,7 +1600,7 @@ body,
 }
 
     .rent-btn:hover {
-        background-color: #ffd000;
+        background-color: #11939A;
         color: #fff;
     }
 
@@ -1606,7 +1611,7 @@ body,
 }
 
     .page-pagi nav li a {
-        border-color: #ffd000;
+        border-color: #11939A;
         color: #000;
         font-weight: 600;
         -webkit-transition: all 0.4s ease 0s;
@@ -1614,13 +1619,13 @@ body,
     }
 
     .page-pagi nav ul li.active a {
-        background-color: #ffd000 !important;
-        border-color: #ffd000 !important;
+        background-color: #11939A !important;
+        border-color: #11939A !important;
     }
 
     .page-pagi nav li a:hover {
-        background-color: #ffd000;
-        border-color: #ffd000;
+        background-color: #11939A;
+        border-color: #11939A;
         color: #fff;
     }
 
@@ -1636,7 +1641,7 @@ body,
 }
 
     .single-sidebar h3 {
-        background-color: #ffd000;
+        background-color: #11939A;
         color: #222;
         font-size: 18px;
         padding: 12px 5px;
@@ -1654,7 +1659,7 @@ body,
 }
 
     .sidebar-body i.fa {
-        color: #ffd000;
+        color: #11939A;
         font-size: 17px;
         margin-right: 4px;
         text-align: center;
@@ -1662,7 +1667,7 @@ body,
     }
 
     .sidebar-body i.fa {
-        color: #ffd000;
+        color: #11939A;
         font-size: 17px;
         margin-right: 4px;
         text-align: center;
@@ -1709,7 +1714,7 @@ body,
     }
 
     .recent-tip-body a:hover {
-        color: #ffd000;
+        color: #11939A;
     }
 
     .recent-tip-body span {
@@ -1730,8 +1735,8 @@ body,
 }
 
     .sidebar-body .social-icons a i:hover {
-        background-color: #ffd000;
-        border-color: #ffd000;
+        background-color: #11939A;
+        border-color: #11939A;
         color: #fff;
     }
 
@@ -1740,7 +1745,7 @@ body,
 ================================*/
 
 .car-details-content h2 {
-    border-bottom: 1px solid #ffd000;
+    border-bottom: 1px solid #11939A;
     font-weight: 400;
     margin-bottom: 20px;
     padding-bottom: 10px;
@@ -1780,7 +1785,7 @@ body,
 }
 
 .tech-info-list li::before {
-    color: #fab702;
+    color: #11939A;
     content: "\f058";
     font-family: FontAwesome;
     margin-right: 15px;
@@ -1805,7 +1810,7 @@ body,
     }
 
         .car-preview-crousel .owl-dots div.active {
-            background-color: #ffd000;
+            background-color: #11939A;
         }
 
 .review-area {
@@ -1842,7 +1847,7 @@ body,
     .review-area input:focus,
     .contact-form textarea:focus,
     .review-area textarea:focus {
-        border-color: #ffd000;
+        border-color: #11939A;
     }
 
 .message-input,
@@ -1856,8 +1861,9 @@ body,
     }
 
 .input-submit button {
-    background-color: #ffd000;
+    background-color: #11939A;
     border: medium none;
+    color:white;
     cursor: pointer;
     font-size: 12px;
     font-weight: 600;
@@ -1865,7 +1871,16 @@ body,
     margin-top: 25px;
     padding: 8px 40px;
     text-transform: uppercase;
+    border-radius: 50px;
+    display: inline-block;
+    font-size: 13px;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
 }
+
+    .input-submit button:hover {
+        background-color: #222;
+    }
 
 /*==============================
     Service Page Css Start
@@ -1901,7 +1916,7 @@ body,
 }
 
     .service-item-content h3 {
-        color: #ffd000;
+        color: #11939A;
         font-size: 30px;
         margin-bottom: 20px;
         text-transform: uppercase;
@@ -1922,7 +1937,7 @@ body,
 
 .thme-blockquote {
     background-color: #111;
-    color: #ffd000;
+    color: #11939A;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 1.6px;
@@ -1939,6 +1954,7 @@ body,
     margin-left: auto;
     margin-right: auto;
     padding: 15px 25px;
+    color: white;
 }
 
 .maparea {
@@ -1973,7 +1989,7 @@ body,
 }
 
     .single-our-facility h3::after {
-        background-color: #ffd000;
+        background-color: #11939A;
         bottom: 0;
         content: "";
         height: 2px;
@@ -1992,14 +2008,14 @@ body,
     }
 
         .single-our-facility ul li::before {
-            color: #ffd000;
+            color: #11939A;
             content: "\f046";
             font-family: fontawesome;
             margin-right: 15px;
         }
 
 .single-pricing-table ul.package-list li::before {
-    color: #ffd000;
+    color: #11939A;
     content: "\f046";
     font-family: fontawesome;
     margin-right: 15px;
@@ -2023,19 +2039,25 @@ body,
         text-transform: capitalize;
     }
 
+.single-faq-sub-content .card-body {
+    background-color: #eaeaea;
+    color: #000;
+    line-height: 1.9;
+}
+
 .single-faq-sub-content .card {
     border: medium none;
     margin-bottom: 20px;
 }
 
 .single-faq-sub-content .card-header {
-    background-color: #ffd000;
+    background-color: #11939A;
     border: medium none;
     border-radius: 0;
 }
 
     .single-faq-sub-content .card-header button {
-        color: #000;
+        color: white;
         cursor: pointer;
         font-weight: 600;
         line-height: 26px;
@@ -2046,33 +2068,28 @@ body,
         width: 100%;
     }
 
+
+        .single-faq-sub-content .card-header button i.fa {
+            font-size: 21px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
         .single-faq-sub-content .card-header button:hover {
             text-decoration: none;
         }
 
-.single-faq-sub-content .card-body {
-    background-color: #eaeaea;
-    color: #000;
-    line-height: 1.9;
-}
 
-.single-faq-sub-content .card-header button i.fa {
-    font-size: 21px;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
+        .single-faq-sub-content .card-header button[aria-expanded="true"] i.fa-angle-down {
+            display: none;
+        }
 
-.single-faq-sub-content .card-header button[aria-expanded="true"] i.fa-angle-down {
-    display: none;
-}
-
-.single-faq-sub-content .card-header button[aria-expanded="false"] i.fa-angle-up {
-    display: none;
-}
-
+        .single-faq-sub-content .card-header button[aria-expanded="false"] i.fa-angle-up {
+            display: none;
+        }
 
 
 /*==============================
@@ -2116,13 +2133,14 @@ body,
         }
 
 .log-btn button {
-    background-color: #ffd000;
-    border-color: #ffd000;
+    background-color: #11939A;
+    border-color: #11939A;
     border-radius: 4px;
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     font-weight: 700;
+    color: white;
 }
 
     .log-btn button:hover {
@@ -2215,7 +2233,7 @@ body,
 
         .create-ac a:hover,
         .login-menu a:hover {
-            color: #fab702;
+            color: #11939A;
             text-decoration: underline;
         }
 
@@ -2375,18 +2393,18 @@ body,
     }
 
 .profile-title {
-    border-bottom: 1px solid #ffd000;
+    border-bottom: 1px solid #11939A;
     margin: 20px 5px;
     padding: 10px 10px;
 }
 
-#myTab .nav-item .profile-icon {
+#myMenu .nav-item .profile-icon {
     height: 150px;
     width: 150px;
 }
 
-    #myTab .nav-item .profile-icon img {
-        border: 2px solid #ffd000;
+    #myMenu .nav-item .profile-icon img {
+        border: 2px solid #11939A;
         border-radius: 50%;
         height: 100%;
         width: 100%;
@@ -2397,6 +2415,15 @@ body,
 }
 
 #team-area .team-tab-menu li.active {
-    background-color: #ffd000;
+    background-color: #11939A;
     margin-bottom: 15px;
+}
+
+/*==============================
+    Share With Friend Page Css
+================================*/
+
+.share-image {
+    margin: 40px auto;
+    height: 250px;
 }

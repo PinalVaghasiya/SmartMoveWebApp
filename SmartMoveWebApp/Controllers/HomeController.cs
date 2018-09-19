@@ -40,16 +40,6 @@ namespace SmartMoveWebApp.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult BecomeDriver()
-        {
-            var truckTypes = _context.TruckTypes.ToList();
-            var driverRegisterModel = new RegisterDriverViewModel();
-            driverRegisterModel.TruckTypesList = truckTypes;
-            driverRegisterModel.TruckYear = null;
-            return View(driverRegisterModel);
-        }
-
         public ActionResult Login()
         {
             return View();

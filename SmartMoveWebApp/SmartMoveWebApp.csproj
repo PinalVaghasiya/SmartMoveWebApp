@@ -293,11 +293,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\images\about-us.jpg" />
+    <Content Include="Content\images\banners\Android-app-Banner.jpg" />
     <Content Include="Content\images\article\arti-thumb-1.jpg" />
     <Content Include="Content\images\article\arti-thumb-2.jpg" />
     <Content Include="Content\images\article\arti-thumb-3.jpg" />
     <Content Include="Content\images\article\arti-thumb-4.jpg" />
-    <Content Include="Content\images\banner.jpg" />
+    <Content Include="Content\images\banners\banner-truck-tailgate.jpg" />
+    <Content Include="Content\images\banners\contactus-banner.jpg" />
     <Content Include="Content\images\caret-cion.png" />
     <Content Include="Content\images\car\car-1.jpg" />
     <Content Include="Content\images\car\car-2.jpg" />
@@ -314,12 +316,8 @@
     <Content Include="Content\images\driver\driver-4.jpg" />
     <Content Include="Content\images\driver\driver-5.jpg" />
     <Content Include="Content\images\driver\driver-6.jpg" />
-    <Content Include="Content\images\funfact-bg.jpg" />
-    <Content Include="Content\images\home-2-about.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\Logo_SmartMove.PNG" />
-    <Content Include="Content\images\mobile-app.png" />
-    <Content Include="Content\images\page-title.jpg" />
     <Content Include="Content\images\preloader.gif" />
     <Content Include="Content\images\scroll-top.png" />
     <Content Include="Content\images\services\Select_deal.png" />
@@ -328,6 +326,7 @@
     <Content Include="Content\images\services\service-icon-5.png" />
     <Content Include="Content\images\services\Side_Menu.png" />
     <Content Include="Content\images\services\User_Profile.png" />
+    <Content Include="Content\images\share_icon.png" />
     <Content Include="Content\images\team\team-mem-2.png" />
     <Content Include="Content\images\team\team-mem-thumb-2.png" />
     <Content Include="Content\plugins\animate.css" />
@@ -407,7 +406,7 @@
       <DependentUpon>SmartMoveModel.edmx</DependentUpon>
     </Content>
     <Content Include="Views\Home\Help.cshtml" />
-    <Content Include="Views\Home\BecomeDriver.cshtml" />
+    <Content Include="Views\TruckOwners\BecomeDriver.cshtml" />
     <Content Include="Views\TruckOwners\Login.cshtml" />
     <Content Include="Views\Customers\Login.cshtml" />
     <Content Include="Views\TruckOwners\VerifyEmail.cshtml" />
@@ -419,7 +418,12 @@
     <Content Include="Views\Customers\MyTrips.cshtml" />
     <Content Include="Views\Shared\_UsersLayout.cshtml" />
     <Content Include="Views\Customers\Dashboard.cshtml" />
-    <Content Include="Views\Customers\Payment.cshtml" />
+    <Content Include="Views\Customers\Wallet.cshtml" />
+    <Content Include="Views\Customers\Share.cshtml" />
+    <Content Include="Views\TruckOwners\Trips.cshtml" />
+    <Content Include="Views\TruckOwners\ShareWithFriend.cshtml" />
+    <Content Include="Views\TruckOwners\Homepage.cshtml" />
+    <Content Include="Views\TruckOwners\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

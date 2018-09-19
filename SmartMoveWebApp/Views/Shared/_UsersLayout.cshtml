@@ -26,19 +26,28 @@
             <div class="container">
                 <div class="row">
                     <!--== Logo Start ==-->
-                    <div class="col-lg-12 text-center">
+                    <div class="col-lg-6 text-left">
                         <a href="@Url.Action("Index", "Home")" class="logo">
                             <img src="~/Content/images/Logo_SmartMove.PNG" alt="JSOFT">
                         </a>
                     </div>
                     <!--== Logo End ==-->
+                    <!--== Menu Start ==-->
+                    <div class="col-lg-6 text-right">
+                        <nav class="alignright">
+                            <ul>
+                                <li class="active">Pinal Vaghasiya</li>
+                                <li>@Html.ActionLink("Logout", "Login", "Home")</li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--== Menu End ==-->
                 </div>
             </div>
         </div>
         <!--== Header Bottom End ==-->
     </header>
     <!--== Header Area End ==-->
-
     <!--== Help Desk Page Content Start ==-->
     <section id="help-desk-page-wrap" class="section-padding">
         <div class="container">
@@ -49,34 +58,34 @@
                             <!-- Team Tab Menu start -->
                             <div class="col-lg-3" id="team-area">
                                 <div class="team-tab-menu">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <ul class="nav nav-tabs" id="myMenu" role="tablist">
                                         <li class="nav-item" style="background-color: transparent;">
                                             <div class="profile-icon m-auto">
                                                 <img src="~/Content/images/team/team-mem-thumb-2.png" alt="Profile Picture" />
                                             </div>
                                         </li>
-                                        <li class="nav-item active">
-                                            <a href="@Url.Action("MyTrips", "Customers")" class="nav-link" id="tab_item_1" data-toggle="tab" role="tab" aria-selected="true">
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("MyTrips", "Customers")" class="nav-link" id="menu_item_1" data-toggle="tab" role="tab" aria-selected="true">
                                                 <h5>My Trips</h5>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="@Url.Action("Dashboard", "Customers")" class="nav-link" id="tab_item_2" data-toggle="tab" role="tab" aria-selected="true">
+                                        <li class="nav-item active">
+                                            <a href="@Url.Action("Dashboard", "Customers")" class="nav-link" id="menu_item_2" data-toggle="tab" role="tab" aria-selected="false">
                                                 <h5>Profile</h5>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="tab_item_3" data-toggle="tab" href="@Url.Action("Payment", "Customers")" role="tab" aria-selected="true">
-                                                <h5>Payment</h5>
+                                            <a class="nav-link" id="menu_item_3" data-toggle="tab" href="@Url.Action("Wallet", "Customers")" role="tab" aria-selected="false">
+                                                <h5>Wallet</h5>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="tab_item_4" data-toggle="tab" href="#team_member_4" role="tab" aria-selected="true">
+                                            <a class="nav-link" id="menu_item_4" data-toggle="tab" href="#team_member_4" role="tab" aria-selected="false">
                                                 <h5>Share With Friend</h5>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="tab_item_5" data-toggle="tab" href="#team_member_4" role="tab" aria-selected="true">
+                                            <a class="nav-link" id="menu_item_5" data-toggle="tab" href="@Url.Action("Login", "Home")" role="tab" aria-selected="false">
                                                 <h5>Log Out</h5>
                                             </a>
                                         </li>
@@ -92,16 +101,14 @@
         </div>
     </section>
     <!--== Help Desk Page Content End ==-->
-
-
     <!--== Footer Area Start ==-->
     <section id="footer-area">
         <!-- Footer Widget Start -->
-        <div class="footer-widget-area">
+        <div class="footer-widget-area" style="padding: 30px;">
             <div class="container">
-                <div class="row">
+                <div class="row text-center">
                     <!-- Single Footer Widget Start -->
-                    <div class="col-lg-10">
+                    <div class="col-lg-12">
                         <div class="single-footer-widget">
                             <div class="widget-body">
                                 <a href="@Url.Action("Index", "Home")"><img src="~/Content/images/Logo_SmartMove.PNG" alt="JSOFT"></a>

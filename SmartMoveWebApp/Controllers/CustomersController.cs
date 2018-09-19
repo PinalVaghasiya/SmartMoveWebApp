@@ -115,7 +115,7 @@ namespace SmartMoveWebApp.Controllers
                 return RedirectToAction(returnURL);
 
             // If we cannot verify if the url is local to our host we redirect to a default location  
-            return RedirectToAction("Index", "Customers");
+            return RedirectToAction("Index", "Home");
         }
 
         private void EnsureLoggedOut()
@@ -233,7 +233,12 @@ namespace SmartMoveWebApp.Controllers
             return View();
         }
 
-        public ActionResult Payment()
+        public ActionResult Wallet()
+        {
+            return View();
+        }
+
+        public ActionResult Share()
         {
             return View();
         }

@@ -259,5 +259,35 @@ namespace SmartMoveWebApp.Controllers
         {
             return _context.TruckTypes.ToList();
         }
+
+        [HttpGet]
+        public ActionResult BecomeDriver()
+        {
+            var truckTypes = _context.TruckTypes.ToList();
+            var driverRegisterModel = new RegisterDriverViewModel();
+            driverRegisterModel.TruckTypesList = truckTypes;
+            driverRegisterModel.TruckYear = null;
+            return View(driverRegisterModel);
+        }
+
+        public ActionResult Trips()
+        {
+            return View();
+        }
+
+        public ActionResult ShareWithFriend()
+        {
+            return View();
+        }
+        
+        public ActionResult Homepage()
+        {
+            return View();
+        }
+
+        public ActionResult Payment()
+        {
+            return View();
+        }
     }
 }

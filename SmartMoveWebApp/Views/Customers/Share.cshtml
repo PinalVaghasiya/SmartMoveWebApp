@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Share";
+    Layout = "~/Views/Shared/_UsersLayout.cshtml";
+}
+
+<!-- Share Content start -->
+<div class="col-lg-9">
+    <div class="tab-content" id="myTabContent">
+        <!-- Share Block  start -->
+        <div class="tab-pane fade show active" id="team_member_1" role="tabpanel" aria-labelledby="tab_item_1">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="team-member-info">
+                        <div class="col-lg-12">
+                            <h3>Send your promo code and earn free rides</h3>
+                            <p>Every time a new customer signs up with your invite code, you will earn a ride free.</p>
+                        </div>
+                        <div class="col-lg-12 text-center">
+                            <img class="share-image" src="~/Content/images/share_icon.png" />
+                        </div>
+                        <div class="row col-lg-12" style="margin-bottom: 5px;">
+                            <div class="col-lg-2">
+                                <h5>Promo Code</h5>
+                            </div>
+                            <div class="col-lg-7">
+                                <input type="text" style="width: 100%;" value="ABC123xyz" id="myCode" disabled>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="button" class="btn-info" id="btnCode" onclick="copyToClipboard('#myCode')" value="Copy Code" />
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-2">
+                                <h5>Invite Link</h5>
+                            </div>
+                            <div class="col-lg-7">
+                                <input type="text" style="width: 100%;" value="https://www.SmartMove.com/invite/ABC123xyz" id="myLink" disabled>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="button" class="btn-info" value="Copy Link" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Share Block  End -->
+    </div>
+</div>
+<!-- Share Content End -->
