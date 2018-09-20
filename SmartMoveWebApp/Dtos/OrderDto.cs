@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SmartMoveWebApp.Dtos
 {
-    public class OrderMetadata
+    public class OrderDto
     {
         [Required]
         public int CustomerId { get; set; }

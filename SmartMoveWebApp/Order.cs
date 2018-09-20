@@ -27,6 +27,8 @@ namespace SmartMoveWebApp
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
         public int TruckTypeId { get; set; }
+        public System.DateTime OrderDateTime { get; set; }
+        public string PickupPlace { get; set; }
         public double PickupLat { get; set; }
         public double PickupLong { get; set; }
         public string PickupUnitNumber { get; set; }
@@ -34,6 +36,7 @@ namespace SmartMoveWebApp
         public bool PickupHasElevator { get; set; }
         public string PickupDistanceFromParking { get; set; }
         public string PickupAdditionalInfo { get; set; }
+        public string DropPlace { get; set; }
         public double DropLat { get; set; }
         public double DropLong { get; set; }
         public string DropUnitNumber { get; set; }

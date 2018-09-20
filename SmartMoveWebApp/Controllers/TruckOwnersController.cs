@@ -50,7 +50,7 @@ namespace SmartMoveWebApp.Controllers
             string OldHASHValue = string.Empty;
             byte[] SALT = new byte[64];
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var truckOwner = _context.TruckOwners.SingleOrDefault(t => t.Email == model.Email);
                 if (truckOwner == null)
@@ -60,11 +60,12 @@ namespace SmartMoveWebApp.Controllers
                 }
 
                 var login = _context.Logins.SingleOrDefault(l => l.Email == truckOwner.Email);
-                if(login == null)
+                if (login == null)
                 {
                     ModelState.AddModelError("", "Given Email is not registered with us.");
                     return View(model);
-                } else if (!login.EmailActivated)
+                }
+                else if (!login.EmailActivated)
                 {
                     ModelState.AddModelError("", "Email is not verified, please verify from the email sent.");
                     return View(model);
@@ -75,7 +76,7 @@ namespace SmartMoveWebApp.Controllers
 
                 bool isValidLogin = AuthenticationLogic.CompareHashValue(model.Password, model.Email, OldHASHValue, SALT);
 
-                if(!isValidLogin)
+                if (!isValidLogin)
                 {
                     ModelState.AddModelError("", "Given password is incorrect.");
                     return View(model);
@@ -119,7 +120,7 @@ namespace SmartMoveWebApp.Controllers
                     return RedirectToAction(returnURL);
 
                 // If we cannot verify if the url is local to our host we redirect to a default location  
-                return RedirectToAction("Index", "TruckOwners");
+                return RedirectToAction("Dashboard", "TruckOwners");
             }
             catch
             {
@@ -138,7 +139,7 @@ namespace SmartMoveWebApp.Controllers
                 var checkPhoneUnqiueness = _context.TruckOwners.SingleOrDefault(t => t.Phone == model.Phone);
                 var checkTruckUniqueness = _context.Trucks.SingleOrDefault(t => t.LicensePlate == model.LicensePlate);
 
-                if(checkEmailUniqueness != null)
+                if (checkEmailUniqueness != null)
                     ModelState.AddModelError("", "Email id is already registered.");
 
                 if (checkPhoneUnqiueness != null)
@@ -147,7 +148,7 @@ namespace SmartMoveWebApp.Controllers
                 if (checkTruckUniqueness != null)
                     ModelState.AddModelError("", "Truck License Number is already registered.");
 
-                if(checkEmailUniqueness == null && checkPhoneUnqiueness == null && checkTruckUniqueness == null)
+                if (checkEmailUniqueness == null && checkPhoneUnqiueness == null && checkTruckUniqueness == null)
                 {
                     var salt = AuthenticationLogic.Get_SALT(64);
 
@@ -215,7 +216,7 @@ namespace SmartMoveWebApp.Controllers
         {
             var viewModel = new VerifyEmailViewModel();
 
-            if(String.IsNullOrEmpty(token) || String.IsNullOrWhiteSpace(token))
+            if (String.IsNullOrEmpty(token) || String.IsNullOrWhiteSpace(token))
             {
                 viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
                 return View(viewModel);
@@ -236,7 +237,7 @@ namespace SmartMoveWebApp.Controllers
             else
             {
                 var login = _context.Logins.SingleOrDefault(l => l.Email == truckOwner.Email);
-                if(login == null || login.EmailActivated)
+                if (login == null || login.EmailActivated)
                     viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
                 else
                 {
@@ -270,24 +271,56 @@ namespace SmartMoveWebApp.Controllers
             return View(driverRegisterModel);
         }
 
+        [CheckDriverAuthorization]
         public ActionResult Trips()
         {
-            return View();
+            int truckOwnerId = GetTruckOwnerId();
+            IEnumerable<OrderBid> orderBids = _context.OrderBids.Where(o => o.TruckOwnerId == truckOwnerId).ToList();
+
+            ViewBag.Name = GetTruckOwnerName();
+            return View(orderBids);
         }
 
+        [CheckDriverAuthorization]
         public ActionResult ShareWithFriend()
         {
-            return View();
-        }
-        
-        public ActionResult Homepage()
-        {
+            ViewBag.Name = GetTruckOwnerName();
             return View();
         }
 
+        [CheckDriverAuthorization]
+        public ActionResult Dashboard()
+        {
+            string email = GetTruckOwnerEmail();
+            var truckOwner = _context.TruckOwners.Single(t => t.Email == email);
+
+            ViewBag.Name = GetTruckOwnerName();
+            return View(truckOwner);
+        }
+
+        [CheckDriverAuthorization]
         public ActionResult Payment()
         {
+            ViewBag.Name = GetTruckOwnerName();
             return View();
+        }
+        private string GetTruckOwnerEmail()
+        {
+            return this.HttpContext.Session["DriverID"].ToString();
+        }
+
+        private int GetTruckOwnerId()
+        {
+            string email = GetTruckOwnerEmail();
+            var truckOwnerId = _context.TruckOwners.Single(t => t.Email == email).TruckOwnerId;
+            return truckOwnerId;
+        }
+
+        private string GetTruckOwnerName()
+        {
+            string email = GetTruckOwnerEmail();
+            var truckOwner = _context.TruckOwners.Single(t => t.Email == email);
+            return truckOwner.FirstName + " " + truckOwner.LastName;
         }
     }
 }

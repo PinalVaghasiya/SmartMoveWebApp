@@ -2364,6 +2364,10 @@ body,
     color: red;
 }
 
+.field-validation-error {
+    color: red;
+}
+
 /*==============================
     Customer Layout Side Menu Bar Css
 ================================*/

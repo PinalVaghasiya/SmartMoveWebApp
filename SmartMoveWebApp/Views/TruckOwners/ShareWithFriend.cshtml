@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "ShareWithFriend";
-    Layout = "~/Views/Shared/_UsersLayout.cshtml";
+    ViewBag.Title = "Share With Friend";
+    Layout = "~/Views/Shared/_TruckOwnersLayout.cshtml";
 }
 
 <!-- Share Content start -->
@@ -49,3 +49,11 @@
     </div>
 </div>
 <!-- Share Content End -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myMenu.nav.nav-tabs li.nav-item.active').removeClass('active');
+            $("#menu_item_4").parent("li").addClass('active');
+        });
+    </script>
+}

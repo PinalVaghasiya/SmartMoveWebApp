@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - SmartMove</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -26,36 +26,81 @@
             <div class="container">
                 <div class="row">
                     <!--== Logo Start ==-->
-                    <div class="col-lg-2">
+                    <div class="col-lg-6 text-left">
                         <a href="@Url.Action("Index", "Home")" class="logo">
                             <img src="~/Content/images/Logo_SmartMove.PNG" alt="JSOFT">
                         </a>
                     </div>
                     <!--== Logo End ==-->
-                    <!--== Main Menu Start ==-->
-                    <div class="col-lg-10 d-none d-xl-block">
-                        <nav class="mainmenu alignright">
+                    <!--== Menu Start ==-->
+                    <div class="col-lg-6 text-right">
+                        <nav class="alignright">
                             <ul>
-                                <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                                <li>@Html.ActionLink("About", "About", "Home")</li>
-                                <li>@Html.ActionLink("Help", "Help", "Home")</li>
-                                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                                <li>@Html.ActionLink("Become a Driver", "BecomeDriver", "TruckOwners")</li>
-                                <li>@Html.ActionLink("Sign In", "Login", "Home")</li>
+                                <li class="active">@ViewBag.Name</li>
+                                <li>@Html.ActionLink("Logout", "Login", "Home")</li>
                             </ul>
                         </nav>
                     </div>
-                    <!--== Main Menu End ==-->
+                    <!--== Menu End ==-->
                 </div>
             </div>
         </div>
         <!--== Header Bottom End ==-->
     </header>
     <!--== Header Area End ==-->
-
-    @RenderBody()
-
-
+    <!--== Help Desk Page Content Start ==-->
+    <section id="help-desk-page-wrap" class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="team-content">
+                        <div class="row">
+                            <!-- Team Tab Menu start -->
+                            <div class="col-lg-3" id="team-area">
+                                <div class="team-tab-menu">
+                                    <ul class="nav nav-tabs" id="myMenu" role="tablist">
+                                        <li class="nav-item" style="background-color: transparent;">
+                                            <div class="profile-icon m-auto">
+                                                <img src="~/Content/images/team/default-profile-picture.png" alt="Profile Picture" />
+                                            </div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Trips", "TruckOwners")" class="nav-link" id="menu_item_1" aria-selected="true">
+                                                <h5>My Trips</h5>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a href="@Url.Action("Dashboard", "TruckOwners")" class="nav-link" id="menu_item_2" aria-selected="false">
+                                                <h5>Profile</h5>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="menu_item_3" href="@Url.Action("Payment", "TruckOwners")" aria-selected="false">
+                                                <h5>Payment Type</h5>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="menu_item_4" href="@Url.Action("ShareWithFriend", "TruckOwners")" aria-selected="false">
+                                                <h5>Share With Friend</h5>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="menu_item_5" href="@Url.Action("Login", "Home")" aria-selected="false">
+                                                <h5>Log Out</h5>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Team Tab Menu End -->
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--== Help Desk Page Content End ==-->
     <!--== Footer Area Start ==-->
     <section id="footer-area">
         <!-- Footer Widget Start -->
@@ -68,7 +113,7 @@
                             <div class="widget-body">
                                 <a href="@Url.Action("Index", "Home")"><img src="~/Content/images/Logo_SmartMove.PNG" alt="JSOFT"></a>
                                 <p>The SmartMove is intended to be used in the field of transportation as an aid tool for service seekers (customers) and service providers (truck drivers) for moving things from one place to another in a cost-effective way.</p>
-                                
+
                                 <ul class="get-touch">
                                     <li><i class="fa fa-map-marker"></i> 3678 Aero Ct, San Diego</li>
                                     <li><i class="fa fa-mobile"></i> +1 880 000 0008</li>
@@ -106,7 +151,6 @@
     <!--== Scroll Top Area End ==-->
 
     @Scripts.Render("~/bundles/libs")
-    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 </body>
 </html>

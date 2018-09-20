@@ -2,6 +2,7 @@
 using SmartMoveWebApp.Models;
 using SmartMoveWebApp.Models.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
@@ -10,237 +11,277 @@ using System.Web.Security;
 
 namespace SmartMoveWebApp.Controllers
 {
-    public class CustomersController : Controller
-    {
-        public SmartMoveEntities _context { get; set; }
+	public class CustomersController : Controller
+	{
+		public SmartMoveEntities _context { get; set; }
 
-        public CustomersController()
-        {
-            _context = new SmartMoveEntities();
-        }
+		public CustomersController()
+		{
+			_context = new SmartMoveEntities();
+		}
 
-        [CheckCustomerAuthorization]
-        public ActionResult Index()
-        {
-            string emailId = this.HttpContext.Session["CustomerID"].ToString();
+		[CheckCustomerAuthorization]
+		public ActionResult Index()
+		{
+			string email = GetCustomerEmail();
+			var customer = _context.Customers.Single(c => c.Email == email);
+			return View(customer);
+		}
 
-            var customer = _context.Customers.Single(c => c.Email == emailId);
-            return View(customer);
-        }
+		[HttpGet]
+		[AllowAnonymous]
+		public ActionResult Login(string returnURL)
+		{
+			var userInfo = new LoginViewModel();
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Login(string returnURL)
-        {
-            var userInfo = new LoginViewModel();
+			EnsureLoggedOut();
+			userInfo.ReturnURL = returnURL;
 
-            EnsureLoggedOut();
-            userInfo.ReturnURL = returnURL;
+			return View(userInfo);
+		}
 
-            return View(userInfo);
-        }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Login(LoginViewModel model)
+		{
+			string OldHASHValue = string.Empty;
+			byte[] SALT = new byte[64];
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model)
-        {
-            string OldHASHValue = string.Empty;
-            byte[] SALT = new byte[64];
+			if (ModelState.IsValid)
+			{
+				var customer = _context.Customers.SingleOrDefault(c => c.Email == model.Email);
+				if (customer == null)
+				{
+					ModelState.AddModelError("", "Given Email is not registered with us.");
+					return View(model);
+				}
 
-            if (ModelState.IsValid)
-            {
-                var customer = _context.Customers.SingleOrDefault(c => c.Email == model.Email);
-                if (customer == null)
-                {
-                    ModelState.AddModelError("", "Given Email is not registered with us.");
-                    return View(model);
-                }
+				var login = _context.Logins.SingleOrDefault(l => l.Email == customer.Email);
+				if (login == null)
+				{
+					ModelState.AddModelError("", "Given Email is not registered with us.");
+					return View(model);
+				}
+				else if (!login.EmailActivated)
+				{
+					ModelState.AddModelError("", "Email is not verified, please verify from the email sent.");
+					return View(model);
+				}
 
-                var login = _context.Logins.SingleOrDefault(l => l.Email == customer.Email);
-                if (login == null)
-                {
-                    ModelState.AddModelError("", "Given Email is not registered with us.");
-                    return View(model);
-                }
-                else if (!login.EmailActivated)
-                {
-                    ModelState.AddModelError("", "Email is not verified, please verify from the email sent.");
-                    return View(model);
-                }
+				OldHASHValue = login.Password;
+				SALT = login.PasswordSalt;
 
-                OldHASHValue = login.Password;
-                SALT = login.PasswordSalt;
+				bool isValidLogin = AuthenticationLogic.CompareHashValue(model.Password, model.Email, OldHASHValue, SALT);
 
-                bool isValidLogin = AuthenticationLogic.CompareHashValue(model.Password, model.Email, OldHASHValue, SALT);
+				if (!isValidLogin)
+				{
+					ModelState.AddModelError("", "Given password is incorrect.");
+					return View(model);
+				}
 
-                if (!isValidLogin)
-                {
-                    ModelState.AddModelError("", "Given password is incorrect.");
-                    return View(model);
-                }
+				FormsAuthentication.SignOut();
+				// Write the authentication cookie
+				FormsAuthentication.SetAuthCookie(customer.Email, false);
 
-                FormsAuthentication.SignOut();
-                // Write the authentication cookie  
-                FormsAuthentication.SetAuthCookie(customer.Email, false);
+				Session["CustomerID"] = model.Email;
 
-                Session["CustomerID"] = model.Email;
+				return RedirectToLocal(model.ReturnURL);
+			}
 
-                return RedirectToLocal(model.ReturnURL);
-            }
+			return View(model);
+		}
 
-            return View(model);
-        }
+		public ActionResult Logout()
+		{
+			// First we clean the authentication ticket like always  
+			FormsAuthentication.SignOut();
 
-        public ActionResult Logout()
-        {
-            // First we clean the authentication ticket like always  
-            FormsAuthentication.SignOut();
+			// Second we clear the principal to ensure the user does not retain any authentication  
+			HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
 
-            // Second we clear the principal to ensure the user does not retain any authentication  
-            HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+			Session.Clear();
+			System.Web.HttpContext.Current.Session.RemoveAll();
 
-            Session.Clear();
-            System.Web.HttpContext.Current.Session.RemoveAll();
+			// Last we redirect to a controller/action that requires authentication to ensure a redirect takes place 
+			// this clears the Request.IsAuthenticated flag since this triggers a new request  
+			return RedirectToLocal();
+		}
 
-            // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place 
-            // this clears the Request.IsAuthenticated flag since this triggers a new request  
-            return RedirectToLocal();
-        }
+		private ActionResult RedirectToLocal(string returnURL = "")
+		{
+			// If the return url starts with a slash "/" we assume it belongs to our site  
+			// so we will redirect to this "action"
+			if (!string.IsNullOrWhiteSpace(returnURL) && Url.IsLocalUrl(returnURL))
+				return RedirectToAction(returnURL);
 
-        private ActionResult RedirectToLocal(string returnURL = "")
-        {
-            // If the return url starts with a slash "/" we assume it belongs to our site  
-            // so we will redirect to this "action"  
-            if (!string.IsNullOrWhiteSpace(returnURL) && Url.IsLocalUrl(returnURL))
-                return RedirectToAction(returnURL);
+			// If we cannot verify if the url is local to our host we redirect to a default location  
+			return RedirectToAction("Dashboard", "Customers");
+		}
 
-            // If we cannot verify if the url is local to our host we redirect to a default location  
-            return RedirectToAction("Index", "Home");
-        }
+		private void EnsureLoggedOut()
+		{
+			// If the request is (still) marked as authenticated we send the user to the logout action  
+			if (Request.IsAuthenticated)
+				Logout();
+		}
 
-        private void EnsureLoggedOut()
-        {
-            // If the request is (still) marked as authenticated we send the user to the logout action  
-            if (Request.IsAuthenticated)
-                Logout();
-        }
+		[HttpGet]
+		public ActionResult Register()
+		{
+			var model = new RegisterCustomerViewModel();
+			return View(model);
+		}
 
-        [HttpGet]
-        public ActionResult Register()
-        {
-            var model = new RegisterCustomerViewModel();
-            return View(model);
-        }
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult Register(RegisterCustomerViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var checkEmailUniqueness = _context.Logins.SingleOrDefault(l => l.Email == model.Email);
+				var checkPhoneUnqiueness = _context.Customers.SingleOrDefault(t => t.Phone == model.Phone);
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterCustomerViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var checkEmailUniqueness = _context.Logins.SingleOrDefault(l => l.Email == model.Email);
-                var checkPhoneUnqiueness = _context.Customers.SingleOrDefault(t => t.Phone == model.Phone);
+				if (checkEmailUniqueness != null)
+					ModelState.AddModelError("", "Email id is already registered.");
 
-                if (checkEmailUniqueness != null)
-                    ModelState.AddModelError("", "Email id is already registered.");
+				if (checkPhoneUnqiueness != null)
+					ModelState.AddModelError("", "Phone number is already registered.");
 
-                if (checkPhoneUnqiueness != null)
-                    ModelState.AddModelError("", "Phone number is already registered.");
+				if (checkEmailUniqueness == null && checkPhoneUnqiueness == null)
+				{
+					var salt = AuthenticationLogic.Get_SALT(64);
 
-                if (checkEmailUniqueness == null && checkPhoneUnqiueness == null)
-                {
-                    var salt = AuthenticationLogic.Get_SALT(64);
+					var login = new Login
+					{
+						Email = model.Email.Trim(),
+						Password = AuthenticationLogic.Get_HASH_SHA512(model.Password, model.Email, salt),
+						PasswordSalt = salt,
+						UserType = "C",
+						EmailActivated = false,
+						CreatedTime = DateTime.Now,
+						ModifiedTime = DateTime.Now
+					};
+					_context.Logins.Add(login);
 
-                    var login = new Login
-                    {
-                        Email = model.Email.Trim(),
-                        Password = AuthenticationLogic.Get_HASH_SHA512(model.Password, model.Email, salt),
-                        PasswordSalt = salt,
-                        UserType = "C",
-                        EmailActivated = false,
-                        CreatedTime = DateTime.Now,
-                        ModifiedTime = DateTime.Now
-                    };
-                    _context.Logins.Add(login);
+					var customer = new Customer
+					{
+						FirstName = model.FirstName.Trim(),
+						LastName = model.LastName.Trim(),
+						Phone = model.Phone.Trim(),
+						Email = model.Email.Trim(),
+						CreatedTime = DateTime.Now,
+						ModifiedTime = DateTime.Now
+					};
+					_context.Customers.Add(customer);
+					_context.SaveChanges();
 
-                    var customer = new Customer
-                    {
-                        FirstName = model.FirstName.Trim(),
-                        LastName = model.LastName.Trim(),
-                        Phone = model.Phone.Trim(),
-                        Email = model.Email.Trim(),
-                        CreatedTime = DateTime.Now,
-                        ModifiedTime = DateTime.Now
-                    };
-                    _context.Customers.Add(customer);
-                    _context.SaveChanges();
+					string token = customer.CustomerId + "c45kaa52165hrd84rd";
+					string verificationUrl = Url.Action("VerifyEmail", "Customers", new { token = token }, Request.Url.Scheme);
 
-                    string token = customer.CustomerId + "c45kaa52165hrd84rd";
-                    string verificationUrl = Url.Action("VerifyEmail", "Customers", new { token = token }, Request.Url.Scheme);
+					SendGridEmailService.SendEmailActivationLink("Customer", customer.Email, customer.FirstName, verificationUrl);
 
-                    SendGridEmailService.SendEmailActivationLink("Customer", customer.Email, customer.FirstName, verificationUrl);
+					return RedirectToAction("Index", "Home");
+				}
+			}
+			return View(model);
+		}
 
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            return View(model);
-        }
+		public ActionResult VerifyEmail(string token)
+		{
+			var viewModel = new VerifyEmailViewModel();
 
-        public ActionResult VerifyEmail(string token)
-        {
-            var viewModel = new VerifyEmailViewModel();
+			if (String.IsNullOrEmpty(token) || String.IsNullOrWhiteSpace(token))
+			{
+				viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
+				return View(viewModel);
+			}
 
-            if (String.IsNullOrEmpty(token) || String.IsNullOrWhiteSpace(token))
-            {
-                viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
-                return View(viewModel);
-            }
+			string tokenId = token.Substring(0, token.Length - 18);
 
-            string tokenId = token.Substring(0, token.Length - 18);
+			if (!Regex.IsMatch(tokenId, @"^\d+$"))
+				viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
 
-            if (!Regex.IsMatch(tokenId, @"^\d+$"))
-                viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
+			int customerId = Convert.ToInt32(tokenId);
 
-            int customerId = Convert.ToInt32(tokenId);
+			var customer = _context.Customers.SingleOrDefault(t => t.CustomerId == customerId);
 
-            var customer = _context.Customers.SingleOrDefault(t => t.CustomerId == customerId);
+			if (customer == null)
+				viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
+			else
+			{
+				var login = _context.Logins.SingleOrDefault(l => l.Email == customer.Email);
+				if (login == null || login.EmailActivated)
+					viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
+				else
+				{
+					login.EmailActivated = true;
+					_context.SaveChanges();
+					viewModel.PageContent = VerifyEmailViewModel.GetSuccessMessage();
+				}
+			}
+			return View(viewModel);
+		}
 
-            if (customer == null)
-                viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
-            else
-            {
-                var login = _context.Logins.SingleOrDefault(l => l.Email == customer.Email);
-                if (login == null || login.EmailActivated)
-                    viewModel.PageContent = VerifyEmailViewModel.GetInvalidTokenMessage();
-                else
-                {
-                    login.EmailActivated = true;
-                    _context.SaveChanges();
-                    viewModel.PageContent = VerifyEmailViewModel.GetSuccessMessage();
-                }
-            }
-            return View(viewModel);
-        }
-
+		[CheckCustomerAuthorization]
 		public ActionResult MyTrips()
-        {
-            return View();
-        }
+		{
+			int customerId = GetCustomerId();
+			IEnumerable<Order> orders = _context.Orders.Where(o => o.CustomerId == customerId).ToList();
 
-        public ActionResult Dashboard()
-        {
-            return View();
-        }
+			ViewBag.Name = GetCustomerName();
+			return View(orders);
+		}
 
-        public ActionResult Wallet()
-        {
-            return View();
-        }
+		[CheckCustomerAuthorization]
+		public ActionResult Dashboard()
+		{
+			string email = GetCustomerEmail();
+			var customer = _context.Customers.Single(c => c.Email == email);
 
-        public ActionResult Share()
-        {
-            return View();
-        }
-    }
+			ViewBag.Name = GetCustomerName();
+			return View(customer);
+		}
+
+		[CheckCustomerAuthorization]
+		public ActionResult Wallet()
+		{
+			ViewBag.Name = GetCustomerName();
+			return View();
+		}
+
+		[CheckCustomerAuthorization]
+		public ActionResult Share()
+		{
+			ViewBag.Name = GetCustomerName();
+			return View();
+		}
+
+		private string GetCustomerEmail()
+		{
+			if (this.HttpContext != null)
+				return this.HttpContext.Session["CustomerID"].ToString();
+			else
+				return String.Empty;
+		}
+
+		private int GetCustomerId()
+		{
+			string email = GetCustomerEmail();
+			var customerId = _context.Customers.Single(c => c.Email == email).CustomerId;
+			return customerId;
+		}
+
+		private string GetCustomerName()
+		{
+			string email = GetCustomerEmail();
+			if (String.IsNullOrEmpty(email))
+				return String.Empty;
+			else
+			{
+				var customer = _context.Customers.Single(c => c.Email == email);
+				return customer.FirstName + " " + customer.LastName;
+			}
+		}
+	}
 }

@@ -20,7 +20,7 @@ namespace SmartMoveWebApp
         public int Rating { get; set; }
         public System.DateTime CreatedTime { get; set; }
     
-        public virtual Order Order { get; set; }
         public virtual TruckOwner TruckOwner { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

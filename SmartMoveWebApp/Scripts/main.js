@@ -63,6 +63,15 @@
                 }
             ]
         }); //Home Page Two Slideshow
+
+
+        //Side Menu js
+
+        $('#myMenu.nav.nav-tabs').on('click', 'li.nav-item', function () {
+
+            $('#myMenu.nav.nav-tabs li.nav-item.active').removeClass('active');
+            $(this).addClass('active');
+        });
     }); //Ready Function End
 
     jQuery(window).load(function () {
@@ -73,3 +82,12 @@
 
 
 }(jQuery));
+
+//copy to clipboard js
+function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+}

@@ -27,6 +27,7 @@ namespace SmartMoveWebApp.App_Start
 
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
+            app.UseWebApi(config);
         }
     }
 }

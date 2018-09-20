@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -191,6 +194,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -214,6 +218,7 @@
     <Compile Include="CustomerRating.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Dtos\AccountLoginDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -327,6 +332,7 @@
     <Content Include="Content\images\services\Side_Menu.png" />
     <Content Include="Content\images\services\User_Profile.png" />
     <Content Include="Content\images\share_icon.png" />
+    <Content Include="Content\images\team\default-profile-picture.png" />
     <Content Include="Content\images\team\team-mem-2.png" />
     <Content Include="Content\images\team\team-mem-thumb-2.png" />
     <Content Include="Content\plugins\animate.css" />
@@ -416,14 +422,15 @@
     <Content Include="Views\Customers\VerifyEmail.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Customers\MyTrips.cshtml" />
-    <Content Include="Views\Shared\_UsersLayout.cshtml" />
+    <Content Include="Views\Shared\_CustomersLayout.cshtml" />
     <Content Include="Views\Customers\Dashboard.cshtml" />
     <Content Include="Views\Customers\Wallet.cshtml" />
     <Content Include="Views\Customers\Share.cshtml" />
     <Content Include="Views\TruckOwners\Trips.cshtml" />
     <Content Include="Views\TruckOwners\ShareWithFriend.cshtml" />
-    <Content Include="Views\TruckOwners\Homepage.cshtml" />
+    <Content Include="Views\TruckOwners\Dashboard.cshtml" />
     <Content Include="Views\TruckOwners\Payment.cshtml" />
+    <Content Include="Views\Shared\_TruckOwnersLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - SmartMove</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -36,7 +36,7 @@
                     <div class="col-lg-6 text-right">
                         <nav class="alignright">
                             <ul>
-                                <li class="active">Pinal Vaghasiya</li>
+                                <li class="active">@ViewBag.Name</li>
                                 <li>@Html.ActionLink("Logout", "Login", "Home")</li>
                             </ul>
                         </nav>
@@ -61,31 +61,31 @@
                                     <ul class="nav nav-tabs" id="myMenu" role="tablist">
                                         <li class="nav-item" style="background-color: transparent;">
                                             <div class="profile-icon m-auto">
-                                                <img src="~/Content/images/team/team-mem-thumb-2.png" alt="Profile Picture" />
+                                                <img src="~/Content/images/team/default-profile-picture.png" alt="Profile Picture" />
                                             </div>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("MyTrips", "Customers")" class="nav-link" id="menu_item_1" data-toggle="tab" role="tab" aria-selected="true">
+                                            <a href="@Url.Action("MyTrips", "Customers")" class="nav-link" id="menu_item_1" aria-selected="true">
                                                 <h5>My Trips</h5>
                                             </a>
                                         </li>
                                         <li class="nav-item active">
-                                            <a href="@Url.Action("Dashboard", "Customers")" class="nav-link" id="menu_item_2" data-toggle="tab" role="tab" aria-selected="false">
+                                            <a href="@Url.Action("Dashboard", "Customers")" class="nav-link" id="menu_item_2" aria-selected="false">
                                                 <h5>Profile</h5>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="menu_item_3" data-toggle="tab" href="@Url.Action("Wallet", "Customers")" role="tab" aria-selected="false">
+                                            <a class="nav-link" id="menu_item_3" href="@Url.Action("Wallet", "Customers")" aria-selected="false">
                                                 <h5>Wallet</h5>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="menu_item_4" data-toggle="tab" href="#team_member_4" role="tab" aria-selected="false">
+                                            <a class="nav-link" id="menu_item_4" href="@Url.Action("Share", "Customers")" aria-selected="false">
                                                 <h5>Share With Friend</h5>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="menu_item_5" data-toggle="tab" href="@Url.Action("Login", "Home")" role="tab" aria-selected="false">
+                                            <a class="nav-link" id="menu_item_5" href="@Url.Action("Login", "Home")" aria-selected="false">
                                                 <h5>Log Out</h5>
                                             </a>
                                         </li>

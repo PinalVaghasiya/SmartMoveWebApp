@@ -19,7 +19,7 @@ namespace SmartMoveWebApp.Models
     {
     }
 
-    [MetadataType(typeof(OrderMetadata))]
+    [MetadataType(typeof(OrderDto))]
     public partial class Order
     {
     }
@@ -39,12 +39,12 @@ namespace SmartMoveWebApp.Models
     {
     }
 
-    [MetadataType(typeof(TruckMetadata))]
+    [MetadataType(typeof(TruckDto))]
     public partial class Truck
     {
     }
 
-    [MetadataType(typeof(TruckOwnerMetadata))]
+    [MetadataType(typeof(TruckOwnerDto))]
     public partial class TruckOwner
     {
     }

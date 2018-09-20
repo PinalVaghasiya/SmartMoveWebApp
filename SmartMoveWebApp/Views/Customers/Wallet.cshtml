@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "Payment";
-    Layout = "~/Views/Shared/_UsersLayout.cshtml";
+    ViewBag.Title = "My Wallet";
+    Layout = "~/Views/Shared/_CustomersLayout.cshtml";
 }
 
 
@@ -38,3 +38,11 @@
     </div>
 </div>
 <!-- Payment Content End -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myMenu.nav.nav-tabs li.nav-item.active').removeClass('active');
+            $("#menu_item_3").parent("li").addClass('active');
+        });
+    </script>
+}

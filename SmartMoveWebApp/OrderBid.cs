@@ -23,7 +23,7 @@ namespace SmartMoveWebApp
         public double BidAmount { get; set; }
         public string BidStatus { get; set; }
     
-        public virtual Order Order { get; set; }
         public virtual TruckOwner TruckOwner { get; set; }
+        public virtual Order Order { get; set; }
     }
 }
