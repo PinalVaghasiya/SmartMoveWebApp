@@ -240,9 +240,15 @@
     <Compile Include="Models\CheckCustomerAuthorization.cs" />
     <Compile Include="Models\CheckDriverAuthorization.cs" />
     <Compile Include="Models\PartialClasses.cs" />
+    <Compile Include="Models\ViewModels\EditCustomerProfileViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditDriverProfileViewModel.cs" />
+    <Compile Include="Models\ViewModels\ErrorPageViewModel.cs" />
+    <Compile Include="Models\ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\ViewModels\RegisterCustomerViewModel.cs" />
     <Compile Include="Models\ViewModels\RegisterDriverViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="Models\ViewModels\SuccessPageViewModel.cs" />
     <Compile Include="Models\ViewModels\VerifyEmailViewModel.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
@@ -299,27 +305,9 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\images\about-us.jpg" />
     <Content Include="Content\images\banners\Android-app-Banner.jpg" />
-    <Content Include="Content\images\article\arti-thumb-1.jpg" />
-    <Content Include="Content\images\article\arti-thumb-2.jpg" />
-    <Content Include="Content\images\article\arti-thumb-3.jpg" />
-    <Content Include="Content\images\article\arti-thumb-4.jpg" />
     <Content Include="Content\images\banners\banner-truck-tailgate.jpg" />
     <Content Include="Content\images\banners\contactus-banner.jpg" />
     <Content Include="Content\images\caret-cion.png" />
-    <Content Include="Content\images\car\car-1.jpg" />
-    <Content Include="Content\images\car\car-2.jpg" />
-    <Content Include="Content\images\car\car-3.jpg" />
-    <Content Include="Content\images\car\car-4.jpg" />
-    <Content Include="Content\images\car\car-5.jpg" />
-    <Content Include="Content\images\car\car-6.jpg" />
-    <Content Include="Content\images\client\client-pic-1.jpg" />
-    <Content Include="Content\images\client\client-pic-2.jpg" />
-    <Content Include="Content\images\client\client-pic-3.jpg" />
-    <Content Include="Content\images\driver\driver-1.jpg" />
-    <Content Include="Content\images\driver\driver-2.jpg" />
-    <Content Include="Content\images\driver\driver-3.jpg" />
-    <Content Include="Content\images\driver\driver-4.jpg" />
-    <Content Include="Content\images\driver\driver-5.jpg" />
     <Content Include="Content\images\driver\driver-6.jpg" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\Logo_SmartMove.PNG" />
@@ -358,6 +346,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
+    <None Include="Properties\PublishProfiles\SmartMoveWeb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -431,6 +420,12 @@
     <Content Include="Views\TruckOwners\Dashboard.cshtml" />
     <Content Include="Views\TruckOwners\Payment.cshtml" />
     <Content Include="Views\Shared\_TruckOwnersLayout.cshtml" />
+    <Content Include="Views\TruckOwners\EditProfile.cshtml" />
+    <Content Include="Views\Customers\EditProfile.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
+    <Content Include="Views\Home\ErrorPage.cshtml" />
+    <Content Include="Views\Home\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

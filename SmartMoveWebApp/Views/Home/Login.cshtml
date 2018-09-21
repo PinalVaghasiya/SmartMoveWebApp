@@ -23,10 +23,10 @@
                 <div class="display-table">
                     <div class="display-table-cell">
                         <div class="about-content">
-                            <h3>Truck Owner</h3>
+                            <h3>Driver</h3>
                             <p>Find everything you need to track your success on the road.</p>
                             <div class="about-btn">
-                                <a href="@Url.Action("Login", "TruckOwners")">Truck Owner Sign In</a>
+                                <a href="@Url.Action("Login", "TruckOwners")">Driver Sign In</a>
                             </div>
                         </div>
                     </div>
@@ -52,3 +52,12 @@
     </div>
 </section>
 <!--== Sign In Area End ==-->
+@section  Scripts
+{
+    <script>
+        $(document).ready(function(){
+            $('nav.mainmenu ul li.active').removeClass('active');
+            $("#signinLink").addClass('active');
+        });
+    </script>
+}

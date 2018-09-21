@@ -25,7 +25,6 @@
         <AssociationConnector Association="SmartMoveModel.FK_TruckOwnerCreditCards_TruckOwners" />
         <AssociationConnector Association="SmartMoveModel.FK_TruckOwnerRatings_TruckOwners" />
         <AssociationConnector Association="SmartMoveModel.FK_Trucks_TruckOwners" />
-        <EntityTypeShape EntityType="SmartMoveModel.Login" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="SmartMoveModel.Order" Width="1.5" PointX="6" PointY="7" />
         <AssociationConnector Association="SmartMoveModel.FK_CustomerRatings_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_Orders_Customers" />
@@ -34,6 +33,7 @@
         <AssociationConnector Association="SmartMoveModel.FK_OrderPayments_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_Orders_TruckTypes" />
         <AssociationConnector Association="SmartMoveModel.FK_TruckOwnerRatings_Orders" />
+        <EntityTypeShape EntityType="SmartMoveModel.Login" Width="1.5" PointX="0.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

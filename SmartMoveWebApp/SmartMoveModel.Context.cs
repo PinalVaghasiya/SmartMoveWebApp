@@ -37,7 +37,7 @@ namespace SmartMoveWebApp
         public virtual DbSet<Truck> Trucks { get; set; }
         public virtual DbSet<TruckType> TruckTypes { get; set; }
         public virtual DbSet<TruckOwner> TruckOwners { get; set; }
-        public virtual DbSet<Login> Logins { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Login> Logins { get; set; }
     }
 }

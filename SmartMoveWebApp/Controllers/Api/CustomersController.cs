@@ -8,6 +8,7 @@ using System.Web.Http;
 
 namespace SmartMoveWebApp.Controllers.Api
 {
+    [RoutePrefix("api/Customer")]
     public class CustomersController : ApiController
     {
         public SmartMoveEntities _context { get; set; }
@@ -25,9 +26,12 @@ namespace SmartMoveWebApp.Controllers.Api
         }
 
         [HttpPost]
+        [Route("CreateOrder")]
         public IHttpActionResult CreateOrder(OrderDto orderDto)
         {
-            return Ok();
+            orderDto.OrderId = 44;
+            return Ok(orderDto);
         }
+
     }
 }

@@ -1,31 +1,36 @@
-﻿@model SmartMoveWebApp.Models.ViewModels.RegisterCustomerViewModel
+﻿@model SmartMoveWebApp.Models.ViewModels.EditCustomerProfileViewModel
 @{
-    ViewBag.Title = "Customer Registration";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Edit Customer Profile";
+    Layout = "~/Views/Shared/_CustomersLayout.cshtml";
 }
 
-<!--== Login Page Content Start ==-->
-<section id="login-page-wrap" class="section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 m-auto">
-                <div class="login-page-content">
-                    <div class="login-form">
-                        <h3>Register as a Customer</h3>
-                        <h6>Note: Required fields are marked with *</h6>
-                        @using (Html.BeginForm("Register", "Customers"))
+<!--== Edit Profile Content Start ==-->
+<div class="col-lg-9">
+    <div class="tab-content" id="myTabContent">
+        <!-- Dashboard  start -->
+        <div class="tab-pane fade show active" id="team_member_1" role="tabpanel" aria-labelledby="tab_item_1">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="team-member-info">
+                        <h3 class="text-center">Edit Your Customer Profile</h3>
+                        <h6 class="text-center">Note: Required fields are marked with <span style="color:red">*</span></h6>
+                        <hr />
+                        @using (Html.BeginForm("EditProfile", "Customers"))
                         {
                             @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.CustomerId)
                             <div class="name">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            @Html.LabelFor(m => m.FirstName)<span style="color:red">*</span>
                                             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name *" })
                                             @Html.ValidationMessageFor(m => m.FirstName)
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            @Html.LabelFor(m => m.LastName)<span style="color:red">*</span>
                                             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name *" })
                                             @Html.ValidationMessageFor(m => m.LastName)
                                         </div>
@@ -35,40 +40,25 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email id *" })
-                                        @Html.ValidationMessageFor(m => m.Email)
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Phone)<span style="color:red">*</span>
                                         @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "Phone Number *" })
                                         @Html.ValidationMessageFor(m => m.Phone)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password *" })
-                                        @Html.ValidationMessageFor(m => m.Password)
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password *" })
-                                        @Html.ValidationMessageFor(m => m.ConfirmPassword)
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.Address1)<span style="color:red">*</span>
                                         @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", placeholder = "Address Line 1 *" })
                                         @Html.ValidationMessageFor(m => m.Address1)
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.Address2)
                                         @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", placeholder = "Address Line 2" })
                                         @Html.ValidationMessageFor(m => m.Address2)
                                     </div>
@@ -77,12 +67,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.ZipCode)<span style="color:red">*</span>
                                         @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip Code *" })
                                         @Html.ValidationMessageFor(m => m.ZipCode)
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.City)<span style="color:red">*</span>
                                         @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City *" })
                                         @Html.ValidationMessageFor(m => m.City)
                                     </div>
@@ -91,6 +83,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.State)<span style="color:red">*</span>
                                         @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State *" })
                                         @Html.ValidationMessageFor(m => m.State)
                                     </div>
@@ -100,25 +93,17 @@
                             </div>
                             <div class="log-btn">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-default">Sign up</button>
+                                    <button type="submit" class="btn btn-default">Save Changes</button>
                                 </div>
                             </div>
                         }
-                    </div>
-                    <div class="create-ac">
-                        <p>Have an account? <a href="@Url.Action("Login", "Customers")">Sign In</a></p>
-                    </div>
-                    <div class="login-menu">
-                        <a href="@Url.Action("About", "Home")">About</a>
-                        <span>|</span>
-                        <a href="@Url.Action("Contact", "Home")">Contact</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!--== Login Page Content End ==-->
+</div>
+<!--== Edit Profile Content End ==-->
 
 @section Scripts
 {
@@ -127,6 +112,9 @@
             $('#Phone').keyup(function () {
                 $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/, '$1-$2-$3'))
             });
+
+            $('#myMenu.nav.nav-tabs li.nav-item.active').removeClass('active');
+            $("#menu_item_2").parent("li").addClass('active');
         });
     </script>
 }

@@ -1,0 +1,17 @@
+﻿@model SmartMoveWebApp.Models.ViewModels.ErrorPageViewModel
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title - Something went wrong!</h1>
+    @if (Model != null)
+    {
+        <p>@Model.ErrorMessage</p>
+    }
+    <p>
+        @Html.ActionLink("Click here to Log in", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-lg" })
+    </p>
+</div>
+

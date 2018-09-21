@@ -56,6 +56,7 @@
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
           <Property Name="PasswordSalt" Type="varbinary" MaxLength="512" Nullable="false" />
+          <Property Name="PasswordResetToken" Type="varchar" MaxLength="50" />
           <Property Name="UserType" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="EmailActivated" Type="bit" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
@@ -508,7 +509,6 @@
             <End Role="TruckOwner" EntitySet="TruckOwners" />
             <End Role="Truck" EntitySet="Trucks" />
           </AssociationSet>
-          <EntitySet Name="Logins" EntityType="SmartMoveModel.Login" />
           <EntitySet Name="Orders" EntityType="SmartMoveModel.Order" />
           <AssociationSet Name="FK_CustomerRatings_Orders" Association="SmartMoveModel.FK_CustomerRatings_Orders">
             <End Role="Order" EntitySet="Orders" />
@@ -538,6 +538,7 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="TruckOwnerRating" EntitySet="TruckOwnerRatings" />
           </AssociationSet>
+          <EntitySet Name="Logins" EntityType="SmartMoveModel.Login" />
         </EntityContainer>
         <EntityType Name="CustomerCreditCard">
           <Key>
@@ -813,19 +814,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Login">
-          <Key>
-            <PropertyRef Name="LoginId" />
-          </Key>
-          <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordSalt" Type="Binary" Nullable="false" MaxLength="512" FixedLength="false" />
-          <Property Name="UserType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="EmailActivated" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="OrderId" />
@@ -947,6 +935,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="LoginId" />
+          </Key>
+          <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordSalt" Type="Binary" Nullable="false" MaxLength="512" FixedLength="false" />
+          <Property Name="PasswordResetToken" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EmailActivated" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1120,20 +1122,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Logins">
-            <EntityTypeMapping TypeName="SmartMoveModel.Login">
-              <MappingFragment StoreEntitySet="Logins">
-                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
-                <ScalarProperty Name="EmailActivated" ColumnName="EmailActivated" />
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="SmartMoveModel.Order">
               <MappingFragment StoreEntitySet="Orders">
@@ -1162,6 +1150,21 @@
                 <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="SmartMoveModel.Login">
+              <MappingFragment StoreEntitySet="Logins">
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="EmailActivated" ColumnName="EmailActivated" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="PasswordResetToken" ColumnName="PasswordResetToken" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

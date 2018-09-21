@@ -273,7 +273,7 @@
                                     </div>
                                     <div id="collapse15" class="collapse" aria-labelledby="heading15" data-parent="#accordion">
                                         <div class="card-body">
-                                            You can sign up to drive using <a href="@Url.Action("BecomeDriver", "Home")">this form</a>.
+                                            You can sign up to drive using <a href="@Url.Action("BecomeDriver", "TruckOwners")">this form</a>.
                                         </div>
                                     </div>
                                 </div>
@@ -466,6 +466,15 @@
             <!-- Sidebar Area End -->
 
         </div>
-        </div>
+    </div>
 
 </section>
+@section  Scripts
+{
+    <script>
+        $(document).ready(function(){
+            $('nav.mainmenu ul li.active').removeClass('active');
+            $("#helpLink").addClass('active');
+        });
+    </script>
+}

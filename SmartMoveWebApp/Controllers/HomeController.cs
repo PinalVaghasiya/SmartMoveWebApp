@@ -1,8 +1,10 @@
-﻿using SmartMoveWebApp.Models.ViewModels;
+﻿using SmartMoveWebApp.BusniessLogic;
+using SmartMoveWebApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -50,6 +52,130 @@ namespace SmartMoveWebApp.Controllers
             userInfo.ReturnURL = returnURL;
 
             return View(userInfo);
+        }
+
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            EnsureLoggedOut();
+            return View(new ForgotPasswordViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var login = _context.Logins.SingleOrDefault(l => l.Email == model.Email);
+
+                if (login == null)
+                {
+                    ModelState.AddModelError("Email", "Given email is not registered with us.");
+                }
+                else
+                {
+                    string token = login.LoginId + "hrd84rdc45kaa52165";
+                    string verificationUrl = Url.Action("ResetPassword", "Home", new { token = token }, Request.Url.Scheme);
+
+                    //verificationUrl = "http://189815f4.ngrok.io/Home/ResetPassword?token=" + token;
+
+                    string userName = "";
+                    switch (login.UserType)
+                    {
+                        case "C":
+                            var customer = _context.Customers.Single(c => c.Email == login.Email);
+                            userName = customer.FirstName + customer.LastName;
+                            break;
+                        case "D":
+                            var truckOwner = _context.TruckOwners.Single(t => t.Email == login.Email);
+                            userName = truckOwner.FirstName + truckOwner.LastName;
+                            break;
+                    }
+                    SendGridEmailService.SendForgotPasswordLink(login.Email, userName, verificationUrl);
+
+                    login.PasswordResetToken = token;
+                    _context.SaveChanges();
+
+                    TempData["ViewModel"] = new SuccessPageViewModel { Message = Constants.ForgotPasswordEmailMessage };
+                    return RedirectToAction("Success", "Home");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ResetPassword(string token)
+        {
+            EnsureLoggedOut();
+
+            var viewModel = new ResetPasswordViewModel();
+
+            if (String.IsNullOrEmpty(token) || String.IsNullOrWhiteSpace(token))
+            {
+                TempData["ViewModel"] = new ErrorPageViewModel { ErrorMessage = Constants.ResetPasswordErrorMessage };
+                return RedirectToAction("ErrorPage", "Home");
+            }
+
+            token = token.Trim();
+            string tokenId = token.Substring(0, token.Length - 18);
+
+            if (!Regex.IsMatch(tokenId, @"^\d+$"))
+            {
+                TempData["ViewModel"] = new ErrorPageViewModel { ErrorMessage = Constants.ResetPasswordErrorMessage };
+                return RedirectToAction("ErrorPage", "Home");
+            }
+
+            int loginId = Convert.ToInt32(tokenId);
+
+            var login = _context.Logins.Where(l => l.PasswordResetToken.Equals(token)).SingleOrDefault(l => l.LoginId == loginId);
+
+            if (login == null || !login.EmailActivated)
+            {
+                TempData["ViewModel"] = new ErrorPageViewModel { ErrorMessage = Constants.ResetPasswordErrorMessage };
+                return RedirectToAction("ErrorPage", "Home");
+            }
+
+            else
+                viewModel.LoginId = login.LoginId;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var login = _context.Logins.Single(l => l.LoginId == model.LoginId);
+
+                var salt = AuthenticationLogic.Get_SALT(64);
+
+                login.Password = AuthenticationLogic.Get_HASH_SHA512(model.Password, login.Email, salt);
+                login.PasswordSalt = salt;
+                login.PasswordResetToken = String.Empty;
+                login.ModifiedTime = DateTime.Now;
+
+                _context.SaveChanges();
+
+                TempData["ViewModel"] = new SuccessPageViewModel { Message = Constants.ResetPasswordSuccessMessage };
+                return RedirectToAction("Success", "Home");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ErrorPage()
+        {
+
+            return View(TempData["ViewModel"] as ErrorPageViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Success()
+        {
+            return View(TempData["ViewModel"] as SuccessPageViewModel);
         }
 
         private void EnsureLoggedOut()

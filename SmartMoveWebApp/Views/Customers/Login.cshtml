@@ -11,20 +11,20 @@
             <div class="col-lg-4 col-md-8 m-auto">
                 <div class="login-page-content">
                     <div class="login-form">
-                        <h3>Welcome Back!</h3>
+                        <h3>SmartMove - Customer Login</h3>
                         @using (Html.BeginForm("Login", "Customers"))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.ValidationSummary("", new { @class = "danger" })
-
                             <div class="username">
                                 <div class="form-group">
                                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email id" })
+                                    @Html.ValidationMessageFor(m => m.Email)
                                 </div>
                             </div>
                             <div class="username">
                                 <div class="form-group">
                                     @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                    @Html.ValidationMessageFor(m => m.Password)
                                 </div>
                             </div>
                             <div class="log-btn">
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                         }
-
+                        <a href="@Url.Action("ForgotPassword", "Home")">Forgot Password?</a></p>
                     </div>
                     <div class="create-ac">
                         <p>Don't have an account? <a href="@Url.Action("Register", "Customers")">Sign Up</a></p>

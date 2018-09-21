@@ -1,4 +1,4 @@
-﻿@model SmartMoveWebApp.Customer
+﻿@model SmartMoveWebApp.Models.ViewModels.EditCustomerProfileViewModel
 @{
     ViewBag.Title = "Customer Dashboard";
     Layout = "~/Views/Shared/_CustomersLayout.cshtml";
@@ -12,22 +12,23 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="team-member-info">
+                        <a href="@Url.Action("EditProfile", "Customers")" class="btn btn-info" style="float:right">Edit Profile</a>
                         <h4 class="text-center">Profile</h4>
                         <div class="row col-lg-12 profile-title">
                             <h4>General Information</h4>
                         </div>
                         <div class="row col-lg-12 text-left profile-title">
                             <div class="col-lg-2">
-                                <h5>Name</h5>
+                                <h5>First Name</h5>
                             </div>
                             <div class="col-lg-4">
-                                <p>@Model.FirstName @Model.LastName</p>
+                                <p>@Model.FirstName</p>
                             </div>
                             <div class="col-lg-2">
-                                <h5>Email</h5>
+                                <h5>Last Name</h5>
                             </div>
                             <div class="col-lg-4">
-                                <p>@Model.Email</p>
+                                <p>@Model.LastName</p>
                             </div>
                         </div>
                         <div class="row col-lg-12 text-left profile-title">

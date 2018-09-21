@@ -55,19 +55,19 @@ namespace SmartMoveWebApp.Controllers
                 var truckOwner = _context.TruckOwners.SingleOrDefault(t => t.Email == model.Email);
                 if (truckOwner == null)
                 {
-                    ModelState.AddModelError("", "Given Email is not registered with us.");
+                    ModelState.AddModelError("Email", "Given Email is not registered with us.");
                     return View(model);
                 }
 
                 var login = _context.Logins.SingleOrDefault(l => l.Email == truckOwner.Email);
                 if (login == null)
                 {
-                    ModelState.AddModelError("", "Given Email is not registered with us.");
+                    ModelState.AddModelError("Email", "Given Email is not registered with us.");
                     return View(model);
                 }
                 else if (!login.EmailActivated)
                 {
-                    ModelState.AddModelError("", "Email is not verified, please verify from the email sent.");
+                    ModelState.AddModelError("Email", "Email is not verified, please verify from the email sent.");
                     return View(model);
                 }
 
@@ -78,7 +78,7 @@ namespace SmartMoveWebApp.Controllers
 
                 if (!isValidLogin)
                 {
-                    ModelState.AddModelError("", "Given password is incorrect.");
+                    ModelState.AddModelError("Password", "Given password is incorrect.");
                     return View(model);
                 }
 
@@ -135,20 +135,45 @@ namespace SmartMoveWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var checkEmailUniqueness = _context.Logins.SingleOrDefault(l => l.Email == model.Email);
-                var checkPhoneUnqiueness = _context.TruckOwners.SingleOrDefault(t => t.Phone == model.Phone);
-                var checkTruckUniqueness = _context.Trucks.SingleOrDefault(t => t.LicensePlate == model.LicensePlate);
+                //Unqieness validations
+                var checkEmailUniqueness = _context.Logins
+                    .SingleOrDefault(l => l.Email == model.Email);
 
                 if (checkEmailUniqueness != null)
-                    ModelState.AddModelError("", "Email id is already registered.");
+                    ModelState.AddModelError("Email", "Email id is already registered.");
+
+                var checkPhoneUnqiueness = _context.TruckOwners
+                    .SingleOrDefault(t => t.Phone == model.Phone);
 
                 if (checkPhoneUnqiueness != null)
-                    ModelState.AddModelError("", "Phone number is already registered.");
+                    ModelState.AddModelError("Phone", "Phone number is already registered.");
+
+                var checkTruckUniqueness = _context.Trucks
+                    .SingleOrDefault(t => t.LicensePlate == model.LicensePlate);
 
                 if (checkTruckUniqueness != null)
-                    ModelState.AddModelError("", "Truck License Number is already registered.");
+                    ModelState.AddModelError("LicensePlate", "Truck License Number is already registered.");
 
-                if (checkEmailUniqueness == null && checkPhoneUnqiueness == null && checkTruckUniqueness == null)
+                var checkDLNumberUniqueness = _context.TruckOwners
+                    .SingleOrDefault(t => t.DriverLicenseNumber == model.DriverLicenseNumber);
+
+                if (checkDLNumberUniqueness != null)
+                    ModelState.AddModelError("DriverLicenseNumber", "Driver License Number is already registered.");
+
+                var checkVRumberUniqueness = _context.TruckOwners
+                    .SingleOrDefault(t => t.VehicleRegNumber == model.VehicleRegNumber);
+
+                if (checkVRumberUniqueness != null)
+                    ModelState.AddModelError("VehicleRegNumber", "Vehicle Reg Number is already registered.");
+
+                var checkDIPNumberUniqueness = _context.TruckOwners
+                    .SingleOrDefault(t => t.DriverInsurancePolicy == model.DriverInsurancePolicy);
+
+                if (checkDIPNumberUniqueness != null)
+                    ModelState.AddModelError("DriverInsurancePolicy", "Driver Insurance Policy is already registered.");
+                //Unqieness validations
+
+                if (checkEmailUniqueness == null && checkPhoneUnqiueness == null && checkTruckUniqueness == null && checkDLNumberUniqueness == null && checkVRumberUniqueness == null && checkDIPNumberUniqueness == null)
                 {
                     var salt = AuthenticationLogic.Get_SALT(64);
 
@@ -202,13 +227,16 @@ namespace SmartMoveWebApp.Controllers
                     string token = truckOwner.TruckOwnerId + "c45kaa52165hrd84rd";
                     string verificationUrl = Url.Action("VerifyEmail", "TruckOwners", new { token = token }, Request.Url.Scheme);
 
+                    //verificationUrl = "http://189815f4.ngrok.io/TruckOwners/VerifyEmail?token=" + token;
+
                     SendGridEmailService.SendEmailActivationLink("Driver", truckOwner.Email, truckOwner.FirstName, verificationUrl);
 
-                    return RedirectToAction("Index", "Home");
+                    TempData["ViewModel"] = new SuccessPageViewModel { Message = Constants.RegisterSuccessMessage };
+                    return RedirectToAction("Success", "Home");
                 }
             }
             model.TruckTypesList = GetTruckTypes();
-            return View("../Home/BecomeDriver", model);
+            return View("../TruckOwners/BecomeDriver", model);
         }
 
         [AllowAnonymous]
@@ -249,24 +277,11 @@ namespace SmartMoveWebApp.Controllers
             return View(viewModel);
         }
 
-        private void EnsureLoggedOut()
-        {
-            // If the request is (still) marked as authenticated we send the user to the logout action  
-            if (Request.IsAuthenticated)
-                Logout();
-        }
-
-        public IEnumerable<TruckType> GetTruckTypes()
-        {
-            return _context.TruckTypes.ToList();
-        }
-
         [HttpGet]
         public ActionResult BecomeDriver()
         {
-            var truckTypes = _context.TruckTypes.ToList();
             var driverRegisterModel = new RegisterDriverViewModel();
-            driverRegisterModel.TruckTypesList = truckTypes;
+            driverRegisterModel.TruckTypesList = GetTruckTypes();
             driverRegisterModel.TruckYear = null;
             return View(driverRegisterModel);
         }
@@ -292,10 +307,35 @@ namespace SmartMoveWebApp.Controllers
         public ActionResult Dashboard()
         {
             string email = GetTruckOwnerEmail();
-            var truckOwner = _context.TruckOwners.Single(t => t.Email == email);
+            var truckOwnerInDb = _context.TruckOwners.Single(t => t.Email == email);
+            var truckInDb = _context.Trucks.Single(t => t.TruckOwnerId == truckOwnerInDb.TruckOwnerId);
+
+            var editDriverProfileViewModel = new EditDriverProfileViewModel
+            {
+                TruckOwnerId = truckOwnerInDb.TruckOwnerId,
+                FirstName = truckOwnerInDb.FirstName,
+                LastName = truckOwnerInDb.LastName,
+                Phone = truckOwnerInDb.Phone,
+                Address1 = truckOwnerInDb.Address1,
+                Address2 = truckOwnerInDb.Address2,
+                ZipCode = truckOwnerInDb.ZipCode,
+                City = truckOwnerInDb.City,
+                State = truckOwnerInDb.State,
+                DriverLicenseNumber = truckOwnerInDb.DriverLicenseNumber,
+                VehicleRegNumber = truckOwnerInDb.VehicleRegNumber,
+                DriverInsurancePolicy = truckOwnerInDb.DriverInsurancePolicy,
+                TruckTypeId = truckInDb.TruckTypeId,
+                TruckTypesList = GetTruckTypes(),
+                TruckMake = truckInDb.TruckMake,
+                TruckModel = truckInDb.TruckModel,
+                TruckYear = Convert.ToInt32(truckInDb.TruckYear),
+                LicensePlate = truckInDb.LicensePlate,
+                TruckColor = truckInDb.TruckColor
+            };
 
             ViewBag.Name = GetTruckOwnerName();
-            return View(truckOwner);
+            ViewBag.TruckType = GetTruckTypeName(truckOwnerInDb.TruckOwnerId);
+            return View(editDriverProfileViewModel);
         }
 
         [CheckDriverAuthorization]
@@ -304,6 +344,136 @@ namespace SmartMoveWebApp.Controllers
             ViewBag.Name = GetTruckOwnerName();
             return View();
         }
+
+        [HttpGet]
+        [CheckDriverAuthorization]
+        public ActionResult EditProfile()
+        {
+            int truckOwnerId = GetTruckOwnerId();
+
+            var truckOwnerInDb = _context.TruckOwners.Single(t => t.TruckOwnerId == truckOwnerId);
+            var truckInDb = _context.Trucks.Single(t => t.TruckOwnerId == truckOwnerId);
+
+            var editDriverProfileViewModel = new EditDriverProfileViewModel
+            {
+                TruckOwnerId = truckOwnerInDb.TruckOwnerId,
+                FirstName = truckOwnerInDb.FirstName,
+                LastName = truckOwnerInDb.LastName,
+                Phone = truckOwnerInDb.Phone,
+                Address1 = truckOwnerInDb.Address1,
+                Address2 = truckOwnerInDb.Address2,
+                ZipCode = truckOwnerInDb.ZipCode,
+                City = truckOwnerInDb.City,
+                State = truckOwnerInDb.State,
+                DriverLicenseNumber = truckOwnerInDb.DriverLicenseNumber,
+                VehicleRegNumber = truckOwnerInDb.VehicleRegNumber,
+                DriverInsurancePolicy = truckOwnerInDb.DriverInsurancePolicy,
+                TruckTypeId = truckInDb.TruckTypeId,
+                TruckTypesList = GetTruckTypes(),
+                TruckMake = truckInDb.TruckMake,
+                TruckModel = truckInDb.TruckModel,
+                TruckYear = Convert.ToInt32(truckInDb.TruckYear),
+                LicensePlate = truckInDb.LicensePlate,
+                TruckColor = truckInDb.TruckColor
+            };
+
+            ViewBag.Name = GetTruckOwnerName();
+            return View(editDriverProfileViewModel);
+        }
+
+        [HttpPost]
+        [CheckDriverAuthorization]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile(EditDriverProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Unqieness validations
+                var checkPhoneUnqiueness = _context.TruckOwners
+                    .Where(t => t.TruckOwnerId != model.TruckOwnerId)
+                    .SingleOrDefault(t => t.Phone == model.Phone);
+
+                if (checkPhoneUnqiueness != null)
+                    ModelState.AddModelError("Phone", "Phone number is already registered.");
+
+                var checkTruckUniqueness = _context.Trucks
+                    .Where(t => t.TruckOwnerId != model.TruckOwnerId)
+                    .SingleOrDefault(t => t.LicensePlate == model.LicensePlate);
+
+                if (checkTruckUniqueness != null)
+                    ModelState.AddModelError("LicensePlate", "Truck License Number is already registered.");
+
+                var checkDLNumberUniqueness = _context.TruckOwners
+                    .Where(t => t.TruckOwnerId != model.TruckOwnerId)
+                    .SingleOrDefault(t => t.DriverLicenseNumber == model.DriverLicenseNumber);
+
+                if (checkDLNumberUniqueness != null)
+                    ModelState.AddModelError("DriverLicenseNumber", "Driver License Number is already registered.");
+
+                var checkVRumberUniqueness = _context.TruckOwners
+                    .Where(t => t.TruckOwnerId != model.TruckOwnerId)
+                    .SingleOrDefault(t => t.VehicleRegNumber == model.VehicleRegNumber);
+
+                if (checkVRumberUniqueness != null)
+                    ModelState.AddModelError("VehicleRegNumber", "Vehicle Reg Number is already registered.");
+
+                var checkDIPNumberUniqueness = _context.TruckOwners
+                    .Where(t => t.TruckOwnerId != model.TruckOwnerId)
+                    .SingleOrDefault(t => t.DriverInsurancePolicy == model.DriverInsurancePolicy);
+
+                if (checkDIPNumberUniqueness != null)
+                    ModelState.AddModelError("DriverInsurancePolicy", "Driver Insurance Policy is already registered.");
+                //Unqieness validations
+
+                if (checkPhoneUnqiueness == null && checkTruckUniqueness == null && checkDLNumberUniqueness == null && checkVRumberUniqueness == null && checkDIPNumberUniqueness == null)
+                {
+                    var truckOwnerInDb = _context.TruckOwners.Single(t => t.TruckOwnerId == model.TruckOwnerId);
+
+                    truckOwnerInDb.FirstName = model.FirstName.Trim();
+                    truckOwnerInDb.LastName = model.LastName.Trim();
+                    truckOwnerInDb.Phone = model.Phone.Trim();
+                    truckOwnerInDb.Address1 = model.Address1.Trim();
+                    truckOwnerInDb.Address2 = model.Address2.Trim();
+                    truckOwnerInDb.ZipCode = model.ZipCode.Trim();
+                    truckOwnerInDb.City = model.City.Trim();
+                    truckOwnerInDb.State = model.State.Trim();
+                    truckOwnerInDb.DriverLicenseNumber = model.DriverLicenseNumber.Trim();
+                    truckOwnerInDb.VehicleRegNumber = model.VehicleRegNumber.Trim();
+                    truckOwnerInDb.DriverInsurancePolicy = model.DriverInsurancePolicy.Trim();
+                    truckOwnerInDb.ModifiedTime = DateTime.Now;
+
+                    var truckInDb = _context.Trucks.Single(t => t.TruckOwnerId == model.TruckOwnerId);
+
+                    truckInDb.TruckTypeId = model.TruckTypeId;
+                    truckInDb.TruckMake = model.TruckMake.Trim();
+                    truckInDb.TruckModel = model.TruckModel.Trim();
+                    truckInDb.TruckYear = model.TruckYear.ToString();
+                    truckInDb.LicensePlate = model.LicensePlate.Trim();
+                    truckInDb.TruckColor = model.TruckColor.Trim();
+                    truckInDb.ModifiedTime = DateTime.Now;
+
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Dashboard", "TruckOwners");
+                }
+            }
+            model.TruckTypesList = GetTruckTypes();
+            ViewBag.Name = GetTruckOwnerName();
+            return View("../TruckOwners/EditProfile", model);
+        }
+
+        private void EnsureLoggedOut()
+        {
+            // If the request is (still) marked as authenticated we send the user to the logout action  
+            if (Request.IsAuthenticated)
+                Logout();
+        }
+
+        public IEnumerable<TruckType> GetTruckTypes()
+        {
+            return _context.TruckTypes.ToList();
+        }
+
         private string GetTruckOwnerEmail()
         {
             return this.HttpContext.Session["DriverID"].ToString();
@@ -321,6 +491,15 @@ namespace SmartMoveWebApp.Controllers
             string email = GetTruckOwnerEmail();
             var truckOwner = _context.TruckOwners.Single(t => t.Email == email);
             return truckOwner.FirstName + " " + truckOwner.LastName;
+        }
+
+        private string GetTruckTypeName(int truckOwnerId)
+        {
+            var truckInDb = _context.Trucks.Single(t => t.TruckOwnerId == truckOwnerId);
+
+            return _context.TruckTypes
+                .Single(t => t.TruckTypeId == truckInDb.TruckTypeId)
+                .Type;
         }
     }
 }

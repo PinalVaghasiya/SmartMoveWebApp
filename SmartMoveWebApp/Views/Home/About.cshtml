@@ -74,3 +74,12 @@
     </div>
 </section>
 <!--== About Page Content End ==-->
+@section  Scripts
+{
+    <script>
+        $(document).ready(function(){
+            $('nav.mainmenu ul li.active').removeClass('active');
+            $("#aboutLink").addClass('active');
+        });
+    </script>
+}

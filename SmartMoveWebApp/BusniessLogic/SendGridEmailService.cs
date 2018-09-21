@@ -23,5 +23,19 @@ namespace SmartMoveWebApp.BusniessLogic
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = client.SendEmailAsync(msg);
         }
+
+        public static void SendForgotPasswordLink(string userEmail, string userName, string verificationUrl)
+        {
+            var client = new SendGridClient(Constants.SendGridApiKey);
+            var from = new EmailAddress("noreply@smartmove.com", "SmartMove");
+            var subject = "SmartMove - Password Reset URL. Please reset your password by clicking on the link below.";
+            var to = new EmailAddress(userEmail, userName);
+
+            var plainTextContent = "Please click on below link or paste the following URL: " + verificationUrl + "in your browser.";
+            var htmlContent = "<a href='" + verificationUrl + "'>Reset Password</a>";
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg);
+        }
     }
 }

@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SmartMoveWebApp.Models.ViewModels
 {
-    public class RegisterDriverViewModel
+    public class EditDriverProfileViewModel
     {
         public IEnumerable<TruckType> TruckTypesList;
 
+        [Required]
         public int TruckOwnerId { get; set; }
 
         [Required]
@@ -22,22 +25,6 @@ namespace SmartMoveWebApp.Models.ViewModels
         public string LastName { get; set; }
 
         [Required]
-        [StringLength(50)]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 8)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password )]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The Password and Confirm Password values do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        [Required]
         [StringLength(12)]
         [RegularExpression("\\d{3}-\\d{3}-\\d{4}", ErrorMessage = "Phone Number should be of 10 digits only")]
         [DataType(DataType.PhoneNumber)]
@@ -47,6 +34,7 @@ namespace SmartMoveWebApp.Models.ViewModels
         [Display(Name = "Address Line 1")]
         public string Address1 { get; set; }
 
+        [Display(Name = "Address Line 2")]
         public string Address2 { get; set; }
 
         [Required]
@@ -87,7 +75,7 @@ namespace SmartMoveWebApp.Models.ViewModels
                 return Enumerable.Repeat(new SelectListItem
                 {
                     Value = "",
-                    Text = "Select a Truck Type *"
+                    Text = "Select a Truck Type"
                 }, count: 1);
             }
         }
@@ -114,6 +102,7 @@ namespace SmartMoveWebApp.Models.ViewModels
 
         [Required]
         [Range(1980, 2018, ErrorMessage = "Please enter a year between 1980 and 2018.")]
+        [Display(Name = "Truck Year")]
         public int? TruckYear { get; set; }
 
         [Required]
