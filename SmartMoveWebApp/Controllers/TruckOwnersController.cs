@@ -197,7 +197,7 @@ namespace SmartMoveWebApp.Controllers
                         Email = model.Email.Trim(),
                         CurrentStatusActive = false,
                         Address1 = model.Address1.Trim(),
-                        Address2 = model.Address2.Trim(),
+                        Address2 = model.Address2,
                         ZipCode = model.ZipCode.Trim(),
                         City = model.City.Trim(),
                         State = model.State.Trim(),
@@ -433,7 +433,7 @@ namespace SmartMoveWebApp.Controllers
                     truckOwnerInDb.LastName = model.LastName.Trim();
                     truckOwnerInDb.Phone = model.Phone.Trim();
                     truckOwnerInDb.Address1 = model.Address1.Trim();
-                    truckOwnerInDb.Address2 = model.Address2.Trim();
+                    truckOwnerInDb.Address2 = model.Address2;
                     truckOwnerInDb.ZipCode = model.ZipCode.Trim();
                     truckOwnerInDb.City = model.City.Trim();
                     truckOwnerInDb.State = model.State.Trim();

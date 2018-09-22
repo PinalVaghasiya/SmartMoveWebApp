@@ -171,7 +171,7 @@ namespace SmartMoveWebApp.Controllers
                         Phone = model.Phone.Trim(),
                         Email = model.Email.Trim(),
                         Address1 = model.Address1.Trim(),
-                        Address2 = model.Address2.Trim(),
+                        Address2 = model.Address2,
                         ZipCode = model.ZipCode.Trim(),
                         City = model.City.Trim(),
                         State = model.State.Trim(),
@@ -314,7 +314,7 @@ namespace SmartMoveWebApp.Controllers
                     customerInDb.LastName = model.LastName.Trim();
                     customerInDb.Phone = model.Phone.Trim();
                     customerInDb.Address1 = model.Address1.Trim();
-                    customerInDb.Address2 = model.Address2.Trim();
+                    customerInDb.Address2 = model.Address2;
                     customerInDb.ZipCode = model.ZipCode.Trim();
                     customerInDb.City = model.City.Trim();
                     customerInDb.State = model.State.Trim();
