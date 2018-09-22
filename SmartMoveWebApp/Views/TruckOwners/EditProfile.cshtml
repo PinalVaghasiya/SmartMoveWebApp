@@ -14,11 +14,22 @@
                     <div class="team-member-info">
                         <h3 class="text-center">Edit Your Driver Profile</h3>
                         <h6 class="text-center">Note: Required fields are marked with <span style="color:red">*</span></h6>
-                        <hr />
-                        @using (Html.BeginForm("EditProfile", "TruckOwners"))
+                        @using (Html.BeginForm("EditProfile", "TruckOwners", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.TruckOwnerId)
+
+                            <div class="row col-lg-12 profile-title">
+                                <h6>Update Profile Picture</h6>
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(m => m.ProfilePictureURL)
+                                @Html.TextBoxFor(m => m.ProfilePictureURL, new { @class = "form-control", type = "file" })
+                                @Html.ValidationMessageFor(m => m.ProfilePictureURL)
+                            </div>
+                            <div class="row col-lg-12 profile-title">
+                                <h6>General Information</h6>
+                            </div>
                             <div class="name">
                                 <div class="row">
                                     <div class="col-md-6">

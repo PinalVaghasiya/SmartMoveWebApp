@@ -3,9 +3,11 @@ using SmartMoveWebApp.Models;
 using SmartMoveWebApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -238,6 +240,7 @@ namespace SmartMoveWebApp.Controllers
             IEnumerable<Order> orders = _context.Orders.Where(o => o.CustomerId == customerId).ToList();
 
             ViewBag.Name = GetCustomerName();
+            ViewBag.ProfilePictureURL = GetProfilePictureURL();
             return View(orders);
         }
 
@@ -260,7 +263,8 @@ namespace SmartMoveWebApp.Controllers
                 State = customerInDb.State
             };
 
-            ViewBag.Name = GetCustomerName();
+            ViewBag.Name = customerInDb.FirstName + " " + customerInDb.LastName;
+            ViewBag.ProfilePictureURL = customerInDb.ProfilePictureURL;
             return View(editCustomerProfileViewModel);
         }
 
@@ -285,7 +289,8 @@ namespace SmartMoveWebApp.Controllers
                 State = customerInDb.State
             };
 
-            ViewBag.Name = GetCustomerName();
+            ViewBag.Name = customerInDb.FirstName + " " + customerInDb.LastName;
+            ViewBag.ProfilePictureURL = customerInDb.ProfilePictureURL;
             return View(editCustomerProfileViewModel);
         }
 
@@ -306,9 +311,33 @@ namespace SmartMoveWebApp.Controllers
                     ModelState.AddModelError("Phone", "Phone number is already registered.");
                 //Unqieness validations
 
-                if (checkPhoneUnqiueness == null)
+                HttpPostedFileBase file = null;
+                bool isValidFile = false;
+                string continueToUpload = null;
+                if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
+                {
+                    file = Request.Files[0];
+                    if (!(file.ContentLength > 0 && IsImage(file)))
+                    {
+                        ModelState.AddModelError("ProfilePictureURL", "Please upload an image of .jpg | .jpeg | .png types only.");
+                        file = null;
+                        continueToUpload = "NO";
+                    }
+                    isValidFile = true;
+                }
+
+                if (checkPhoneUnqiueness == null && continueToUpload == null)
                 {
                     var customerInDb = _context.Customers.Single(c => c.CustomerId == model.CustomerId);
+
+                    if(isValidFile)
+                    {
+                        var fileName = customerInDb.CustomerId + "_" + customerInDb.Email + "_PP" + Path.GetExtension(file.FileName);
+                        model.ProfilePictureURL = Path.Combine(
+                            Server.MapPath("~/Content/customerProfilePictures"), fileName);
+                        file.SaveAs(model.ProfilePictureURL);
+                        model.ProfilePictureURL = "/Content/customerProfilePictures/" + fileName;
+                    }
 
                     customerInDb.FirstName = model.FirstName.Trim();
                     customerInDb.LastName = model.LastName.Trim();
@@ -318,6 +347,8 @@ namespace SmartMoveWebApp.Controllers
                     customerInDb.ZipCode = model.ZipCode.Trim();
                     customerInDb.City = model.City.Trim();
                     customerInDb.State = model.State.Trim();
+                    if(isValidFile)
+                    customerInDb.ProfilePictureURL = model.ProfilePictureURL;
                     customerInDb.ModifiedTime = DateTime.Now;
 
                     _context.SaveChanges();
@@ -326,6 +357,7 @@ namespace SmartMoveWebApp.Controllers
                 }
             }
             ViewBag.Name = GetCustomerName();
+            ViewBag.ProfilePictureURL = GetProfilePictureURL();
             return View("../Customers/EditProfile", model);
         }
 
@@ -340,6 +372,7 @@ namespace SmartMoveWebApp.Controllers
         public ActionResult Share()
         {
             ViewBag.Name = GetCustomerName();
+            ViewBag.ProfilePictureURL = GetProfilePictureURL();
             return View();
         }
 
@@ -358,6 +391,18 @@ namespace SmartMoveWebApp.Controllers
             return customerId;
         }
 
+        private bool IsImage(HttpPostedFileBase file)
+        {
+            if (file.ContentType.Contains("image"))
+            {
+                return true;
+            }
+
+            string[] formats = new string[] { ".jpg", ".png", ".jpeg" };
+
+            return formats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
+        }
+
         private string GetCustomerName()
         {
             string email = GetCustomerEmail();
@@ -368,6 +413,12 @@ namespace SmartMoveWebApp.Controllers
                 var customer = _context.Customers.Single(c => c.Email == email);
                 return customer.FirstName + " " + customer.LastName;
             }
+        }
+        private string GetProfilePictureURL()
+        {
+            string email = GetCustomerEmail();
+            var customer = _context.Customers.Single(c => c.Email == email);
+            return customer.ProfilePictureURL;
         }
     }
 }

@@ -119,5 +119,8 @@ namespace SmartMoveWebApp.Models.ViewModels
         [StringLength(50)]
         [Display(Name = "Driver Insurnace Policy Number")]
         public string DriverInsurancePolicy { get; set; }
+
+        [Display(Name = "Select Profile Picture")]
+        public string ProfilePictureURL { get; set; }
     }
 }

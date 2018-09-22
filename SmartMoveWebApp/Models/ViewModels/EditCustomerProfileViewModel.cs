@@ -47,5 +47,8 @@ namespace SmartMoveWebApp.Models.ViewModels
         [Required]
         [StringLength(50)]
         public string State { get; set; }
+
+        [Display(Name = "Select Profile Picture")]
+        public string ProfilePictureURL { get; set; }
     }
 }

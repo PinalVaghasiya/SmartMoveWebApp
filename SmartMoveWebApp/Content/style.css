@@ -2431,3 +2431,10 @@ body,
     margin: 40px auto;
     height: 250px;
 }
+
+.team-member-info h6 {
+    color: #11939A;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}

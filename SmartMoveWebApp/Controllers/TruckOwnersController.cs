@@ -10,6 +10,7 @@ using System.Web.Security;
 using SmartMoveWebApp.Dtos;
 using SmartMoveWebApp.Models;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace SmartMoveWebApp.Controllers
 {
@@ -293,6 +294,7 @@ namespace SmartMoveWebApp.Controllers
             IEnumerable<OrderBid> orderBids = _context.OrderBids.Where(o => o.TruckOwnerId == truckOwnerId).ToList();
 
             ViewBag.Name = GetTruckOwnerName();
+            ViewBag.ProfilePictureURL = GetProfilePictureURL();
             return View(orderBids);
         }
 
@@ -300,6 +302,7 @@ namespace SmartMoveWebApp.Controllers
         public ActionResult ShareWithFriend()
         {
             ViewBag.Name = GetTruckOwnerName();
+            ViewBag.ProfilePictureURL = GetProfilePictureURL();
             return View();
         }
 
@@ -333,8 +336,9 @@ namespace SmartMoveWebApp.Controllers
                 TruckColor = truckInDb.TruckColor
             };
 
-            ViewBag.Name = GetTruckOwnerName();
+            ViewBag.Name = truckOwnerInDb.FirstName + " " + truckOwnerInDb.LastName;
             ViewBag.TruckType = GetTruckTypeName(truckOwnerInDb.TruckOwnerId);
+            ViewBag.ProfilePictureURL = truckOwnerInDb.ProfilePictureURL;
             return View(editDriverProfileViewModel);
         }
 
@@ -377,7 +381,8 @@ namespace SmartMoveWebApp.Controllers
                 TruckColor = truckInDb.TruckColor
             };
 
-            ViewBag.Name = GetTruckOwnerName();
+            ViewBag.Name = truckOwnerInDb.FirstName +  " " + truckOwnerInDb.LastName;
+            ViewBag.ProfilePictureURL = truckOwnerInDb.ProfilePictureURL;
             return View(editDriverProfileViewModel);
         }
 
@@ -425,9 +430,33 @@ namespace SmartMoveWebApp.Controllers
                     ModelState.AddModelError("DriverInsurancePolicy", "Driver Insurance Policy is already registered.");
                 //Unqieness validations
 
-                if (checkPhoneUnqiueness == null && checkTruckUniqueness == null && checkDLNumberUniqueness == null && checkVRumberUniqueness == null && checkDIPNumberUniqueness == null)
+                HttpPostedFileBase file = null;
+                bool isValidFile = false;
+                string continueToUpload = null;
+                if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
+                {
+                    file = Request.Files[0];
+                    if (!(file.ContentLength > 0 && IsImage(file)))
+                    {
+                        ModelState.AddModelError("ProfilePictureURL", "Please upload an image of .jpg | .jpeg | .png types only.");
+                        file = null;
+                        continueToUpload = "NO";
+                    }
+                    isValidFile = true;
+                }
+
+                if (checkPhoneUnqiueness == null && checkTruckUniqueness == null && checkDLNumberUniqueness == null && checkVRumberUniqueness == null && checkDIPNumberUniqueness == null && continueToUpload == null)
                 {
                     var truckOwnerInDb = _context.TruckOwners.Single(t => t.TruckOwnerId == model.TruckOwnerId);
+
+                    if(isValidFile)
+                    {
+                        var fileName = truckOwnerInDb.TruckOwnerId + "_" + truckOwnerInDb.Email + "_PP" + Path.GetExtension(file.FileName);
+                        model.ProfilePictureURL = Path.Combine(
+                            Server.MapPath("~/Content/driverProfilePictures"), fileName);
+                        file.SaveAs(model.ProfilePictureURL);
+                        model.ProfilePictureURL = "/Content/driverProfilePictures/" + fileName;
+                    }
 
                     truckOwnerInDb.FirstName = model.FirstName.Trim();
                     truckOwnerInDb.LastName = model.LastName.Trim();
@@ -440,6 +469,8 @@ namespace SmartMoveWebApp.Controllers
                     truckOwnerInDb.DriverLicenseNumber = model.DriverLicenseNumber.Trim();
                     truckOwnerInDb.VehicleRegNumber = model.VehicleRegNumber.Trim();
                     truckOwnerInDb.DriverInsurancePolicy = model.DriverInsurancePolicy.Trim();
+                    if (isValidFile)
+                        truckOwnerInDb.ProfilePictureURL = model.ProfilePictureURL;
                     truckOwnerInDb.ModifiedTime = DateTime.Now;
 
                     var truckInDb = _context.Trucks.Single(t => t.TruckOwnerId == model.TruckOwnerId);
@@ -459,6 +490,7 @@ namespace SmartMoveWebApp.Controllers
             }
             model.TruckTypesList = GetTruckTypes();
             ViewBag.Name = GetTruckOwnerName();
+            ViewBag.ProfilePicturURL = GetProfilePictureURL();
             return View("../TruckOwners/EditProfile", model);
         }
 
@@ -500,6 +532,25 @@ namespace SmartMoveWebApp.Controllers
             return _context.TruckTypes
                 .Single(t => t.TruckTypeId == truckInDb.TruckTypeId)
                 .Type;
+        }
+
+        private bool IsImage(HttpPostedFileBase file)
+        {
+            if (file.ContentType.Contains("image"))
+            {
+                return true;
+            }
+
+            string[] formats = new string[] { ".jpg", ".png", ".jpeg" };
+
+            return formats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private string GetProfilePictureURL()
+        {
+            string email = GetTruckOwnerEmail();
+            var truckOwner = _context.TruckOwners.Single(t => t.Email == email);
+            return truckOwner.ProfilePictureURL;
         }
     }
 }
