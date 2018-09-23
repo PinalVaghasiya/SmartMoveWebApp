@@ -16,8 +16,11 @@ namespace SmartMoveWebApp.Dtos
         [Required]
         public int TruckTypeId { get; set; }
 
-        [Required]
         public System.DateTime OrderDateTime { get; set; }
+
+        public long date { get; set; }
+
+        public long time { get; set; }
 
         [Required]
         public string PickupPlace { get; set; }
@@ -65,8 +68,9 @@ namespace SmartMoveWebApp.Dtos
         [StringLength(50)]
         public string DropDistanceFromParking { get; set; }
 
-
         public string DropAdditionalInfo { get; set; }
+
+        public int? EstimatedNumOfTrips { get; set; }
 
         [StringLength(50)]
         public string EstimatedWeight { get; set; }

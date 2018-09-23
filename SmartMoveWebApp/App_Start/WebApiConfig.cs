@@ -15,6 +15,10 @@ namespace SmartMoveWebApp
 
             config.MapHttpAttributeRoutes();
 
+            config.Formatters.JsonFormatter
+            .SerializerSettings
+            .ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

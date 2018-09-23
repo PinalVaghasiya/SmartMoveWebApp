@@ -11,10 +11,11 @@ namespace SmartMoveWebApp.BusniessLogic
 
         public enum OrderStatus
         {
-            Pending,
-            Confirmed,
-            Completed
-
+            PENDING,
+            CONFIRMED,
+            DELIVERING,
+            COMPLETED,
+            CANCELLED
         }
 
         public static string RegisterSuccessMessage = "SmartMove Registration successful. A verification link has been sent to your email. Please click on that link to get access to your account. Or continue to Login.";

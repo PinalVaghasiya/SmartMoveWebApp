@@ -8,6 +8,8 @@ namespace SmartMoveWebApp.Dtos
 {
     public class OrderBidDto
     {
+        public int BidId { get; set; }
+
         [Required]
         public int OrderId { get; set; }
 

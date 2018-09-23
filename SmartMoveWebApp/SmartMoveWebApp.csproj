@@ -219,6 +219,7 @@
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Dtos\AccountLoginDto.cs" />
+    <Compile Include="Dtos\GetOrderListDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

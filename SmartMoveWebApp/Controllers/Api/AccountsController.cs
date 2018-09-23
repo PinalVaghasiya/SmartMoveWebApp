@@ -31,7 +31,7 @@ namespace SmartMoveWebApp.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            switch(model.AccountType)
+            switch (model.AccountType)
             {
                 case "C":
                     var customer = _context.Customers.SingleOrDefault(c => c.Email == model.Email);
@@ -64,12 +64,7 @@ namespace SmartMoveWebApp.Controllers.Api
                     }
                     else
                     {
-                        var customerDto = new CustomerDto
-                        {
-                            FirstName = customer.FirstName,
-                            LastName = customer.LastName,
-                        };
-                        return Ok(customerDto);
+                        return Ok(Mapper.Map<Customer, CustomerDto>(customer));
                     }
                 case "D":
                     var truckOwner = _context.TruckOwners.SingleOrDefault(t => t.Email == model.Email);
@@ -103,13 +98,7 @@ namespace SmartMoveWebApp.Controllers.Api
                     }
                     else
                     {
-                        var truckOwnerDto = new TruckOwnerDto
-                        {
-                            FirstName = truckOwner.FirstName,
-                            LastName = truckOwner.LastName,
-                            Trucks = truckOwner.Trucks
-                        };
-                        return Ok(truckOwnerDto);
+                        return Ok(Mapper.Map<TruckOwner, TruckOwnerDto>(truckOwner));
                     }
                 default:
                     ModelState.AddModelError("", "Invalid Account type");

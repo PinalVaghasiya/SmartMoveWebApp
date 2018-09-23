@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SmartMoveWebApp.Dtos
 {
-    public class TruckOwnerRatingMetadata
+    public class TruckOwnerRatingDto
     {
         [Required]
         public int TruckOwnerId { get; set; }

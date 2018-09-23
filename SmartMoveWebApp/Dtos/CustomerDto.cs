@@ -8,33 +8,42 @@ namespace SmartMoveWebApp.Dtos
 {
     public class CustomerDto
     {
-        public int CustomerId { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Phone { get; set; }
-
         [Required]
         [StringLength(50)]
         public string Email { get; set; }
 
-        [StringLength(20)]
+        [Required]
+        public int CustomerId { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; }
+
+        [Required]
+        [StringLength(12)]
+        public string Phone { get; set; }
+
+        [Required]
+        public string Address1 { get; set; }
+
+        public string Address2 { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string ZipCode { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string City { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string State { get; set; }
+
+        public string ProfilePictureURL { get; set; }
     }
 }
