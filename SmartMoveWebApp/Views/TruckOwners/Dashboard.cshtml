@@ -17,7 +17,7 @@
                         <div class="row col-lg-12 profile-title">
                             <h4>General Information</h4>
                         </div>
-                        <div class="row col-lg-12 text-left profile-title">
+                        <div class="row col-lg-12 text-left">
                             <div class="col-lg-2">
                                 <h5>First Name</h5>
                             </div>
@@ -31,7 +31,7 @@
                                 <p>@Model.LastName</p>
                             </div>
                         </div>
-                        <div class="row col-lg-12 text-left profile-title">
+                        <div class="row col-lg-12 text-left">
                             <div class="col-lg-2">
                                 <h5>Phone</h5>
                             </div>
@@ -42,11 +42,11 @@
                                 <h5>Address</h5>
                             </div>
                             <div class="col-lg-4">
-                                <span>@Model.Address1</span><br />
-                                <span>@Model.Address2</span>
+                                <p>@Model.Address1<br />
+                               @Model.Address2</p>
                             </div>
                         </div>
-                        <div class="row col-lg-12 text-left profile-title">
+                        <div class="row col-lg-12 text-left">
                             <div class="col-lg-2">
                                 <h5>Zip Code</h5>
                             </div>
@@ -60,73 +60,78 @@
                                 <p>@Model.City</p>
                             </div>
                         </div>
-                        <div class="row col-lg-12 text-left profile-title">
+                        <div class="row col-lg-12 text-left">
                             <div class="col-lg-2">
                                 <h5>State</h5>
                             </div>
                             <div class="col-lg-4">
                                 <p>@Model.State</p>
                             </div>
-                            <div class="col-lg-2">
+                        </div>
+                        <div class="row col-lg-12 profile-title">
+                            <h4>Truck Information</h4>
+                        </div>
+                        <div class="row col-lg-12 text-left">
+                            <div class="col-lg-3">
                                 <h5>Truck Type</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@ViewBag.TruckType</p>
                             </div>
-                        </div>
-                        <div class="row col-lg-12 text-left profile-title">
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                                 <h5>Truck Make</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@Model.TruckMake</p>
                             </div>
-                            <div class="col-lg-2">
+                        </div>
+                        <div class="row col-lg-12 text-left">
+                            <div class="col-lg-3">
                                 <h5>Truck Model</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@Model.TruckModel</p>
                             </div>
-                        </div>
-                        <div class="row col-lg-12 text-left profile-title">
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                                 <h5>Truck Year</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@Model.TruckYear</p>
                             </div>
-                            <div class="col-lg-2">
+                        </div>
+                        <div class="row col-lg-12 text-left">
+                            <div class="col-lg-3">
+                                <h5>Truck Color</h5>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>@Model.TruckColor</p>
+                            </div>
+                            <div class="col-lg-3">
                                 <h5>Truck License Plate</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@Model.LicensePlate</p>
                             </div>
                         </div>
-                        <div class="row col-lg-12 text-left profile-title">
-                            <div class="col-lg-2">
-                                <h5>Truck Color</h5>
-                            </div>
-                            <div class="col-lg-4">
-                                <p>@Model.TruckColor</p>
-                            </div>
-                            <div class="col-lg-2">
+                        <div class="row col-lg-12 text-left">
+                            <div class="col-lg-3">
                                 <h5>Driver License Number</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@Model.DriverLicenseNumber</p>
                             </div>
-                        </div>
-                        <div class="row col-lg-12 text-left profile-title">
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                                 <h5>Vehicle Registration Number</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@Model.VehicleRegNumber</p>
                             </div>
-                            <div class="col-lg-2">
+                        </div>
+                        <div class="row col-lg-12 text-left">
+                            <div class="col-lg-3">
                                 <h5>Driver Insurance Policy Number</h5>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <p>@Model.DriverInsurancePolicy</p>
                             </div>
                         </div>

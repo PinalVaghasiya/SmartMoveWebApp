@@ -1259,14 +1259,14 @@ body,
 
 .team-member-info h4 {
     color: #11939A;
-    font-size: 22px;
-    margin-bottom: 10px;
+    font-size: 20px;
+    margin-bottom: 5px;
     text-transform: uppercase;
 }
 
 .team-member-info h5 {
     font-size: 15px;
-    font-weight: 400;
+    font-weight: bold;
 }
 
 .quote-icon {
@@ -2117,7 +2117,8 @@ body,
     }
 
     .login-form input,
-    .login-form button {
+    .login-form button,
+    .login-form select {
         background-color: transparent;
         border: 1px solid #555;
         color: #000;
@@ -2398,7 +2399,7 @@ body,
 
 .profile-title {
     border-bottom: 1px solid #11939A;
-    margin: 20px 5px;
+    margin: 20px 0px;
     padding: 10px 10px;
 }
 
@@ -2430,11 +2431,4 @@ body,
 .share-image {
     margin: 40px auto;
     height: 250px;
-}
-
-.team-member-info h6 {
-    color: #11939A;
-    font-size: 18px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
 }

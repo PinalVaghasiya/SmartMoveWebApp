@@ -12,51 +12,40 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="team-member-info">
-                        <h3 class="text-center">Edit Your Driver Profile</h3>
-                        <h6 class="text-center">Note: Required fields are marked with <span style="color:red">*</span></h6>
+                        <h4 class="text-center">Edit Your Driver Profile</h4>
+                        <h5 class="text-center">Note: Required fields are marked with <span style="color:red">*</span></h5>
                         @using (Html.BeginForm("EditProfile", "TruckOwners", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.TruckOwnerId)
 
                             <div class="row col-lg-12 profile-title">
-                                <h6>Update Profile Picture</h6>
+                                <h4>Update Profile Picture</h4>
                             </div>
-                            <div class="form-group col-md-6">
-                                @Html.LabelFor(m => m.ProfilePictureURL)
-                                @Html.TextBoxFor(m => m.ProfilePictureURL, new { @class = "form-control", type = "file" })
-                                @Html.ValidationMessageFor(m => m.ProfilePictureURL)
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.ProfilePictureURL)
+                                    @Html.TextBoxFor(m => m.ProfilePictureURL, new { @class = "form-control", type = "file" })
+                                    @Html.ValidationMessageFor(m => m.ProfilePictureURL)
+                                </div>
                             </div>
                             <div class="row col-lg-12 profile-title">
-                                <h6>General Information</h6>
-                            </div>
-                            <div class="name">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.FirstName)<span style="color:red">*</span>
-                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name *" })
-                                            @Html.ValidationMessageFor(m => m.FirstName)
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.LastName)<span style="color:red">*</span>
-                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name *" })
-                                            @Html.ValidationMessageFor(m => m.LastName)
-                                        </div>
-                                    </div>
-                                </div>
+                                <h4>General Information</h4>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.LabelFor(m => m.Phone)<span style="color:red">*</span>
-                                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "Phone Number *" })
-                                        @Html.ValidationMessageFor(m => m.Phone)
+                                        @Html.LabelFor(m => m.FirstName)<span style="color:red">*</span>
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name *" })
+                                        @Html.ValidationMessageFor(m => m.FirstName)
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.LastName)<span style="color:red">*</span>
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name *" })
+                                        @Html.ValidationMessageFor(m => m.LastName)
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -101,13 +90,23 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.Phone)<span style="color:red">*</span>
+                                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "Phone Number *" })
+                                        @Html.ValidationMessageFor(m => m.Phone)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-lg-12 profile-title">
+                                <h4>Truck Information</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         @Html.LabelFor(m => m.TruckTypeId)<span style="color:red">*</span>
                                         @Html.DropDownListFor(m => m.TruckTypeId, Model.TruckTypes, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.TruckTypeId)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.TruckMake)<span style="color:red">*</span>
@@ -115,6 +114,8 @@
                                         @Html.ValidationMessageFor(m => m.TruckMake)
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.TruckModel)<span style="color:red">*</span>
@@ -122,8 +123,6 @@
                                         @Html.ValidationMessageFor(m => m.TruckModel)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.TruckYear)<span style="color:red">*</span>
@@ -131,20 +130,13 @@
                                         @Html.ValidationMessageFor(m => m.TruckYear)
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.LicensePlate)<span style="color:red">*</span>
                                         @Html.TextBoxFor(m => m.LicensePlate, new { @class = "form-control", placeholder = "License Plate *" })
                                         @Html.ValidationMessageFor(m => m.LicensePlate)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.TruckColor)<span style="color:red">*</span>
-                                        @Html.TextBoxFor(m => m.TruckColor, new { @class = "form-control", placeholder = "Truck Color *" })
-                                        @Html.ValidationMessageFor(m => m.TruckColor)
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -168,6 +160,15 @@
                                         @Html.LabelFor(m => m.DriverInsurancePolicy)<span style="color:red">*</span>
                                         @Html.TextBoxFor(m => m.DriverInsurancePolicy, new { @class = "form-control", placeholder = "Driver Insurance Policy Number *" })
                                         @Html.ValidationMessageFor(m => m.DriverInsurancePolicy)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.TruckColor)<span style="color:red">*</span>
+                                        @Html.TextBoxFor(m => m.TruckColor, new { @class = "form-control", placeholder = "Truck Color *" })
+                                        @Html.ValidationMessageFor(m => m.TruckColor)
                                     </div>
                                 </div>
                             </div>
