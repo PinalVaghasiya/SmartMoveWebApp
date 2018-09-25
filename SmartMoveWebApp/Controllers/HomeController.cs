@@ -1,11 +1,9 @@
 ﻿using SmartMoveWebApp.BusniessLogic;
 using SmartMoveWebApp.Models.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -35,8 +33,16 @@ namespace SmartMoveWebApp.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+            var model = new ContactUsEmailViewModel();
+            return View(model);
+        }
 
-            return View();
+        [HttpPost]
+        public ActionResult Contact(ContactUsEmailViewModel model) {
+
+            SendGridEmailService.ContactUsEmail(model.Email.Trim(), model.FullName.Trim(), model.Subject.Trim(), model.Message.Trim());
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Help()

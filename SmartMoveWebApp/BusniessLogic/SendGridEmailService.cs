@@ -2,7 +2,9 @@
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Web;
 
@@ -35,6 +37,19 @@ namespace SmartMoveWebApp.BusniessLogic
             var htmlContent = "<a href='" + verificationUrl + "'>Reset Password</a>";
 
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg);
+        }
+
+        public static void ContactUsEmail(string userEmail, string fullName, string subject, string message)
+        {
+            var client = new SendGridClient(Constants.SendGridApiKey);
+            var from = new EmailAddress("noreply@smartmove.com", "SmartMove");
+            string adminEmail = "ksoni004@gmail.com";
+            var to = new EmailAddress(adminEmail, "Admin - SmartMove Web");
+
+            var htmlContent = File.ReadAllText(Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath), @"..\Views\EmailTemplates\VerifyEmail.aspx"));
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "Contact Us Email", message + htmlContent);
             var response = client.SendEmailAsync(msg);
         }
     }
