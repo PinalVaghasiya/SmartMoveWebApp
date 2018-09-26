@@ -2432,3 +2432,35 @@ body,
     margin: 40px auto;
     height: 250px;
 }
+
+/*==============================
+    My Trips Page Css
+================================*/
+
+.mytrips-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .mytrips-table td,
+    .mytrips-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .mytrips-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .mytrips-table tr:hover {
+        background-color: #ddd;
+    }
+
+    .mytrips-table th {
+        width: 16.66667%;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #11939A;
+        color: white;
+    }
