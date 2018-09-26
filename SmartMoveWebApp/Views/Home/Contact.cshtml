@@ -4,7 +4,7 @@
 }
 
 <!--== Page Title Area Start ==-->
-<section id="page-title-area" class="section-padding overlay">
+<section id="page-title-area" class="overlay" style="padding: 30px 0;">
     <div class="container">
         <div class="row">
             <!-- Page Title Start -->
@@ -20,24 +20,24 @@
 </section>
 <!--== Page Title Area End ==-->
 <!--== Contact Page Area Start ==-->
-<div class="contact-page-wrap section-padding">
+<div class="contact-page-wrap" style="padding: 10px 0;">
     <div class="container">
         @using (Html.BeginForm("Contact", "Home"))
         {
             <div class="row">
-                <div class="col-lg-9 m-auto">
+                <div class="col-lg-7 m-auto">
                     <div class="contact-form">
                         <form action="index.html" name="sendMessage" id="contactForm">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
-                                    <div class="name-input">
+                                    <div class="form-group">
                                         @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "Full Name" })
                                         @Html.ValidationMessageFor(m => m.FullName)
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <div class="email-input">
+                                    <div class="form-group">
                                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email Address" })
                                         @Html.ValidationMessageFor(m => m.Email)
                                     </div>
@@ -46,15 +46,15 @@
 
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="subject-input">
+                                    <div class="form-group">
                                         @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "Subject" })
                                         @Html.ValidationMessageFor(m => m.Subject)
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="message-input">
-                                @Html.TextAreaFor(model => model.Message, 10, 30, new { @class = "form-control", placeholder = "Message" })
+                            <div class="form-group">
+                                @Html.TextAreaFor(model => model.Message, 6, 20, new { @class = "form-control", placeholder = "Message" })
                                 @Html.ValidationMessageFor(m => m.Message)
                             </div>
 

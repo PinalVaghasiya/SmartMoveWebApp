@@ -15,12 +15,12 @@
                     <div class="team-member-info">
                         <table class="table table-bordered text-center">
                             <tr class="side-menu">
+                                <th>Date Added</th>
                                 <th>Pickup</th>
-                                <th>Truck Owner</th>
-                                <th>Amount</th>
-                                <th>Truck</th>
                                 <th>Drop</th>
-                                <th>Ratings</th>
+                                <th>Order Date</th>
+                                <th>Truck Type</th>
+                                <th>Status</th>
                             </tr>
                             @if (Model.Count() == 0)
                             {
@@ -33,12 +33,23 @@
                                 foreach (Order order in Model)
                                 {
                                 <tr>
-                                    <td>@order.PickupLat</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>@order.TruckTypeId</td>
-                                    <td>@order.DropLat</td>
-                                    <td></td>
+                                    <td>@order.CreatedTime</td>
+                                    <td>@order.PickupPlace</td>
+                                    <td>@order.DropPlace</td>
+                                    <td>@order.OrderDateTime</td>
+                                    @if (order.TruckTypeId == 1)
+                                    {
+                                        <td>Standard Car</td>
+                                    }
+                                    else if (order.TruckTypeId == 2)
+                                    {
+                                        <td>Pickup Truck</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Cargo Van</td>
+                                    }
+                                    <td>@order.OrderStatus</td>
                                 </tr>
                                 }
                             }

@@ -50,8 +50,9 @@ namespace SmartMoveWebApp.Models.ViewModels
         public string Address2 { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(10, ErrorMessage = "Zip Code should be of maximum 10 charcters.")]
         [DataType(DataType.PostalCode)]
+        [RegularExpression("^\\d{5}(?:[-]\\d{4})?$", ErrorMessage = "Zip Code should be in a valid format.")]
         [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
 

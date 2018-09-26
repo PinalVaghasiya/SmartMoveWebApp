@@ -26,18 +26,18 @@ namespace SmartMoveWebApp.Controllers.Api
         {
             var cancelledOrders = _context.Orders
                 .Where(o => o.CustomerId == customerId)
-                .Where(o => o.OrderStatus == "CANCELLED")
+                .Where(o => o.OrderStatus == Constants.OrderStatus.CANCELLED.ToString())
                 .ToList();
 
             var completedOrders = _context.Orders
                 .Where(o => o.CustomerId == customerId)
-                .Where(o => o.OrderStatus == "COMPLETED")
+                .Where(o => o.OrderStatus == Constants.OrderStatus.COMPLETED.ToString())
                 .ToList();
 
             var runningOrders = _context.Orders
                 .Where(o => o.CustomerId == customerId)
-                .Where(o => o.OrderStatus != "CANCELLED")
-                .Where(o => o.OrderStatus != "COMPLETED")
+                .Where(o => o.OrderStatus != Constants.OrderStatus.CANCELLED.ToString())
+                .Where(o => o.OrderStatus != Constants.OrderStatus.COMPLETED.ToString())
                 .ToList();
 
             var list = cancelledOrders.Select(Mapper.Map<Order, OrderDto>);
@@ -56,13 +56,17 @@ namespace SmartMoveWebApp.Controllers.Api
         [Route("CreateOrder")]
         public IHttpActionResult CreateOrder(OrderDto orderDto)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                TimeSpan time = TimeSpan.FromMilliseconds(orderDto.Time);
+                DateTime orderDateTime = new DateTime(1970, 1, 1) + time;
+
                 var order = new Order
                 {
                     CustomerId = orderDto.CustomerId,
                     TruckTypeId = orderDto.TruckTypeId,
-                    OrderDateTime = orderDto.OrderDateTime,
+                    OrderDateTime = orderDateTime,
+                    Time = orderDto.Time,
                     PickupPlace = orderDto.PickupPlace,
                     PickupLat = orderDto.PickupLat,
                     PickupLong = orderDto.PickupLong,
@@ -79,7 +83,7 @@ namespace SmartMoveWebApp.Controllers.Api
                     DropHasElevator = orderDto.DropHasElevator,
                     DropDistanceFromParking = orderDto.DropDistanceFromParking,
                     DropAdditionalInfo = orderDto.DropAdditionalInfo,
-                    EstimatedNumOfTrips = String.IsNullOrEmpty(orderDto.EstimatedNumOfTrips.ToString()) ?orderDto.EstimatedNumOfTrips : 0,
+                    EstimatedNumOfTrips = String.IsNullOrEmpty(orderDto.EstimatedNumOfTrips.ToString()) ? orderDto.EstimatedNumOfTrips : 0,
                     EstimatedWeight = orderDto.EstimatedWeight,
                     EstimatedArea = orderDto.EstimatedArea,
                     CreatedTime = DateTime.Now,
@@ -90,15 +94,15 @@ namespace SmartMoveWebApp.Controllers.Api
                 {
                     OrderId = order.OrderId,
                     CustomerCCId = 4,
-                    PaymentAmout = 10,
+                    PaymentAmout = Constants.InitialOrderPaymentAmount,
                     PaymentType = "INITIAL",
                     PaymentStatus = "SUCCESS",
                     Timestamp = DateTime.Now
                 };
 
+                _context.Orders.Add(order);
                 _context.OrderPayments.Add(orderPayment);
 
-                _context.Orders.Add(order);
                 _context.SaveChanges();
 
                 orderDto.OrderId = order.OrderId;
@@ -121,7 +125,7 @@ namespace SmartMoveWebApp.Controllers.Api
             var orderPaymentsList = _context.OrderPayments.Where(p => p.OrderId == orderId).ToList();
 
             foreach (OrderBid orderBid in orderBidsList)
-                orderBid.BidStatus = Constants.OrderStatus.CANCELLED.ToString();
+                orderBid.BidStatus = Constants.OrderBidStatus.CANCELLED.ToString();
 
             foreach (OrderPayment orderPayment in orderPaymentsList)
                 orderPayment.PaymentStatus = "REVERSED";
@@ -136,7 +140,8 @@ namespace SmartMoveWebApp.Controllers.Api
         public IHttpActionResult GetOrderBids(int orderId)
         {
             var orderBidsList = _context.OrderBids
-                .Where(b => b.BidStatus != "DELETED")
+                .Where(b => b.BidStatus != Constants.OrderBidStatus.CANCELLED.ToString())
+                .Where(b => b.BidStatus != Constants.OrderBidStatus.COMPLETED.ToString())
                 .Where(b => b.OrderId == orderId)
                 .ToList();
             return Ok(orderBidsList.Select(Mapper.Map<OrderBid, OrderBidDto>));
@@ -147,22 +152,26 @@ namespace SmartMoveWebApp.Controllers.Api
         public IHttpActionResult AcceptBid(int bidId)
         {
             var orderBid = _context.OrderBids.Single(b => b.BidId == bidId);
-            orderBid.BidStatus = "ACCEPTED";
+            orderBid.BidStatus = Constants.OrderBidStatus.ACCEPTED.ToString();
+            orderBid.ModifiedTime = DateTime.Now;
 
             var order = _context.Orders.Single(o => o.OrderId == orderBid.OrderId);
             order.OrderStatus = Constants.OrderStatus.CONFIRMED.ToString();
 
-            var orderPayment = new OrderPayment
+            if (orderBid.BidAmount > Constants.InitialOrderPaymentAmount)
             {
-                OrderId = orderBid.OrderId,
-                CustomerCCId = 4,
-                PaymentAmout = orderBid.BidAmount - 10,
-                PaymentType = "FINAL",
-                PaymentStatus = "SUCCESS",
-                Timestamp = DateTime.Now
-            };
+                var orderPayment = new OrderPayment
+                {
+                    OrderId = orderBid.OrderId,
+                    CustomerCCId = 4,
+                    PaymentAmout = orderBid.BidAmount - Constants.InitialOrderPaymentAmount,
+                    PaymentType = "FINAL",
+                    PaymentStatus = "SUCCESS",
+                    Timestamp = DateTime.Now
+                };
+                _context.OrderPayments.Add(orderPayment);
+            }
 
-            _context.OrderPayments.Add(orderPayment);
             _context.SaveChanges();
 
             return Ok(Mapper.Map<OrderBid, OrderBidDto>(orderBid));

@@ -3,6 +3,7 @@ using SmartMoveWebApp.BusniessLogic;
 using SmartMoveWebApp.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -33,7 +34,40 @@ namespace SmartMoveWebApp.Controllers.Api
             var truckInDb = _context.Trucks.Single(t => t.TruckOwnerId == truckOwnerId);
             int truckTypeId = truckInDb.TruckTypeId;
 
-            var orders = _context.Orders.Where(o => o.TruckTypeId >= truckTypeId).ToList();
+            var pendingBids = _context.OrderBids
+                .Where(o => o.TruckOwnerId == truckOwnerId)
+                .Where(o => o.BidStatus == Constants.OrderBidStatus.PENDING.ToString())
+                .Select(b => b.OrderId)
+                .ToList();
+
+            var orders = _context.Orders
+                .Where(o => o.TruckTypeId >= truckTypeId)
+                .Where(o => !pendingBids.Contains(o.OrderId))
+                .Where(o => o.OrderStatus == Constants.OrderStatus.PENDING.ToString())
+                .ToList();
+
+            var acceptedBids = _context.OrderBids
+                .Where(o => o.TruckOwnerId == truckOwnerId)
+                .Where(o => o.BidStatus == Constants.OrderBidStatus.ACCEPTED.ToString())
+                .Select(b => b.OrderId)
+                .ToList();
+
+            var confirmedOrders = _context.Orders
+                .Where(o => acceptedBids.Contains(o.OrderId))            
+                .Where(o => o.OrderStatus != Constants.OrderStatus.PENDING.ToString())
+                .ToList();
+
+            foreach(var confirmedOrder in confirmedOrders)
+            {
+                TimeSpan time = TimeSpan.FromMilliseconds(Convert.ToDouble(confirmedOrder.Time));
+                DateTime orderStartDate = new DateTime(1970, 1, 1) + time;
+                TimeSpan difference = orderStartDate - DateTime.Now;
+                if (confirmedOrder.OrderStatus == "CONFIRMED" && difference.Hours == 0)
+                    orders.Add(confirmedOrder);
+                else if (confirmedOrder.OrderStatus != "CONFIRMED")
+                    orders.Add(confirmedOrder);
+            }
+
             return Ok(orders.Select(Mapper.Map<Order, OrderDto>));
         }
 
@@ -48,17 +82,17 @@ namespace SmartMoveWebApp.Controllers.Api
 
             var cancelledOrders = _context.Orders
                 .Where(o => orderBids.Contains(o.OrderId))
-                .Where(o => o.OrderStatus == "CANCELLED")
+                .Where(o => o.OrderStatus == Constants.OrderStatus.CANCELLED.ToString())
                 .ToList();
 
             var completedOrders = _context.Orders
                 .Where(o => orderBids.Contains(o.OrderId))
-                .Where(o => o.OrderStatus == "COMPLETED")
+                .Where(o => o.OrderStatus == Constants.OrderStatus.COMPLETED.ToString())
                 .ToList();
 
             var runningOrders = _context.Orders
                 .Where(o => orderBids.Contains(o.OrderId))
-                .Where(o => o.OrderStatus == "CONFIRMED")
+                .Where(o => o.OrderStatus == Constants.OrderStatus.CONFIRMED.ToString())
                 .ToList();
 
             var list = cancelledOrders.Select(Mapper.Map<Order, OrderDto>);
@@ -77,12 +111,23 @@ namespace SmartMoveWebApp.Controllers.Api
         [Route("GetMyBids")]
         public IHttpActionResult GetMyBids(int truckOwnerId)
         {
-            var orderBids = _context.OrderBids
+            var pendingBids = _context.OrderBids
                 .Where(b => b.TruckOwnerId == truckOwnerId)
-                .Where(b => b.BidStatus == "PENDING")
+                .Where(b => b.BidStatus == Constants.OrderBidStatus.PENDING.ToString())
                 .ToList();
 
-            return Ok(orderBids.Select(Mapper.Map<OrderBid, OrderBidDto>));
+            var acceptedBids = _context.OrderBids
+                .Where(b => b.TruckOwnerId == truckOwnerId)
+                .Where(b => b.BidStatus == Constants.OrderBidStatus.ACCEPTED.ToString())
+                .ToList();
+
+            var getBidsListDto = new GetBidsListDto
+            {
+                PendingBids = pendingBids.Select(Mapper.Map<OrderBid, OrderBidDto>),
+                AcceptedBids = acceptedBids.Select(Mapper.Map<OrderBid, OrderBidDto>)
+            };
+
+            return Ok(getBidsListDto);
         }
 
         [HttpPost]
@@ -91,7 +136,13 @@ namespace SmartMoveWebApp.Controllers.Api
         {
             var orderBid = Mapper.Map<OrderBidDto, OrderBid>(orderBidDto);
 
-            orderBid.BidStatus = Constants.OrderStatus.PENDING.ToString();
+            orderBid.BidStatus = Constants.OrderBidStatus.PENDING.ToString();
+
+            TimeSpan time = TimeSpan.FromMilliseconds(orderBidDto.Time);
+            DateTime startDateTime = new DateTime(1970, 1, 1) + time;
+
+            orderBid.DeliveryStartTime = startDateTime;
+            orderBid.CreatedTime = DateTime.Now;
 
             _context.OrderBids.Add(orderBid);
             _context.SaveChanges();
@@ -106,7 +157,8 @@ namespace SmartMoveWebApp.Controllers.Api
             var orderBid = _context.OrderBids
                 .Single(b => b.BidId == bidId);
 
-            orderBid.BidStatus = "DELETED";
+            orderBid.BidStatus = Constants.OrderBidStatus.CANCELLED.ToString();
+            orderBid.ModifiedTime = DateTime.Now;
 
             _context.SaveChanges();
 
@@ -129,9 +181,16 @@ namespace SmartMoveWebApp.Controllers.Api
         [Route("EndTrip")]
         public IHttpActionResult EndTrip(int orderId)
         {
-            var order = _context.Orders.Single(o => o.OrderId == orderId);
-
+            var order = _context.Orders
+                .Single(o => o.OrderId == orderId);
             order.OrderStatus = Constants.OrderStatus.COMPLETED.ToString();
+
+            var orderBid = _context.OrderBids
+                .Where(b => b.BidStatus == Constants.OrderBidStatus.ACCEPTED.ToString())
+                .Single(b => b.OrderId == orderId);
+            orderBid.BidStatus = Constants.OrderBidStatus.COMPLETED.ToString();
+            orderBid.ModifiedTime = DateTime.Now;
+
             _context.SaveChanges();
 
             return Ok(Mapper.Map<Order, OrderDto>(order));

@@ -219,6 +219,7 @@
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Dtos\AccountLoginDto.cs" />
+    <Compile Include="Dtos\GetBidsListDto.cs" />
     <Compile Include="Dtos\GetOrderListDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -297,13 +298,6 @@
     </Compile>
     <Compile Include="TruckType.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmailTemplates\VerifyEmail.aspx.cs">
-      <DependentUpon>VerifyEmail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\EmailTemplates\VerifyEmail.aspx.designer.cs">
-      <DependentUpon>VerifyEmail.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -388,8 +382,10 @@
       <DependentUpon>SmartMoveModel.edmx</DependentUpon>
       <LastGenOutput>SmartMoveModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\EmailTemplates\ResetPasswordEmailTemplate.html" />
-    <Content Include="Views\EmailTemplates\VerifyEmail.aspx" />
+    <Content Include="Views\EmailTemplates\ContactUsTemplate.html" />
+    <Content Include="Views\EmailTemplates\EmailVerificationTemplate.html" />
+    <Content Include="Views\EmailTemplates\OrderReceiptTemplate.html" />
+    <Content Include="Views\EmailTemplates\ResetPasswordTemplate.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

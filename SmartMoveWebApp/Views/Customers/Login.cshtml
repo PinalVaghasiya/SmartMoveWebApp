@@ -49,3 +49,12 @@
     </div>
 </section>
 <!--== Login Page Content End ==-->
+@section  Scripts
+{
+    <script>
+        $(document).ready(function(){
+            $('nav.mainmenu ul li.active').removeClass('active');
+            $("#signinLink").addClass('active');
+        });
+    </script>
+}

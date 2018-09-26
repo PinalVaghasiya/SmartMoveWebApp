@@ -70,10 +70,13 @@
           <Property Name="OrderId" Type="int" Nullable="false" />
           <Property Name="TruckOwnerId" Type="int" Nullable="false" />
           <Property Name="DeliveryStartTime" Type="datetime" Nullable="false" />
+          <Property Name="Time" Type="bigint" />
           <Property Name="NumberOfHours" Type="float" Nullable="false" />
           <Property Name="NumberOfTrips" Type="int" Nullable="false" />
           <Property Name="BidAmount" Type="float" Nullable="false" />
           <Property Name="BidStatus" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" />
+          <Property Name="ModifiedTime" Type="datetime" />
         </EntityType>
         <EntityType Name="OrderImages">
           <Key>
@@ -103,6 +106,7 @@
           <Property Name="CustomerId" Type="int" Nullable="false" />
           <Property Name="TruckTypeId" Type="int" Nullable="false" />
           <Property Name="OrderDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Time" Type="bigint" />
           <Property Name="PickupPlace" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PickupLat" Type="float" Nullable="false" />
           <Property Name="PickupLong" Type="float" Nullable="false" />
@@ -468,7 +472,6 @@
           <EntitySet Name="CustomerCreditCards" EntityType="SmartMoveModel.CustomerCreditCard" />
           <EntitySet Name="CustomerRatings" EntityType="SmartMoveModel.CustomerRating" />
           <EntitySet Name="Customers" EntityType="SmartMoveModel.Customer" />
-          <EntitySet Name="OrderBids" EntityType="SmartMoveModel.OrderBid" />
           <EntitySet Name="OrderImages" EntityType="SmartMoveModel.OrderImage" />
           <EntitySet Name="OrderPayments" EntityType="SmartMoveModel.OrderPayment" />
           <EntitySet Name="sysdiagrams" EntityType="SmartMoveModel.sysdiagram" />
@@ -493,10 +496,6 @@
             <End Role="Truck" EntitySet="Trucks" />
           </AssociationSet>
           <EntitySet Name="TruckOwners" EntityType="SmartMoveModel.TruckOwner" />
-          <AssociationSet Name="FK_OrderBids_TruckOwners" Association="SmartMoveModel.FK_OrderBids_TruckOwners">
-            <End Role="TruckOwner" EntitySet="TruckOwners" />
-            <End Role="OrderBid" EntitySet="OrderBids" />
-          </AssociationSet>
           <AssociationSet Name="FK_TruckOwnerCreditCards_TruckOwners" Association="SmartMoveModel.FK_TruckOwnerCreditCards_TruckOwners">
             <End Role="TruckOwner" EntitySet="TruckOwners" />
             <End Role="TruckOwnerCreditCard" EntitySet="TruckOwnerCreditCards" />
@@ -509,6 +508,7 @@
             <End Role="TruckOwner" EntitySet="TruckOwners" />
             <End Role="Truck" EntitySet="Trucks" />
           </AssociationSet>
+          <EntitySet Name="Logins" EntityType="SmartMoveModel.Login" />
           <EntitySet Name="Orders" EntityType="SmartMoveModel.Order" />
           <AssociationSet Name="FK_CustomerRatings_Orders" Association="SmartMoveModel.FK_CustomerRatings_Orders">
             <End Role="Order" EntitySet="Orders" />
@@ -517,10 +517,6 @@
           <AssociationSet Name="FK_Orders_Customers" Association="SmartMoveModel.FK_Orders_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderBids_Orders" Association="SmartMoveModel.FK_OrderBids_Orders">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderBid" EntitySet="OrderBids" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderImages_Orders" Association="SmartMoveModel.FK_OrderImages_Orders">
             <End Role="Order" EntitySet="Orders" />
@@ -538,7 +534,15 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="TruckOwnerRating" EntitySet="TruckOwnerRatings" />
           </AssociationSet>
-          <EntitySet Name="Logins" EntityType="SmartMoveModel.Login" />
+          <EntitySet Name="OrderBids" EntityType="SmartMoveModel.OrderBid" />
+          <AssociationSet Name="FK_OrderBids_Orders" Association="SmartMoveModel.FK_OrderBids_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderBid" EntitySet="OrderBids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderBids_TruckOwners" Association="SmartMoveModel.FK_OrderBids_TruckOwners">
+            <End Role="TruckOwner" EntitySet="TruckOwners" />
+            <End Role="OrderBid" EntitySet="OrderBids" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CustomerCreditCard">
           <Key>
@@ -589,21 +593,6 @@
           <NavigationProperty Name="CustomerCreditCards" Relationship="SmartMoveModel.FK_CustomerCreditCards_Customers" FromRole="Customer" ToRole="CustomerCreditCard" />
           <NavigationProperty Name="CustomerRatings" Relationship="SmartMoveModel.FK_CustomerRatings_Customers" FromRole="Customer" ToRole="CustomerRating" />
           <NavigationProperty Name="Orders" Relationship="SmartMoveModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="OrderBid">
-          <Key>
-            <PropertyRef Name="BidId" />
-          </Key>
-          <Property Name="BidId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="TruckOwnerId" Type="Int32" Nullable="false" />
-          <Property Name="DeliveryStartTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="NumberOfHours" Type="Double" Nullable="false" />
-          <Property Name="NumberOfTrips" Type="Int32" Nullable="false" />
-          <Property Name="BidAmount" Type="Double" Nullable="false" />
-          <Property Name="BidStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="TruckOwner" Relationship="SmartMoveModel.FK_OrderBids_TruckOwners" FromRole="OrderBid" ToRole="TruckOwner" />
-          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_OrderBids_Orders" FromRole="OrderBid" ToRole="Order" />
         </EntityType>
         <EntityType Name="OrderImage">
           <Key>
@@ -761,23 +750,11 @@
           <Property Name="DriverInsurancePolicy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OrderBids" Relationship="SmartMoveModel.FK_OrderBids_TruckOwners" FromRole="TruckOwner" ToRole="OrderBid" />
           <NavigationProperty Name="TruckOwnerCreditCards" Relationship="SmartMoveModel.FK_TruckOwnerCreditCards_TruckOwners" FromRole="TruckOwner" ToRole="TruckOwnerCreditCard" />
           <NavigationProperty Name="TruckOwnerRatings" Relationship="SmartMoveModel.FK_TruckOwnerRatings_TruckOwners" FromRole="TruckOwner" ToRole="TruckOwnerRating" />
           <NavigationProperty Name="Trucks" Relationship="SmartMoveModel.FK_Trucks_TruckOwners" FromRole="TruckOwner" ToRole="Truck" />
+          <NavigationProperty Name="OrderBids" Relationship="SmartMoveModel.FK_OrderBids_TruckOwners" FromRole="TruckOwner" ToRole="OrderBid" />
         </EntityType>
-        <Association Name="FK_OrderBids_TruckOwners">
-          <End Type="SmartMoveModel.TruckOwner" Role="TruckOwner" Multiplicity="1" />
-          <End Type="SmartMoveModel.OrderBid" Role="OrderBid" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TruckOwner">
-              <PropertyRef Name="TruckOwnerId" />
-            </Principal>
-            <Dependent Role="OrderBid">
-              <PropertyRef Name="TruckOwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TruckOwnerCreditCards_TruckOwners">
           <End Type="SmartMoveModel.TruckOwner" Role="TruckOwner" Multiplicity="1" />
           <End Type="SmartMoveModel.TruckOwnerCreditCard" Role="TruckOwnerCreditCard" Multiplicity="*" />
@@ -814,6 +791,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="LoginId" />
+          </Key>
+          <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordSalt" Type="Binary" Nullable="false" MaxLength="512" FixedLength="false" />
+          <Property Name="PasswordResetToken" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EmailActivated" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="OrderId" />
@@ -822,6 +813,7 @@
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="TruckTypeId" Type="Int32" Nullable="false" />
           <Property Name="OrderDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Time" Type="Int64" />
           <Property Name="PickupPlace" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PickupLat" Type="Double" Nullable="false" />
           <Property Name="PickupLong" Type="Double" Nullable="false" />
@@ -845,11 +837,11 @@
           <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CustomerRatings" Relationship="SmartMoveModel.FK_CustomerRatings_Orders" FromRole="Order" ToRole="CustomerRating" />
           <NavigationProperty Name="Customer" Relationship="SmartMoveModel.FK_Orders_Customers" FromRole="Order" ToRole="Customer" />
-          <NavigationProperty Name="OrderBids" Relationship="SmartMoveModel.FK_OrderBids_Orders" FromRole="Order" ToRole="OrderBid" />
           <NavigationProperty Name="OrderImages" Relationship="SmartMoveModel.FK_OrderImages_Orders" FromRole="Order" ToRole="OrderImage" />
           <NavigationProperty Name="OrderPayments" Relationship="SmartMoveModel.FK_OrderPayments_Orders" FromRole="Order" ToRole="OrderPayment" />
           <NavigationProperty Name="TruckType" Relationship="SmartMoveModel.FK_Orders_TruckTypes" FromRole="Order" ToRole="TruckType" />
           <NavigationProperty Name="TruckOwnerRatings" Relationship="SmartMoveModel.FK_TruckOwnerRatings_Orders" FromRole="Order" ToRole="TruckOwnerRating" />
+          <NavigationProperty Name="OrderBids" Relationship="SmartMoveModel.FK_OrderBids_Orders" FromRole="Order" ToRole="OrderBid" />
         </EntityType>
         <Association Name="FK_CustomerRatings_Orders">
           <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
@@ -872,18 +864,6 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderBids_Orders">
-          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
-          <End Type="SmartMoveModel.OrderBid" Role="OrderBid" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="OrderBid">
-              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -935,20 +915,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Login">
+        <EntityType Name="OrderBid">
           <Key>
-            <PropertyRef Name="LoginId" />
+            <PropertyRef Name="BidId" />
           </Key>
-          <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordSalt" Type="Binary" Nullable="false" MaxLength="512" FixedLength="false" />
-          <Property Name="PasswordResetToken" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UserType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="EmailActivated" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BidId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="TruckOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryStartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Time" Type="Int64" />
+          <Property Name="NumberOfHours" Type="Double" Nullable="false" />
+          <Property Name="NumberOfTrips" Type="Int32" Nullable="false" />
+          <Property Name="BidAmount" Type="Double" Nullable="false" />
+          <Property Name="BidStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
           <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_OrderBids_Orders" FromRole="OrderBid" ToRole="Order" />
+          <NavigationProperty Name="TruckOwner" Relationship="SmartMoveModel.FK_OrderBids_TruckOwners" FromRole="OrderBid" ToRole="TruckOwner" />
         </EntityType>
+        <Association Name="FK_OrderBids_Orders">
+          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="SmartMoveModel.OrderBid" Role="OrderBid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderBid">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderBids_TruckOwners">
+          <End Type="SmartMoveModel.TruckOwner" Role="TruckOwner" Multiplicity="1" />
+          <End Type="SmartMoveModel.OrderBid" Role="OrderBid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TruckOwner">
+              <PropertyRef Name="TruckOwnerId" />
+            </Principal>
+            <Dependent Role="OrderBid">
+              <PropertyRef Name="TruckOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -998,20 +1006,6 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderBids">
-            <EntityTypeMapping TypeName="SmartMoveModel.OrderBid">
-              <MappingFragment StoreEntitySet="OrderBids">
-                <ScalarProperty Name="BidStatus" ColumnName="BidStatus" />
-                <ScalarProperty Name="BidAmount" ColumnName="BidAmount" />
-                <ScalarProperty Name="NumberOfTrips" ColumnName="NumberOfTrips" />
-                <ScalarProperty Name="NumberOfHours" ColumnName="NumberOfHours" />
-                <ScalarProperty Name="DeliveryStartTime" ColumnName="DeliveryStartTime" />
-                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="BidId" ColumnName="BidId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1122,6 +1116,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="SmartMoveModel.Login">
+              <MappingFragment StoreEntitySet="Logins">
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="EmailActivated" ColumnName="EmailActivated" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="PasswordResetToken" ColumnName="PasswordResetToken" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="SmartMoveModel.Order">
               <MappingFragment StoreEntitySet="Orders">
@@ -1146,6 +1155,7 @@
                 <ScalarProperty Name="PickupLong" ColumnName="PickupLong" />
                 <ScalarProperty Name="PickupLat" ColumnName="PickupLat" />
                 <ScalarProperty Name="PickupPlace" ColumnName="PickupPlace" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="OrderDateTime" ColumnName="OrderDateTime" />
                 <ScalarProperty Name="TruckTypeId" ColumnName="TruckTypeId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
@@ -1153,18 +1163,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Logins">
-            <EntityTypeMapping TypeName="SmartMoveModel.Login">
-              <MappingFragment StoreEntitySet="Logins">
+          <EntitySetMapping Name="OrderBids">
+            <EntityTypeMapping TypeName="SmartMoveModel.OrderBid">
+              <MappingFragment StoreEntitySet="OrderBids">
                 <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
-                <ScalarProperty Name="EmailActivated" ColumnName="EmailActivated" />
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
-                <ScalarProperty Name="PasswordResetToken" ColumnName="PasswordResetToken" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="BidStatus" ColumnName="BidStatus" />
+                <ScalarProperty Name="BidAmount" ColumnName="BidAmount" />
+                <ScalarProperty Name="NumberOfTrips" ColumnName="NumberOfTrips" />
+                <ScalarProperty Name="NumberOfHours" ColumnName="NumberOfHours" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="DeliveryStartTime" ColumnName="DeliveryStartTime" />
+                <ScalarProperty Name="TruckOwnerId" ColumnName="TruckOwnerId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

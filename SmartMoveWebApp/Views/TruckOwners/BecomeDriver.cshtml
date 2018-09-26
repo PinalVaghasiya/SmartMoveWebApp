@@ -187,6 +187,22 @@
             $('#Phone').keyup(function () {
                 $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/, '$1-$2-$3'))
             });
+
+            $("#ZipCode").keyup(function () {
+                let val = $(this).val();
+                if (val.length > 5) {
+                    let digits = val.split(/(\d{1,5})/);
+                    let str = "";
+                    for (let group of digits) {
+                        if (/^\d+$/.test(group)) {
+                            str += group + "-";
+                        }
+                    }
+                    str = str.substring(0, str.length - 1);
+                    $(this).val(str);
+                }
+            });
+
             $('nav.mainmenu ul li.active').removeClass('active');
             $("#becomeDriverLink").addClass('active');
         });

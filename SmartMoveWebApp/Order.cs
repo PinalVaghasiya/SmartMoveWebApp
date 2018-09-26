@@ -18,16 +18,17 @@ namespace SmartMoveWebApp
         public Order()
         {
             this.CustomerRatings = new HashSet<CustomerRating>();
-            this.OrderBids = new HashSet<OrderBid>();
             this.OrderImages = new HashSet<OrderImage>();
             this.OrderPayments = new HashSet<OrderPayment>();
             this.TruckOwnerRatings = new HashSet<TruckOwnerRating>();
+            this.OrderBids = new HashSet<OrderBid>();
         }
     
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
         public int TruckTypeId { get; set; }
         public System.DateTime OrderDateTime { get; set; }
+        public Nullable<long> Time { get; set; }
         public string PickupPlace { get; set; }
         public double PickupLat { get; set; }
         public double PickupLong { get; set; }
@@ -54,13 +55,13 @@ namespace SmartMoveWebApp
         public virtual ICollection<CustomerRating> CustomerRatings { get; set; }
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderBid> OrderBids { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderImage> OrderImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderPayment> OrderPayments { get; set; }
         public virtual TruckType TruckType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TruckOwnerRating> TruckOwnerRatings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderBid> OrderBids { get; set; }
     }
 }

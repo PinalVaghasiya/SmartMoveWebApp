@@ -18,9 +18,7 @@ namespace SmartMoveWebApp.Dtos
 
         public System.DateTime OrderDateTime { get; set; }
 
-        public long date { get; set; }
-
-        public long time { get; set; }
+        public long Time { get; set; }
 
         [Required]
         public string PickupPlace { get; set; }

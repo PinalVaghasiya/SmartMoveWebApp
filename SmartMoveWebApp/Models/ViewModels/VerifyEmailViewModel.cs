@@ -16,7 +16,7 @@ namespace SmartMoveWebApp.Models.ViewModels
 
         public static string GetInvalidTokenMessage()
         {
-            return "Error. Email was not verified.";
+            return "Email token is expired or Email is already verified.";
         }
     }
 }

@@ -17,12 +17,14 @@ namespace SmartMoveWebApp.App_Start
             Mapper.CreateMap<TruckOwner, TruckOwnerDto>();
             Mapper.CreateMap<TruckOwner, TruckOwnerDto>().ReverseMap();
             Mapper.CreateMap<Order, OrderDto>();
+            Mapper.CreateMap<OrderBid, OrderBidDto>();
 
             //DTO to Domain
             Mapper.CreateMap<CustomerDto, Customer>();
             Mapper.CreateMap<CustomerRatingDto, CustomerRating>();
             Mapper.CreateMap<TruckOwnerDto, TruckOwner>();
             Mapper.CreateMap<OrderDto, Order>();
+            Mapper.CreateMap<OrderBidDto, OrderBid>();
         }
     }
 }

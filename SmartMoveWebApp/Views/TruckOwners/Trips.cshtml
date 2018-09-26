@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<OrderBid>
 @{
-    ViewBag.Title = "My Trips";
+    ViewBag.Title = "My Bids";
     Layout = "~/Views/Shared/_TruckOwnersLayout.cshtml";
 }
 
@@ -14,12 +14,12 @@
                     <div class="team-member-info">
                         <table class="table table-bordered text-center">
                             <tr class="side-menu">
-                                <th>Pickup</th>
-                                <th>Drop</th>
-                                <th>Customer</th>
-                                <th>Trips</th>
-                                <th>Amount</th>
-                                <th>Ratings</th>
+                                <th>Added Date</th>
+                                <th>No of Hours</th>
+                                <th>No of Trips</th>
+                                <th>Delivery Date</th>
+                                <th>Bid Amount</th>
+                                <th>Bid Status</th>
                             </tr>
                             @if (Model.Count() == 0)
                             {
@@ -32,12 +32,12 @@
                                 foreach (OrderBid orderBid in Model)
                                 {
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>@orderBid.CreatedTime</td>
+                                        <td>@orderBid.NumberOfHours</td>
                                         <td>@orderBid.NumberOfTrips</td>
+                                        <td>@orderBid.DeliveryStartTime</td>
                                         <td>@orderBid.BidAmount</td>
-                                        <td></td>
+                                        <td>@orderBid.BidStatus</td>
                                     </tr>
                                 }
                             }

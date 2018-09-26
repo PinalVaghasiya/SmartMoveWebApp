@@ -18,12 +18,15 @@ namespace SmartMoveWebApp
         public int OrderId { get; set; }
         public int TruckOwnerId { get; set; }
         public System.DateTime DeliveryStartTime { get; set; }
+        public Nullable<long> Time { get; set; }
         public double NumberOfHours { get; set; }
         public int NumberOfTrips { get; set; }
         public double BidAmount { get; set; }
         public string BidStatus { get; set; }
+        public Nullable<System.DateTime> CreatedTime { get; set; }
+        public Nullable<System.DateTime> ModifiedTime { get; set; }
     
-        public virtual TruckOwner TruckOwner { get; set; }
         public virtual Order Order { get; set; }
+        public virtual TruckOwner TruckOwner { get; set; }
     }
 }

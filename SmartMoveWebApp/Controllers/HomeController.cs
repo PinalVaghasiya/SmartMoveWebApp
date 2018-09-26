@@ -83,8 +83,7 @@ namespace SmartMoveWebApp.Controllers
                 {
                     string token = login.LoginId + "hrd84rdc45kaa52165";
                     string verificationUrl = Url.Action("ResetPassword", "Home", new { token = token }, Request.Url.Scheme);
-
-                    //verificationUrl = "http://189815f4.ngrok.io/Home/ResetPassword?token=" + token;
+                    string userType = "Customer";
 
                     string userName = "";
                     switch (login.UserType)
@@ -96,9 +95,10 @@ namespace SmartMoveWebApp.Controllers
                         case "D":
                             var truckOwner = _context.TruckOwners.Single(t => t.Email == login.Email);
                             userName = truckOwner.FirstName + truckOwner.LastName;
+                            userType = "Driver";
                             break;
                     }
-                    SendGridEmailService.SendForgotPasswordLink(login.Email, userName, verificationUrl);
+                    SendGridEmailService.SendForgotPasswordLink(userType, login.Email, userName, verificationUrl);
 
                     login.PasswordResetToken = token;
                     _context.SaveChanges();

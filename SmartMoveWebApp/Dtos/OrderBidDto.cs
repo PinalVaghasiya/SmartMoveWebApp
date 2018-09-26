@@ -19,6 +19,8 @@ namespace SmartMoveWebApp.Dtos
         [Required]
         public System.DateTime DeliveryStartTime { get; set; }
 
+        public long Time { get; set; }
+
         [Required]
         public double NumberOfHours { get; set; }
 

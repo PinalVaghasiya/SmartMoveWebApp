@@ -19,24 +19,30 @@ namespace SmartMoveWebApp.BusniessLogic
             var subject = "SmartMove " + userType + " registration successful. Please verify your email by clicking on the link below.";
             var to = new EmailAddress(userEmail, userName);
 
-            var plainTextContent = "Please click on below link or paste the following URL: " + verificationUrl + "in your browser.";
-            var htmlContent = "<a href='" + verificationUrl + "'>Verify Email</a>";
+            string path1 = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+            path1 = HttpUtility.UrlDecode(path1);
+            var htmlContent = File.ReadAllText(Path.Combine(path1, @"..\Views\EmailTemplates\EmailVerificationTemplate.html"));
+            htmlContent = htmlContent.Replace("<%verificationUrl%>", verificationUrl);
+            htmlContent = htmlContent.Replace("<%userType%>", userType);
 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
             var response = client.SendEmailAsync(msg);
         }
 
-        public static void SendForgotPasswordLink(string userEmail, string userName, string verificationUrl)
+        public static void SendForgotPasswordLink(string userType, string userEmail, string userName, string verificationUrl)
         {
             var client = new SendGridClient(Constants.SendGridApiKey);
             var from = new EmailAddress("noreply@smartmove.com", "SmartMove");
             var subject = "SmartMove - Password Reset URL. Please reset your password by clicking on the link below.";
             var to = new EmailAddress(userEmail, userName);
 
-            var plainTextContent = "Please click on below link or paste the following URL: " + verificationUrl + "in your browser.";
-            var htmlContent = "<a href='" + verificationUrl + "'>Reset Password</a>";
+            string path1 = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+            path1 = HttpUtility.UrlDecode(path1);
+            var htmlContent = File.ReadAllText(Path.Combine(path1, @"..\Views\EmailTemplates\ResetPasswordTemplate.html"));
+            htmlContent = htmlContent.Replace("<%verificationUrl%>", verificationUrl);
+            htmlContent = htmlContent.Replace("<%userType%>", userType);
 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
             var response = client.SendEmailAsync(msg);
         }
 
@@ -46,10 +52,17 @@ namespace SmartMoveWebApp.BusniessLogic
             var from = new EmailAddress("noreply@smartmove.com", "SmartMove");
             string adminEmail = "ksoni004@gmail.com";
             var to = new EmailAddress(adminEmail, "Admin - SmartMove Web");
+            var emailSubject = "SmartMove - Contact Us Query";
 
-            var htmlContent = File.ReadAllText(Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath), @"..\Views\EmailTemplates\VerifyEmail.aspx"));
+            string path1 = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+            path1 = HttpUtility.UrlDecode(path1);
+            var htmlContent = File.ReadAllText(Path.Combine(path1, @"..\Views\EmailTemplates\ContactUsTemplate.html"));
+            htmlContent = htmlContent.Replace("<%userEmail%>", userEmail);
+            htmlContent = htmlContent.Replace("<%fullName%>", fullName);
+            htmlContent = htmlContent.Replace("<%userSubject%>", subject);
+            htmlContent = htmlContent.Replace("<%userMessage%>", message);
 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, "Contact Us Email", message + htmlContent);
+            var msg = MailHelper.CreateSingleEmail(from, to, emailSubject, "", htmlContent);
             var response = client.SendEmailAsync(msg);
         }
     }

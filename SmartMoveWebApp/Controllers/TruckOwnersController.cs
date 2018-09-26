@@ -228,8 +228,6 @@ namespace SmartMoveWebApp.Controllers
                     string token = truckOwner.TruckOwnerId + "c45kaa52165hrd84rd";
                     string verificationUrl = Url.Action("VerifyEmail", "TruckOwners", new { token = token }, Request.Url.Scheme);
 
-                    //verificationUrl = "http://189815f4.ngrok.io/TruckOwners/VerifyEmail?token=" + token;
-
                     SendGridEmailService.SendEmailActivationLink("Driver", truckOwner.Email, truckOwner.FirstName, verificationUrl);
 
                     TempData["ViewModel"] = new SuccessPageViewModel { Message = Constants.RegisterSuccessMessage };
@@ -381,7 +379,7 @@ namespace SmartMoveWebApp.Controllers
                 TruckColor = truckInDb.TruckColor
             };
 
-            ViewBag.Name = truckOwnerInDb.FirstName +  " " + truckOwnerInDb.LastName;
+            ViewBag.Name = truckOwnerInDb.FirstName + " " + truckOwnerInDb.LastName;
             ViewBag.ProfilePictureURL = truckOwnerInDb.ProfilePictureURL;
             return View(editDriverProfileViewModel);
         }
@@ -449,7 +447,7 @@ namespace SmartMoveWebApp.Controllers
                 {
                     var truckOwnerInDb = _context.TruckOwners.Single(t => t.TruckOwnerId == model.TruckOwnerId);
 
-                    if(isValidFile)
+                    if (isValidFile)
                     {
                         var fileName = truckOwnerInDb.TruckOwnerId + "_" + truckOwnerInDb.Email + "_PP" + Path.GetExtension(file.FileName);
                         model.ProfilePictureURL = Path.Combine(

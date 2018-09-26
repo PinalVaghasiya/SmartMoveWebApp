@@ -28,7 +28,6 @@ namespace SmartMoveWebApp
         public virtual DbSet<CustomerCreditCard> CustomerCreditCards { get; set; }
         public virtual DbSet<CustomerRating> CustomerRatings { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<OrderBid> OrderBids { get; set; }
         public virtual DbSet<OrderImage> OrderImages { get; set; }
         public virtual DbSet<OrderPayment> OrderPayments { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
@@ -37,7 +36,8 @@ namespace SmartMoveWebApp
         public virtual DbSet<Truck> Trucks { get; set; }
         public virtual DbSet<TruckType> TruckTypes { get; set; }
         public virtual DbSet<TruckOwner> TruckOwners { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Login> Logins { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderBid> OrderBids { get; set; }
     }
 }

@@ -17,10 +17,10 @@ namespace SmartMoveWebApp
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TruckOwner()
         {
-            this.OrderBids = new HashSet<OrderBid>();
             this.TruckOwnerCreditCards = new HashSet<TruckOwnerCreditCard>();
             this.TruckOwnerRatings = new HashSet<TruckOwnerRating>();
             this.Trucks = new HashSet<Truck>();
+            this.OrderBids = new HashSet<OrderBid>();
         }
     
         public int TruckOwnerId { get; set; }
@@ -42,12 +42,12 @@ namespace SmartMoveWebApp
         public Nullable<System.DateTime> ModifiedTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderBid> OrderBids { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TruckOwnerCreditCard> TruckOwnerCreditCards { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TruckOwnerRating> TruckOwnerRatings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Truck> Trucks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderBid> OrderBids { get; set; }
     }
 }

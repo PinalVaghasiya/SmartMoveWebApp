@@ -42,8 +42,10 @@
                                 <h5>Address</h5>
                             </div>
                             <div class="col-lg-4">
-                                <p>@Model.Address1<br />
-                                @Model.Address2</p>
+                                <p>
+                                    @Model.Address1<br />
+                                    @Model.Address2
+                                </p>
                             </div>
                         </div>
                         <div class="row col-lg-12 text-left">
@@ -51,8 +53,16 @@
                                 <h5>Zip Code</h5>
                             </div>
                             <div class="col-lg-4">
-                                <p>@Model.City, @Model.ZipCode</p>
+                                <p>@Model.ZipCode</p>
                             </div>
+                            <div class="col-lg-2">
+                                <h5>City</h5>
+                            </div>
+                            <div class="col-lg-4">
+                                <p>@Model.City</p>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12 text-left">
                             <div class="col-lg-2">
                                 <h5>State</h5>
                             </div>

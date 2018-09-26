@@ -186,8 +186,6 @@ namespace SmartMoveWebApp.Controllers
                     string token = customer.CustomerId + "c45kaa52165hrd84rd";
                     string verificationUrl = Url.Action("VerifyEmail", "Customers", new { token = token }, Request.Url.Scheme);
 
-                    //verificationUrl = "http://189815f4.ngrok.io/Customers/VerifyEmail?token=" + token;
-
                     SendGridEmailService.SendEmailActivationLink("Customer", customer.Email, customer.FirstName, verificationUrl);
 
                     TempData["ViewModel"] = new SuccessPageViewModel { Message = Constants.RegisterSuccessMessage };
@@ -330,7 +328,7 @@ namespace SmartMoveWebApp.Controllers
                 {
                     var customerInDb = _context.Customers.Single(c => c.CustomerId == model.CustomerId);
 
-                    if(isValidFile)
+                    if (isValidFile)
                     {
                         var fileName = customerInDb.CustomerId + "_" + customerInDb.Email + "_PP" + Path.GetExtension(file.FileName);
                         model.ProfilePictureURL = Path.Combine(
@@ -347,8 +345,8 @@ namespace SmartMoveWebApp.Controllers
                     customerInDb.ZipCode = model.ZipCode.Trim();
                     customerInDb.City = model.City.Trim();
                     customerInDb.State = model.State.Trim();
-                    if(isValidFile)
-                    customerInDb.ProfilePictureURL = model.ProfilePictureURL;
+                    if (isValidFile)
+                        customerInDb.ProfilePictureURL = model.ProfilePictureURL;
                     customerInDb.ModifiedTime = DateTime.Now;
 
                     _context.SaveChanges();
