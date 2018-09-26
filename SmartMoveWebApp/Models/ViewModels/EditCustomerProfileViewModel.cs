@@ -51,5 +51,7 @@ namespace SmartMoveWebApp.Models.ViewModels
 
         [Display(Name = "Select Profile Picture")]
         public string ProfilePictureURL { get; set; }
+
+        public double AverageRating { get; set; }
     }
 }

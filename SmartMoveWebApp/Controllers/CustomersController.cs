@@ -258,7 +258,8 @@ namespace SmartMoveWebApp.Controllers
                 Address2 = customerInDb.Address2,
                 ZipCode = customerInDb.ZipCode,
                 City = customerInDb.City,
-                State = customerInDb.State
+                State = customerInDb.State,
+                AverageRating = GetAverageCustomerRating(customerInDb.CustomerId)
             };
 
             ViewBag.Name = customerInDb.FirstName + " " + customerInDb.LastName;
@@ -417,6 +418,19 @@ namespace SmartMoveWebApp.Controllers
             string email = GetCustomerEmail();
             var customer = _context.Customers.Single(c => c.Email == email);
             return customer.ProfilePictureURL;
+        }
+
+        public double GetAverageCustomerRating(int customerId)
+        {
+            var hasRatings = _context.CustomerRatings.Where(r => r.CustomerId == customerId).ToList();
+
+            if (hasRatings != null && hasRatings.Count > 0)
+            {
+                double averageRating = hasRatings.Average(r => r.Rating);
+                return averageRating;
+            }
+            else
+                return 0;
         }
     }
 }

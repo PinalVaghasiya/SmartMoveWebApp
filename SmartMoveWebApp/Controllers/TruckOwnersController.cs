@@ -331,7 +331,8 @@ namespace SmartMoveWebApp.Controllers
                 TruckModel = truckInDb.TruckModel,
                 TruckYear = Convert.ToInt32(truckInDb.TruckYear),
                 LicensePlate = truckInDb.LicensePlate,
-                TruckColor = truckInDb.TruckColor
+                TruckColor = truckInDb.TruckColor,
+                AverageRating = GetAverageDriverRating(truckOwnerInDb.TruckOwnerId)
             };
 
             ViewBag.Name = truckOwnerInDb.FirstName + " " + truckOwnerInDb.LastName;
@@ -549,6 +550,19 @@ namespace SmartMoveWebApp.Controllers
             string email = GetTruckOwnerEmail();
             var truckOwner = _context.TruckOwners.Single(t => t.Email == email);
             return truckOwner.ProfilePictureURL;
+        }
+
+        public double GetAverageDriverRating(int truckOwnerId)
+        {
+            var hasRatings = _context.TruckOwnerRatings.Where(r => r.TruckOwnerId == truckOwnerId).ToList();
+
+            if (hasRatings != null && hasRatings.Count > 0)
+            {
+                double averageRating = hasRatings.Average(r => r.Rating);
+                return averageRating;
+            }
+            else
+                return 0;
         }
     }
 }
