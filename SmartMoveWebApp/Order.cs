@@ -18,7 +18,6 @@ namespace SmartMoveWebApp
         public Order()
         {
             this.CustomerRatings = new HashSet<CustomerRating>();
-            this.OrderImages = new HashSet<OrderImage>();
             this.OrderPayments = new HashSet<OrderPayment>();
             this.TruckOwnerRatings = new HashSet<TruckOwnerRating>();
             this.OrderBids = new HashSet<OrderBid>();
@@ -54,8 +53,6 @@ namespace SmartMoveWebApp
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerRating> CustomerRatings { get; set; }
         public virtual Customer Customer { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderImage> OrderImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderPayment> OrderPayments { get; set; }
         public virtual TruckType TruckType { get; set; }

@@ -40,8 +40,6 @@ namespace SmartMoveWebApp.Controllers.Api
                 .Where(o => o.OrderStatus != Constants.OrderStatus.COMPLETED.ToString())
                 .ToList();
 
-            var list = cancelledOrders.Select(Mapper.Map<Order, OrderDto>);
-
             GetOrderListDto ordersList = new GetOrderListDto
             {
                 RunningOrders = runningOrders.Select(Mapper.Map<Order, OrderDto>),
@@ -144,7 +142,18 @@ namespace SmartMoveWebApp.Controllers.Api
                 .Where(b => b.BidStatus != Constants.OrderBidStatus.COMPLETED.ToString())
                 .Where(b => b.OrderId == orderId)
                 .ToList();
-            return Ok(orderBidsList.Select(Mapper.Map<OrderBid, OrderBidDto>));
+
+            List<CustomerOrderBidDto> customerOrderBids = new List<CustomerOrderBidDto>();
+            foreach (var orderBid in orderBidsList)
+            {
+                var customerOrderBid = new CustomerOrderBidDto();
+                customerOrderBid = Mapper.Map<OrderBid, CustomerOrderBidDto>(orderBid);
+                var truckOwner = _context.TruckOwners.Single(t => t.TruckOwnerId == orderBid.TruckOwnerId);
+                customerOrderBid.DriverName = truckOwner.FirstName + " " + truckOwner.LastName;
+                customerOrderBid.AverageRating = GetAverageDriverRating(orderBid.TruckOwnerId);
+                customerOrderBids.Add(customerOrderBid);
+            }
+            return Ok(customerOrderBids);
         }
 
         [HttpPost]
@@ -197,6 +206,19 @@ namespace SmartMoveWebApp.Controllers.Api
         {
             double averageRating = _context.CustomerRatings.Where(r => r.CustomerId == customerId).Average(r => r.Rating);
             return Ok(averageRating);
+        }
+
+        public double GetAverageDriverRating(int truckOwnerId)
+        {
+            var hasRatings = _context.TruckOwnerRatings.Where(r => r.TruckOwnerId == truckOwnerId).ToList();
+
+            if (hasRatings != null && hasRatings.Count > 0)
+            {
+                double averageRating = hasRatings.Average(r => r.Rating);
+                return averageRating;
+            }
+            else
+                return 0;
         }
     }
 }

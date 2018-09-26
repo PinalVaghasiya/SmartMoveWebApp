@@ -78,14 +78,6 @@
           <Property Name="CreatedTime" Type="datetime" />
           <Property Name="ModifiedTime" Type="datetime" />
         </EntityType>
-        <EntityType Name="OrderImages">
-          <Key>
-            <PropertyRef Name="ImageId" />
-          </Key>
-          <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
-          <Property Name="ImageURL" Type="varchar(max)" Nullable="false" />
-        </EntityType>
         <EntityType Name="OrderPayments">
           <Key>
             <PropertyRef Name="PaymentId" />
@@ -268,18 +260,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderImages_Orders">
-          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
-          <End Role="OrderImages" Type="Self.OrderImages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="OrderImages">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderPayments_CustomerCreditCards">
           <End Role="CustomerCreditCards" Type="Self.CustomerCreditCards" Multiplicity="1" />
           <End Role="OrderPayments" Type="Self.OrderPayments" Multiplicity="*" />
@@ -394,7 +374,6 @@
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logins" EntityType="Self.Logins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderBids" EntityType="Self.OrderBids" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrderImages" EntityType="Self.OrderImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderPayments" EntityType="Self.OrderPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -422,10 +401,6 @@
           <AssociationSet Name="FK_OrderBids_TruckOwners" Association="Self.FK_OrderBids_TruckOwners">
             <End Role="TruckOwners" EntitySet="TruckOwners" />
             <End Role="OrderBids" EntitySet="OrderBids" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderImages_Orders" Association="Self.FK_OrderImages_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderImages" EntitySet="OrderImages" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderPayments_CustomerCreditCards" Association="Self.FK_OrderPayments_CustomerCreditCards">
             <End Role="CustomerCreditCards" EntitySet="CustomerCreditCards" />
@@ -472,7 +447,6 @@
           <EntitySet Name="CustomerCreditCards" EntityType="SmartMoveModel.CustomerCreditCard" />
           <EntitySet Name="CustomerRatings" EntityType="SmartMoveModel.CustomerRating" />
           <EntitySet Name="Customers" EntityType="SmartMoveModel.Customer" />
-          <EntitySet Name="OrderImages" EntityType="SmartMoveModel.OrderImage" />
           <EntitySet Name="OrderPayments" EntityType="SmartMoveModel.OrderPayment" />
           <EntitySet Name="sysdiagrams" EntityType="SmartMoveModel.sysdiagram" />
           <EntitySet Name="TruckOwnerCreditCards" EntityType="SmartMoveModel.TruckOwnerCreditCard" />
@@ -517,10 +491,6 @@
           <AssociationSet Name="FK_Orders_Customers" Association="SmartMoveModel.FK_Orders_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderImages_Orders" Association="SmartMoveModel.FK_OrderImages_Orders">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderImage" EntitySet="OrderImages" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderPayments_Orders" Association="SmartMoveModel.FK_OrderPayments_Orders">
             <End Role="Order" EntitySet="Orders" />
@@ -593,15 +563,6 @@
           <NavigationProperty Name="CustomerCreditCards" Relationship="SmartMoveModel.FK_CustomerCreditCards_Customers" FromRole="Customer" ToRole="CustomerCreditCard" />
           <NavigationProperty Name="CustomerRatings" Relationship="SmartMoveModel.FK_CustomerRatings_Customers" FromRole="Customer" ToRole="CustomerRating" />
           <NavigationProperty Name="Orders" Relationship="SmartMoveModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="OrderImage">
-          <Key>
-            <PropertyRef Name="ImageId" />
-          </Key>
-          <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="ImageURL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Order" Relationship="SmartMoveModel.FK_OrderImages_Orders" FromRole="OrderImage" ToRole="Order" />
         </EntityType>
         <EntityType Name="OrderPayment">
           <Key>
@@ -837,7 +798,6 @@
           <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CustomerRatings" Relationship="SmartMoveModel.FK_CustomerRatings_Orders" FromRole="Order" ToRole="CustomerRating" />
           <NavigationProperty Name="Customer" Relationship="SmartMoveModel.FK_Orders_Customers" FromRole="Order" ToRole="Customer" />
-          <NavigationProperty Name="OrderImages" Relationship="SmartMoveModel.FK_OrderImages_Orders" FromRole="Order" ToRole="OrderImage" />
           <NavigationProperty Name="OrderPayments" Relationship="SmartMoveModel.FK_OrderPayments_Orders" FromRole="Order" ToRole="OrderPayment" />
           <NavigationProperty Name="TruckType" Relationship="SmartMoveModel.FK_Orders_TruckTypes" FromRole="Order" ToRole="TruckType" />
           <NavigationProperty Name="TruckOwnerRatings" Relationship="SmartMoveModel.FK_TruckOwnerRatings_Orders" FromRole="Order" ToRole="TruckOwnerRating" />
@@ -864,18 +824,6 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderImages_Orders">
-          <End Type="SmartMoveModel.Order" Role="Order" Multiplicity="1" />
-          <End Type="SmartMoveModel.OrderImage" Role="OrderImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="OrderImage">
-              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1006,15 +954,6 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderImages">
-            <EntityTypeMapping TypeName="SmartMoveModel.OrderImage">
-              <MappingFragment StoreEntitySet="OrderImages">
-                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

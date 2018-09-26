@@ -18,6 +18,7 @@ namespace SmartMoveWebApp.App_Start
             Mapper.CreateMap<TruckOwner, TruckOwnerDto>().ReverseMap();
             Mapper.CreateMap<Order, OrderDto>();
             Mapper.CreateMap<OrderBid, OrderBidDto>();
+            Mapper.CreateMap<OrderBid, CustomerOrderBidDto>();
 
             //DTO to Domain
             Mapper.CreateMap<CustomerDto, Customer>();

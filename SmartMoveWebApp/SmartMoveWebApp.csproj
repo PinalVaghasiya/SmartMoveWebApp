@@ -219,8 +219,10 @@
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Dtos\AccountLoginDto.cs" />
+    <Compile Include="Dtos\CustomerOrderBidDto.cs" />
     <Compile Include="Dtos\GetBidsListDto.cs" />
     <Compile Include="Dtos\GetOrderListDto.cs" />
+    <Compile Include="Dtos\OrderDetailsDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,7 +234,6 @@
     <Compile Include="Dtos\CustomerRatingDto.cs" />
     <Compile Include="Dtos\LoginDto.cs" />
     <Compile Include="Dtos\OrderBidDto.cs" />
-    <Compile Include="Dtos\OrderImageDto.cs" />
     <Compile Include="Dtos\OrderDto.cs" />
     <Compile Include="Dtos\OrderPaymentDto.cs" />
     <Compile Include="Dtos\TruckDto.cs" />
@@ -257,9 +258,6 @@
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderBid.cs">
-      <DependentUpon>SmartMoveModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OrderImage.cs">
       <DependentUpon>SmartMoveModel.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderPayment.cs">

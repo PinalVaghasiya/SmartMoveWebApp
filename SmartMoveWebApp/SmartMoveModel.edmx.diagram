@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="SmartMoveModel.CustomerCreditCard" Width="1.5" PointX="3" PointY="18.25" />
         <EntityTypeShape EntityType="SmartMoveModel.CustomerRating" Width="1.5" PointX="3" PointY="8.375" />
         <EntityTypeShape EntityType="SmartMoveModel.Customer" Width="1.5" PointX="0.75" PointY="7.5" />
-        <EntityTypeShape EntityType="SmartMoveModel.OrderImage" Width="1.5" PointX="8.25" PointY="16.375" />
         <EntityTypeShape EntityType="SmartMoveModel.OrderPayment" Width="1.5" PointX="8.25" PointY="12.5" />
         <EntityTypeShape EntityType="SmartMoveModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="SmartMoveModel.TruckOwnerCreditCard" Width="1.5" PointX="11.25" PointY="3" />
@@ -27,7 +26,6 @@
         <EntityTypeShape EntityType="SmartMoveModel.Order" Width="1.5" PointX="6" PointY="6.875" />
         <AssociationConnector Association="SmartMoveModel.FK_CustomerRatings_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_Orders_Customers" />
-        <AssociationConnector Association="SmartMoveModel.FK_OrderImages_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_OrderPayments_Orders" />
         <AssociationConnector Association="SmartMoveModel.FK_Orders_TruckTypes" />
         <AssociationConnector Association="SmartMoveModel.FK_TruckOwnerRatings_Orders" />
