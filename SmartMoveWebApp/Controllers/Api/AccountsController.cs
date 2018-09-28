@@ -64,7 +64,9 @@ namespace SmartMoveWebApp.Controllers.Api
                     }
                     else
                     {
-                        return Ok(Mapper.Map<Customer, CustomerDto>(customer));
+                        var customerDto = Mapper.Map<Customer, CustomerDto>(customer);
+                        customerDto.AverageRating = BusinessLogic.GetAverageCustomerRating(customerDto.CustomerId);
+                        return Ok(customerDto);
                     }
                 case "D":
                     var truckOwner = _context.TruckOwners.SingleOrDefault(t => t.Email == model.Email);
@@ -98,7 +100,9 @@ namespace SmartMoveWebApp.Controllers.Api
                     }
                     else
                     {
-                        return Ok(Mapper.Map<TruckOwner, TruckOwnerDto>(truckOwner));
+                        var truckOwnerDto = Mapper.Map<TruckOwner, TruckOwnerDto>(truckOwner);
+                        truckOwnerDto.AverageRating = BusinessLogic.GetAverageDriverRating(truckOwnerDto.TruckOwnerId);
+                        return Ok(truckOwnerDto);
                     }
                 default:
                     ModelState.AddModelError("", "Invalid Account type");

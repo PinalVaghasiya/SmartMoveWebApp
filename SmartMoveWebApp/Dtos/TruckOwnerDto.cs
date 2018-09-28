@@ -79,5 +79,7 @@ namespace SmartMoveWebApp.Dtos
         public string DriverInsurancePolicy { get; set; }
 
         public string ProfilePictureURL { get; set; }
+
+        public double AverageRating { get; set; }
     }
 }

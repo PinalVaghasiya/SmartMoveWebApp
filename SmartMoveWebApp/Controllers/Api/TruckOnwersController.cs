@@ -41,9 +41,10 @@ namespace SmartMoveWebApp.Controllers.Api
                 .ToList();
 
             var orders = _context.Orders
-                .Where(o => o.TruckTypeId >= truckTypeId)
+                .Where(o => o.TruckTypeId <= truckTypeId)
                 .Where(o => !pendingBids.Contains(o.OrderId))
                 .Where(o => o.OrderStatus == Constants.OrderStatus.PENDING.ToString())
+                .OrderBy(o => o.OrderDateTime)
                 .ToList();
 
             var acceptedBids = _context.OrderBids
@@ -53,16 +54,17 @@ namespace SmartMoveWebApp.Controllers.Api
                 .ToList();
 
             var confirmedOrders = _context.Orders
-                .Where(o => acceptedBids.Contains(o.OrderId))            
+                .Where(o => acceptedBids.Contains(o.OrderId))
                 .Where(o => o.OrderStatus != Constants.OrderStatus.PENDING.ToString())
+                .OrderBy(o => o.OrderDateTime)
                 .ToList();
 
-            foreach(var confirmedOrder in confirmedOrders)
+            foreach (var confirmedOrder in confirmedOrders)
             {
                 TimeSpan time = TimeSpan.FromMilliseconds(Convert.ToDouble(confirmedOrder.Time));
                 DateTime orderStartDate = new DateTime(1970, 1, 1) + time;
                 TimeSpan difference = orderStartDate - DateTime.Now;
-                if (confirmedOrder.OrderStatus == "CONFIRMED" && difference.Hours == 0)
+                if (confirmedOrder.OrderStatus == "CONFIRMED" && difference.Days == 0)
                     orders.Add(confirmedOrder);
                 else if (confirmedOrder.OrderStatus != "CONFIRMED")
                     orders.Add(confirmedOrder);
@@ -114,11 +116,13 @@ namespace SmartMoveWebApp.Controllers.Api
             var pendingBids = _context.OrderBids
                 .Where(b => b.TruckOwnerId == truckOwnerId)
                 .Where(b => b.BidStatus == Constants.OrderBidStatus.PENDING.ToString())
+                .OrderByDescending(b => b.DeliveryStartTime)
                 .ToList();
 
             var acceptedBids = _context.OrderBids
                 .Where(b => b.TruckOwnerId == truckOwnerId)
-                .Where(b => b.BidStatus == Constants.OrderBidStatus.ACCEPTED.ToString())
+                .Where(b => b.BidStatus != Constants.OrderBidStatus.PENDING.ToString())
+                .OrderByDescending(b => b.DeliveryStartTime)
                 .ToList();
 
             var getBidsListDto = new GetBidsListDto
@@ -205,9 +209,10 @@ namespace SmartMoveWebApp.Controllers.Api
             customerRating = Mapper.Map<CustomerRatingDto, CustomerRating>(customerRatingDto);
             customerRating.CreatedTime = DateTime.Now;
 
+            _context.CustomerRatings.Add(customerRating);
             _context.SaveChanges();
 
-            return Ok(Mapper.Map<CustomerRating, CustomerRatingDto>(customerRating));
+            return Ok();
         }
 
         [HttpGet]

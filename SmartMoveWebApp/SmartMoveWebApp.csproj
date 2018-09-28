@@ -200,6 +200,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusniessLogic\AuthenticationLogic.cs" />
     <Compile Include="BusniessLogic\AuthorizationServiceProvider.cs" />
+    <Compile Include="BusniessLogic\BusinessLogic.cs" />
     <Compile Include="BusniessLogic\Constants.cs" />
     <Compile Include="BusniessLogic\SendGridEmailService.cs" />
     <Compile Include="Controllers\Api\AccountsController.cs" />
@@ -221,8 +222,10 @@
     <Compile Include="Dtos\AccountLoginDto.cs" />
     <Compile Include="Dtos\CustomerOrderBidDto.cs" />
     <Compile Include="Dtos\GetBidsListDto.cs" />
+    <Compile Include="Dtos\GetCustomerOrderListDto.cs" />
     <Compile Include="Dtos\GetOrderListDto.cs" />
     <Compile Include="Dtos\OrderDetailsDto.cs" />
+    <Compile Include="Dtos\CustomerOrderDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -380,10 +383,19 @@
       <DependentUpon>SmartMoveModel.edmx</DependentUpon>
       <LastGenOutput>SmartMoveModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\EmailTemplates\AccountVerifiedTemplate.html" />
+    <Content Include="Views\EmailTemplates\BidAcceptedTemplate.html" />
+    <Content Include="Views\EmailTemplates\BidPlacedTemplate.html" />
+    <Content Include="Views\EmailTemplates\BidRemovedTemplate.html" />
     <Content Include="Views\EmailTemplates\ContactUsTemplate.html" />
     <Content Include="Views\EmailTemplates\EmailVerificationTemplate.html" />
+    <Content Include="Views\EmailTemplates\OrderCancelledTemplate.html" />
+    <Content Include="Views\EmailTemplates\OrderCreatedTemplate.html" />
     <Content Include="Views\EmailTemplates\OrderReceiptTemplate.html" />
+    <Content Include="Views\EmailTemplates\RatingSubmittedTemplate.html" />
     <Content Include="Views\EmailTemplates\ResetPasswordTemplate.html" />
+    <Content Include="Views\EmailTemplates\TripFinishedTemplate.html" />
+    <Content Include="Views\EmailTemplates\TripStartedTemplate.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

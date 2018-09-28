@@ -27,24 +27,43 @@ namespace SmartMoveWebApp.Controllers.Api
             var cancelledOrders = _context.Orders
                 .Where(o => o.CustomerId == customerId)
                 .Where(o => o.OrderStatus == Constants.OrderStatus.CANCELLED.ToString())
+                .OrderBy(o => o.OrderDateTime)
                 .ToList();
+
+            List<string> statusList = new List<string>
+            {
+                Constants.OrderStatus.COMPLETED.ToString(),
+                Constants.OrderStatus.CANCELLED.ToString()
+            };
 
             var completedOrders = _context.Orders
                 .Where(o => o.CustomerId == customerId)
-                .Where(o => o.OrderStatus == Constants.OrderStatus.COMPLETED.ToString())
+                .Where(o => statusList.Contains(o.OrderStatus))
+                .OrderBy(o => o.OrderDateTime)
                 .ToList();
+            List<CustomerOrderDto> completedOrderDtos = new List<CustomerOrderDto>();
+            foreach (var order in completedOrders)
+            {
+                var customerOrder = new CustomerOrderDto();
+                customerOrder = Mapper.Map<Order, CustomerOrderDto>(order);
+                var hasCustomerRating = _context.TruckOwnerRatings.SingleOrDefault(t => t.OrderId == order.OrderId);
+                if (hasCustomerRating != null)
+                    customerOrder.HasCustomerRating = true;
+                completedOrderDtos.Add(customerOrder);
+            }
 
             var runningOrders = _context.Orders
                 .Where(o => o.CustomerId == customerId)
                 .Where(o => o.OrderStatus != Constants.OrderStatus.CANCELLED.ToString())
                 .Where(o => o.OrderStatus != Constants.OrderStatus.COMPLETED.ToString())
+                .OrderBy(o => o.OrderDateTime)
                 .ToList();
 
-            GetOrderListDto ordersList = new GetOrderListDto
+            GetCustomerOrderListDto ordersList = new GetCustomerOrderListDto
             {
-                RunningOrders = runningOrders.Select(Mapper.Map<Order, OrderDto>),
-                CompletedOrders = completedOrders.Select(Mapper.Map<Order, OrderDto>),
-                CancelledOrders = cancelledOrders.Select(Mapper.Map<Order, OrderDto>)
+                RunningOrders = runningOrders.Select(Mapper.Map<Order, CustomerOrderDto>),
+                CompletedOrders = completedOrderDtos,
+                CancelledOrders = cancelledOrders.Select(Mapper.Map<Order, CustomerOrderDto>)
             };
 
             return Ok(ordersList);
@@ -139,8 +158,8 @@ namespace SmartMoveWebApp.Controllers.Api
         {
             var orderBidsList = _context.OrderBids
                 .Where(b => b.BidStatus != Constants.OrderBidStatus.CANCELLED.ToString())
-                .Where(b => b.BidStatus != Constants.OrderBidStatus.COMPLETED.ToString())
                 .Where(b => b.OrderId == orderId)
+                .OrderBy(o => o.BidAmount)
                 .ToList();
 
             List<CustomerOrderBidDto> customerOrderBids = new List<CustomerOrderBidDto>();
@@ -152,6 +171,8 @@ namespace SmartMoveWebApp.Controllers.Api
                 customerOrderBid.DriverName = truckOwner.FirstName + " " + truckOwner.LastName;
                 customerOrderBid.AverageRating = GetAverageDriverRating(orderBid.TruckOwnerId);
                 customerOrderBids.Add(customerOrderBid);
+                if (orderBid.BidStatus == Constants.OrderBidStatus.COMPLETED.ToString())
+                    return Ok(customerOrderBids);
             }
             return Ok(customerOrderBids);
         }
@@ -166,6 +187,16 @@ namespace SmartMoveWebApp.Controllers.Api
 
             var order = _context.Orders.Single(o => o.OrderId == orderBid.OrderId);
             order.OrderStatus = Constants.OrderStatus.CONFIRMED.ToString();
+
+            var notAcceptedOrderBids = _context.OrderBids
+                .Where(b => b.OrderId == order.OrderId)
+                .Where(b => b.BidId != bidId)
+                .ToList();
+
+            foreach (OrderBid notAcceptedOrderBid in notAcceptedOrderBids)
+            {
+                notAcceptedOrderBid.BidStatus = "NOT ACCEPTED";
+            }
 
             if (orderBid.BidAmount > Constants.InitialOrderPaymentAmount)
             {
@@ -188,16 +219,23 @@ namespace SmartMoveWebApp.Controllers.Api
 
         [HttpPost]
         [Route("RateDriver")]
-        public IHttpActionResult RateDriver(TruckOwnerRatingDto driverRatingDto)
+        public IHttpActionResult RateDriver(CustomerRatingDto driverRatingDto)
         {
-            var truckOwnerRating = new TruckOwnerRating();
+            var orderBid = _context.OrderBids
+                .Where(b => b.BidStatus == Constants.OrderBidStatus.COMPLETED.ToString())
+                .Single(b => b.OrderId == driverRatingDto.OrderId);
 
-            truckOwnerRating = Mapper.Map<TruckOwnerRatingDto, TruckOwnerRating>(driverRatingDto);
-            truckOwnerRating.CreatedTime = DateTime.Now;
-
+            var truckOwnerRating = new TruckOwnerRating
+            {
+                OrderId = driverRatingDto.OrderId,
+                TruckOwnerId = orderBid.TruckOwnerId,
+                Rating = driverRatingDto.Rating,
+                CreatedTime = DateTime.Now
+            };
+            _context.TruckOwnerRatings.Add(truckOwnerRating);
             _context.SaveChanges();
 
-            return Ok(true);
+            return Ok();
         }
 
         [HttpGet]
