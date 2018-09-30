@@ -271,6 +271,7 @@ namespace SmartMoveWebApp.Controllers
                     login.EmailActivated = true;
                     _context.SaveChanges();
                     viewModel.PageContent = VerifyEmailViewModel.GetSuccessMessage();
+                    SendGridEmailService.AccountVerifiedEmail(truckOwner.Email, truckOwner.FirstName + " " + truckOwner.LastName);
                 }
             }
             return View(viewModel);

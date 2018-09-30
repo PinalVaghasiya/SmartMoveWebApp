@@ -34,5 +34,28 @@ namespace SmartMoveWebApp.BusniessLogic
             else
                 return 0;
         }
+        public static string getTruckOwnerEmail(int truckOwnerId)
+        {
+            var email = _context.TruckOwners.Single(t => t.TruckOwnerId == truckOwnerId);
+            return email.Email;
+        }
+
+        public static string getTruckOwnerName(int truckOwnerId)
+        {
+            var email = _context.TruckOwners.Single(t => t.TruckOwnerId == truckOwnerId);
+            return email.FirstName + " " + email.LastName;
+        }
+
+        public static string getCustomerEmail(int customerId)
+        {
+            var email = _context.Customers.Single(t => t.CustomerId == customerId);
+            return email.Email;
+        }
+
+        public static string getCustomerName(int customerId)
+        {
+            var email = _context.Customers.Single(t => t.CustomerId == customerId);
+            return email.FirstName + " " + email.LastName;
+        }
     }
 }

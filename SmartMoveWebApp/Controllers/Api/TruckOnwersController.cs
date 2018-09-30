@@ -151,6 +151,8 @@ namespace SmartMoveWebApp.Controllers.Api
             _context.OrderBids.Add(orderBid);
             _context.SaveChanges();
 
+            SendGridEmailService.BidPlaced(BusinessLogic.getTruckOwnerEmail(orderBid.TruckOwnerId), BusinessLogic.getTruckOwnerName(orderBid.TruckOwnerId), orderBid.OrderId, orderBid.BidAmount, orderBid.BidStatus, orderBid.DeliveryStartTime, orderBid.NumberOfHours, orderBid.NumberOfTrips);
+
             return Ok(Mapper.Map<OrderBid, OrderBidDto>(orderBid));
         }
 
@@ -166,6 +168,9 @@ namespace SmartMoveWebApp.Controllers.Api
 
             _context.SaveChanges();
 
+            SendGridEmailService.BidRemoved(BusinessLogic.getTruckOwnerEmail(orderBid.TruckOwnerId), BusinessLogic.getTruckOwnerName(orderBid.TruckOwnerId),
+                orderBid.OrderId, orderBid.BidAmount, orderBid.BidStatus);
+
             return Ok(orderBid);
         }
 
@@ -177,6 +182,8 @@ namespace SmartMoveWebApp.Controllers.Api
 
             order.OrderStatus = Constants.OrderStatus.DELIVERING.ToString();
             _context.SaveChanges();
+
+            SendGridEmailService.TripStarted(BusinessLogic.getCustomerEmail(order.CustomerId), BusinessLogic.getCustomerName(order.CustomerId), order.OrderId, DateTime.Now, order.TruckType.Type, order.PickupPlace, order.DropPlace, order.OrderStatus);
 
             return Ok(Mapper.Map<Order, OrderDto>(order));
         }
@@ -196,6 +203,10 @@ namespace SmartMoveWebApp.Controllers.Api
             orderBid.ModifiedTime = DateTime.Now;
 
             _context.SaveChanges();
+
+            SendGridEmailService.TripFinished(BusinessLogic.getTruckOwnerEmail(orderBid.TruckOwnerId), BusinessLogic.getTruckOwnerName(orderBid.TruckOwnerId), order.OrderId, DateTime.Now, order.TruckType.Type, order.PickupPlace, order.DropPlace, order.OrderStatus);
+
+            SendGridEmailService.TripFinished(BusinessLogic.getCustomerEmail(order.CustomerId), BusinessLogic.getCustomerName(order.CustomerId), order.OrderId, DateTime.Now, order.TruckType.Type, order.PickupPlace, order.DropPlace, order.OrderStatus);
 
             return Ok(Mapper.Map<Order, OrderDto>(order));
         }

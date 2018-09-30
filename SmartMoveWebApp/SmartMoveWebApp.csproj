@@ -324,6 +324,10 @@
     <Content Include="Content\images\services\service-icon-1.png" />
     <Content Include="Content\images\services\service-icon-5.png" />
     <Content Include="Content\images\services\Side_Menu.png" />
+    <Content Include="Content\images\services\SS1.jpeg" />
+    <Content Include="Content\images\services\SS2.jpg" />
+    <Content Include="Content\images\services\SS3.jpeg" />
+    <Content Include="Content\images\services\SS4.jpg" />
     <Content Include="Content\images\services\User_Profile.png" />
     <Content Include="Content\images\share_icon.png" />
     <Content Include="Content\images\team\default-profile-picture.png" />

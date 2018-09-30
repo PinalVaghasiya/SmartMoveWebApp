@@ -124,6 +124,8 @@ namespace SmartMoveWebApp.Controllers.Api
 
                 orderDto.OrderId = order.OrderId;
 
+                SendGridEmailService.OrderCreated(BusinessLogic.getCustomerEmail(order.CustomerId), BusinessLogic.getCustomerName(order.CustomerId), order.OrderId, order.OrderDateTime, order.OrderStatus, order.PickupPlace, order.DropPlace);
+
                 return Ok(orderDto);
             }
             return BadRequest(ModelState);
@@ -142,12 +144,18 @@ namespace SmartMoveWebApp.Controllers.Api
             var orderPaymentsList = _context.OrderPayments.Where(p => p.OrderId == orderId).ToList();
 
             foreach (OrderBid orderBid in orderBidsList)
+            {
                 orderBid.BidStatus = Constants.OrderBidStatus.CANCELLED.ToString();
+
+                SendGridEmailService.OrderCancelled(BusinessLogic.getTruckOwnerEmail(orderBid.TruckOwnerId), BusinessLogic.getTruckOwnerName(orderBid.TruckOwnerId), orderInDb.OrderId, orderInDb.OrderStatus);
+            }
 
             foreach (OrderPayment orderPayment in orderPaymentsList)
                 orderPayment.PaymentStatus = "REVERSED";
 
             _context.SaveChanges();
+
+            SendGridEmailService.OrderCancelled(BusinessLogic.getCustomerEmail(orderInDb.CustomerId), BusinessLogic.getCustomerName(orderInDb.CustomerId), orderInDb.OrderId, orderInDb.OrderStatus);
 
             return Ok(Mapper.Map<Order, OrderDto>(orderInDb));
         }
@@ -169,7 +177,7 @@ namespace SmartMoveWebApp.Controllers.Api
                 customerOrderBid = Mapper.Map<OrderBid, CustomerOrderBidDto>(orderBid);
                 var truckOwner = _context.TruckOwners.Single(t => t.TruckOwnerId == orderBid.TruckOwnerId);
                 customerOrderBid.DriverName = truckOwner.FirstName + " " + truckOwner.LastName;
-                customerOrderBid.AverageRating = GetAverageDriverRating(orderBid.TruckOwnerId);
+                customerOrderBid.AverageRating = BusinessLogic.GetAverageDriverRating(orderBid.TruckOwnerId);
                 customerOrderBids.Add(customerOrderBid);
                 if (orderBid.BidStatus == Constants.OrderBidStatus.COMPLETED.ToString())
                     return Ok(customerOrderBids);
@@ -214,6 +222,10 @@ namespace SmartMoveWebApp.Controllers.Api
 
             _context.SaveChanges();
 
+            SendGridEmailService.BidAccepted(BusinessLogic.getTruckOwnerEmail(orderBid.TruckOwnerId), BusinessLogic.getTruckOwnerName(orderBid.TruckOwnerId), order.OrderId, order.OrderDateTime, order.OrderStatus, orderBid.BidAmount, orderBid.TruckOwnerId, orderBid.DeliveryStartTime);
+
+            SendGridEmailService.BidAccepted(BusinessLogic.getCustomerEmail(order.CustomerId), BusinessLogic.getCustomerName(order.CustomerId), order.OrderId, order.OrderDateTime, order.OrderStatus, orderBid.BidAmount, orderBid.TruckOwnerId, orderBid.DeliveryStartTime);
+
             return Ok(Mapper.Map<OrderBid, OrderBidDto>(orderBid));
         }
 
@@ -244,19 +256,6 @@ namespace SmartMoveWebApp.Controllers.Api
         {
             double averageRating = _context.CustomerRatings.Where(r => r.CustomerId == customerId).Average(r => r.Rating);
             return Ok(averageRating);
-        }
-
-        public double GetAverageDriverRating(int truckOwnerId)
-        {
-            var hasRatings = _context.TruckOwnerRatings.Where(r => r.TruckOwnerId == truckOwnerId).ToList();
-
-            if (hasRatings != null && hasRatings.Count > 0)
-            {
-                double averageRating = hasRatings.Average(r => r.Rating);
-                return averageRating;
-            }
-            else
-                return 0;
         }
     }
 }
